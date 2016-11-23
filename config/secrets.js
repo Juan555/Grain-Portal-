@@ -3,5 +3,6 @@
  */
 module.exports = {
     token : "secret-llama",
+    // mongo_connection : "mongodb://localhost/mp4"
     mongo_connection: "mongodb://kale:idontremember@ds161487.mlab.com:61487/kaledb"
 };

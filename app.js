@@ -3,10 +3,11 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-// var methodOverride = require('method-override');
 
 // Create our Express application
 var app = express();
+
+app.use(express.static(__dirname + '/public'));
 
 // Use environment defined port or 3000
 var port = process.env.PORT || 3000;
@@ -34,4 +35,7 @@ require('./routes')(app, router);
 app.listen(port);
 console.log('Server running on port ' + port);
 
-mongoose.connect('mongodb://kale:idontremember@ds161487.mlab.com:61487/kaledb');
+mongoose.connect('mongodb://gcchang2:my6$n!FvmQ0XPds@ds159517.mlab.com:59517/wittydb');
+    // .then(console.log('connection succesful'))
+    // .catch(console.log('connection error'));
+
