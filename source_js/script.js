@@ -1,16 +1,23 @@
-var divs = document.getElementsByClassName('alert');
-for(var i=0; i<divs.length; i++) {
-  divs[i].addEventListener("click", highlightThis);
-  /*
-  divs[i].addEventListener("click", highlightThis, true);
-  divs[i].addEventListener("click", highlightThis, false);*/
+var main = function() {
+
+// if('AudioContext' in window) {
+// 	var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+// 	console.log("AudioContext created");
+
+// 	var oscillator = audioCtx.createOscillator();
+// 	var gainNode = audioCtx.createGain();
+
+// 	oscillator.connect(gainNode);
+// 	gainNode.connect(audioCtx.destination);
+
+// 	oscillator.type = 'sine';
+// 	oscillator.frequency.value = 2500;
+// 	oscillator.start();
+
+// }
+
 }
 
-function highlightThis(event) {
-    //event.stopPropagation();
-  
-    var backgroundColor = this.style.backgroundColor;
-    this.style.backgroundColor='yellow';
-    alert(this.className);
-    this.style.backgroundColor=backgroundColor;
-}
+$(document).ready(main);
+
+// https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API
