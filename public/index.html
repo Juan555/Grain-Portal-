@@ -1,13 +1,12 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>MP4 Starter</title>
-
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./css/styles.css">
-
     <!-- Angular Scripts -->
     <!-- NOTE: removing the ".min." can help debugging in the console-->
     <script src="./lib/angular/angular.min.js"></script>
@@ -18,23 +17,31 @@
 </head>
 
 <body ng-app="mp4">
-
     <div class="row text-center">
-    	<a class="button" href="#/settings">Settings</a>
-    	<a class="button" href="#/llamalist">Llama List</a>
+        <a class="button" href="#/settings">Settings</a>
+        <a class="button" href="#/llamalist">Llama List</a>
         <a class="button" href="#/firstview">First View</a>
         <a class="button" href="#/secondview">Second View</a>
     </div>
-
+    <!-- Leave me be, Greg needs this -->
+<!--     <div id="testbutton1" class="button">
+        Test Button 1
+    </div>
+    <div id="testbutton2" class="button">
+        Test Button 2
+    </div>
+    <div id="testbutton3" class="button">
+        Test Button 3
+    </div> -->
     <div ng-view></div>
-
     <!-- Scripts -->
     <script src="./lib/jquery/dist/jquery.min.js"></script>
     <script src="./lib/foundation-sites/dist/foundation.min.js"></script>
     <script src="./js/script.js"></script>
     <script>
-        $(document).foundation();
+    $(document).foundation();
     </script>
     <script src="http://localhost:35729/livereload.js"></script>
 </body>
+
 </html>

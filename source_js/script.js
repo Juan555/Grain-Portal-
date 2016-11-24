@@ -1,20 +1,40 @@
 var main = function() {
 
-if('AudioContext' in window) {
-	var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-	console.log("AudioContext created");
+    $('#testbutton1').click(function() {
 
-	var oscillator = audioCtx.createOscillator();
-	var gainNode = audioCtx.createGain();
+        if ('AudioContext' in window) {
+            var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+            console.log("AudioContext created");
 
-	oscillator.connect(gainNode);
-	gainNode.connect(audioCtx.destination);
+            // var oscillator = audioCtx.createOscillator();
+            // var gainNode = audioCtx.createGain();
 
-	oscillator.type = 'sine';
-	oscillator.frequency.value = 500;
-	oscillator.start();
+            // oscillator.connect(gainNode);
+            // gainNode.connect(audioCtx.destination);
 
-}
+            // oscillator.type = 'sine';
+            // oscillator.frequency.value = 400;
+            // oscillator.start();
+
+            // function playSound(buffer) {
+            // 	var source = audioCtx.createBufferSource();
+            // 	source.buffer = buffer;
+            // 	source.connect(context.destination);
+            // 	console.og("source.start");
+            // 	source.start(0);
+            // }
+
+            // loadSounds(this, {
+            // 	buffer: 'sounds/position.wav'
+            // });
+
+            // bufferLoader = new BufferLoader(context,
+            // 	[
+            // 		''])
+
+        }
+
+    })
 
 }
 
