@@ -1,7 +1,7 @@
 # Development Instructions for Kaleidoscope
 
 ## Setup
-Use the following commands in your vagrant development environment to get this up and running
+Use the following commands in your development environment to get this up and running
 ```
 git clone https://github.com/uiuc-web-programming/mp4_client_starter.git
 ```

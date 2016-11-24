@@ -1,16 +1,18 @@
 // Load required packages
 var mongoose = require('mongoose');
 
-// Define our soundObject
-var soundObjectSchema = new mongoose.Schema
+var userSoundObject = new mongoose.Schema({
+    angle: Number,
+    sound_id: String
+});
 
-// Define our beer schema
+// Define our user schema
 var UserSchema = new mongoose.Schema({
     name: String,
     email: Number,
     password: String,
-    soundObject: soundObjectSchema
+    soundObject: [userSoundObject] //array of ids of soundObjects
 });
 
 // Export the Mongoose model
-module.exports = mongoose.model('Llama', LlamaSchema);
+module.exports = mongoose.model('User', UserSchema);
