@@ -1,20 +1,20 @@
 var main = function() {
 
-// if('AudioContext' in window) {
-// 	var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-// 	console.log("AudioContext created");
+if('AudioContext' in window) {
+	var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+	console.log("AudioContext created");
 
-// 	var oscillator = audioCtx.createOscillator();
-// 	var gainNode = audioCtx.createGain();
+	var oscillator = audioCtx.createOscillator();
+	var gainNode = audioCtx.createGain();
 
-// 	oscillator.connect(gainNode);
-// 	gainNode.connect(audioCtx.destination);
+	oscillator.connect(gainNode);
+	gainNode.connect(audioCtx.destination);
 
-// 	oscillator.type = 'sine';
-// 	oscillator.frequency.value = 2500;
-// 	oscillator.start();
+	oscillator.type = 'sine';
+	oscillator.frequency.value = 500;
+	oscillator.start();
 
-// }
+}
 
 }
 

@@ -3,11 +3,11 @@
 ## Setup
 Use the following commands in your development environment to get this up and running
 ```
-git clone https://github.com/uiuc-web-programming/mp4_client_starter.git
+git clone https://github.com/Juan555/Kaleidoscope.git
 ```
 or
 ```
-git@github.com:Juan555/Kaleidoscope.git
+git clone git@github.com:Juan555/Kaleidoscope.git
 ```
 then
 ```
