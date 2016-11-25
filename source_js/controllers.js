@@ -1,6 +1,26 @@
-var mp4Controllers = angular.module('mp4Controllers', []);
+var kaleControllers = angular.module('kaleControllers', []);
 
-mp4Controllers.controller('FirstController', ['$scope', 'CommonData', function($scope, CommonData) {
+kaleControllers.controller('SoundtestController', ['$scope', 'soundLogic', function($scope, soundLogic) {
+
+    //Example of how to call soundLogic function
+    $scope.callSoundLogic = function() {
+
+        sounds = [
+            '../media/DubstepDrumLoop(140bpm).mp3',
+            '../media/EDMloop95BPM.wav'
+        ];
+
+        angles = [-90, 90];
+
+        //sound, type string array, an array of file paths to sounds
+        //angle, type number array, an array of angles
+        //The ith sound in sounds corresponds to the ith sound in angles
+        soundLogic.start(sounds, angles);
+    }
+
+}]);
+
+kaleControllers.controller('FirstController', ['$scope', 'CommonData', function($scope, CommonData) {
     $scope.data = "";
     $scope.displayText = ""
 
@@ -12,7 +32,7 @@ mp4Controllers.controller('FirstController', ['$scope', 'CommonData', function($
 
 }]);
 
-mp4Controllers.controller('SecondController', ['$scope', 'CommonData', function($scope, CommonData) {
+kaleControllers.controller('SecondController', ['$scope', 'CommonData', function($scope, CommonData) {
     $scope.data = "";
 
     $scope.getData = function() {
@@ -23,7 +43,7 @@ mp4Controllers.controller('SecondController', ['$scope', 'CommonData', function(
 }]);
 
 
-mp4Controllers.controller('LlamaListController', ['$scope', '$http', 'Users', 'Llamas', '$window', function($scope, $http, Users, Llamas, $window) {
+kaleControllers.controller('LlamaListController', ['$scope', '$http', 'Users', 'Llamas', '$window', function($scope, $http, Users, Llamas, $window) {
 
     // Llamas.get().success(function(data) {
     //     $scope.llamas = data;
@@ -33,15 +53,15 @@ mp4Controllers.controller('LlamaListController', ['$scope', '$http', 'Users', 'L
         $scope.users = data.data;
         console.log("Users GET success");
     }).error(function(error) {
-      $scope.status = "Users GET Error: " + $scope.status;
-      console.log($scope.status);
+        $scope.status = "Users GET Error: " + $scope.status;
+        console.log($scope.status);
     });
 
 
 
 }]);
 
-mp4Controllers.controller('SettingsController', ['$scope', '$window', function($scope, $window) {
+kaleControllers.controller('SettingsController', ['$scope', '$window', function($scope, $window) {
     $scope.url = $window.sessionStorage.baseurl;
 
     $scope.setUrl = function() {

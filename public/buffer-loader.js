@@ -1,3 +1,6 @@
+// https://www.html5rocks.com/en/tutorials/webaudio/intro/
+// http://webaudioapi.com/static/js/shared.js
+
 function BufferLoader(context, urlList, callback) {
   this.context = context;
   this.urlList = urlList;
