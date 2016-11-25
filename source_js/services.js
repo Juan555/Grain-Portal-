@@ -14,11 +14,12 @@ kaleServices.factory('CommonData', function() {
 
 kaleServices.factory('soundLogic', function() {
     return {
-        start: function(sounds, angles) {
+        start: function(sounds, angles, volumes) {
 
             var bufferLoader;
             var soundPathArray = sounds;
             var angleArray = angles;
+            var volumeArray = typeof volumes !== 'undefined' ? volumes : [];
 
             if ('AudioContext' in window) {
                 var context = new(window.AudioContext || window.webkitAudioContext)();
@@ -37,7 +38,6 @@ kaleServices.factory('soundLogic', function() {
                 for (i = 0; i < bufferList.length; i++) {
 
                     var source = context.createBufferSource();
-                    // var source2 = context.createBufferSource();
                     context.listener.setPosition(0, 0, 0);
 
                     source.loop = true;
@@ -107,26 +107,19 @@ kaleServices.factory('soundLogic', function() {
 
                     panner.setPosition(x, y, -0.5);
 
-                    // source2.buffer = bufferList[1];
-
-
-
-                    // source1.connect(context.destination);
-                    // source2.connect(context.destination);
-                    // panner.connect(context.destination);
                     source.connect(panner);
-
                     var gainNode = context.createGain();
-                    gainNode.gain.value = 0.5;
+                    if (volumeArray.length == 0) {
+                        gainNode.gain.value = 0.5;
 
+                    } else {
+                        gainNode.gain.value = volumes[i];
+                    }
                     panner.connect(gainNode);
-
                     gainNode.connect(context.destination);
 
                     source.start(0);
                     console.log("source start");
-                    // source2.start(0);
-
                 }
 
             }
