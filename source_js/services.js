@@ -23,7 +23,47 @@ kaleServices.factory('Llamas', function($http, $window) {
 
 kaleServices.factory('SoundLogic', function() {
     return {
-        start: function(sounds, angles, volumes) {
+
+        playSingleSoundNoAngle: function(sound) {
+
+            var bufferLoader;
+            var soundPath = sound;
+            var volumeNum = typeof volume !== 'undefined' ? volume : 0.5;
+
+            if ('AudioContext' in window) {
+                var context = new(window.AudioContext || window.webkitAudioContext)();
+                console.log("AudioContext created");
+
+                bufferLoader = new BufferLoader(context, [soundPath], finishedLoading);
+                bufferLoader.load();
+
+            }
+
+            function finishedLoading(bufferList) {
+                var i;
+
+                var source = context.createBufferSource();
+                context.listener.setPosition(0, 0, 0);
+
+                // source.loop = false;
+
+                source.buffer = bufferList[0];
+
+                var gainNode = context.createGain();
+                gainNode.gain.value = volumeNum;
+
+                source.connect(gainNode);
+                gainNode.connect(context.destination);
+
+                source.start(0);
+                console.log("source start");
+                // context.close();
+
+            }
+
+        },
+
+        playEnvironment: function(sounds, angles, volumes) {
 
             var bufferLoader;
             var soundPathArray = sounds;
@@ -34,10 +74,7 @@ kaleServices.factory('SoundLogic', function() {
                 var context = new(window.AudioContext || window.webkitAudioContext)();
                 console.log("AudioContext created");
 
-                bufferLoader = new BufferLoader(context, soundPathArray,
-                    finishedLoading
-                );
-
+                bufferLoader = new BufferLoader(context, soundPathArray, finishedLoading);
                 bufferLoader.load();
 
             }

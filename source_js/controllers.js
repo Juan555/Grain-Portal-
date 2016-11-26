@@ -1,9 +1,9 @@
 var kaleControllers = angular.module('kaleControllers', []);
 
-kaleControllers.controller('SoundtestController', ['$scope', 'SoundLogic', function($scope, SoundLogic) {
+kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', function($scope, SoundLogic) {
 
     //Example of how to call SoundLogic
-    $scope.callSoundLogic = function() {
+    $scope.playEnvironment = function() {
 
         //required
         //Paths are to files in /public/media
@@ -22,79 +22,88 @@ kaleControllers.controller('SoundtestController', ['$scope', 'SoundLogic', funct
         //angle, type number array, an array of angles
         //The ith sound in sounds corresponds to the ith angle in angles and the ith volume in volumes
 
-        SoundLogic.start(sounds, angles);
+        SoundLogic.playEnvironment(sounds, angles);
         //or
         //soundLogic.start(sounds, angles, volumes);
 
-
-
-        /*  API - Similar to MP4's
-        *   Limited support for queries.
-        *   Let me (Greg) know if you would like additional API functionality
-        *
-        *   /api/users
-        *
-        *   User models' schema
-        *
-        *   var UserSchema = new mongoose.Schema({
-        *       name: {type: String, required: true},
-        *       email: {type: String, required: true},
-        *       password: {type: String, required: true},
-        *       soundObjectIDArray: {type: [String], default: []} //array of ids of soundObjects
-        *   });
-        *
-        *   /api/soundobjects
-        *
-        *   soundObject Schema
-        *
-        *   var soundObjectSchema = new mongoose.Schema({
-        *       angle: {type: Number, required: true},
-        *       soundFileID: {type: String, required: true},
-        *       userID: {type: String, default: ""} //optional, for two-way referencing if desired
-        *   });
-        *
-        *   /api/soundfiles
-        *
-        *   soundFileID references a soundFile
-        *
-        *   SoundFile Schema
-        *
-        *   var soundFileSchema = new mongoose.Schema({
-        *       name: {type: String, required: true},
-        *       imageLocation: {type: String, required: true},
-        *       soundFileLocation: {type: String, required: true}
-        *   });
-        *
-        *
-        *   Using the API
-        *
-        *   Users
-        *   get(), gets all Users
-        *   newUser(newUserInfo), creates new User, newUserInfo is type User object
-        *   deleteUser(userID), deletes a User, userID is type String
-        *   getSingleUser(userID), gets one User, userID is type String
-        *   updateUser(updatedUserInfo), updates a User, updatedUserInfo is type User object
-        *
-        *
-        *   SoundObjects
-        *   get(), gets all SoundObjects
-        *   newSoundObject(newSoundObjectInfo), creates new SoundObject, newSoundObjectInfo is type SoundObject object
-        *   deleteSoundObject(soundObjectID), deletes a SoundObject, soundObjectID is type String
-        *   getSingleSoundObject(soundObjectID), gets one SoundObject, soundObjectID is type String
-        *   updateSoundObject(updatedSoundObjectInfo), updates a SoundObject, updatedSoundObjectInfo is type SoundObject object
-        *
-        *
-        *   SoundFiles
-        *   get(), gets all SoundFiles
-        *   newSoundObject(newSoundObjectInfo), creates new SoundFile, newSoundObjectInfo is type SoundFile object
-        *   deleteSoundObject(soundObjectID), deletes a SoundFile, soundFileID is type String
-        *   getSingleSoundObject(soundObjectID), gets one SoundFile, soundFileID is type String
-        *   updateSoundObject(updatedSoundObjectInfo), updates a SoundFile, updatedSoundObjectInfo is type SoundFile object
-        *
-        */
-
-
     }
+
+    // Play a single sound. Functions as an audio preview
+    $scope.playSingleSoundNoAngle = function() {
+
+        var sound = '../media/birdschirping1.wav'
+
+        SoundLogic.playSingleSoundNoAngle(sound);
+    }
+
+
+    /*  API - Similar to MP4's
+     *   Limited support for queries.
+     *   Let me (Greg) know if you would like additional API functionality
+     *
+     *   /api/users
+     *
+     *   User models' schema
+     *
+     *   var UserSchema = new mongoose.Schema({
+     *       name: {type: String, required: true},
+     *       email: {type: String, required: true},
+     *       password: {type: String, required: true},
+     *       soundObjectIDArray: {type: [String], default: []} //array of ids of soundObjects
+     *   });
+     *
+     *   /api/soundobjects
+     *
+     *   soundObject Schema
+     *
+     *   var soundObjectSchema = new mongoose.Schema({
+     *       angle: {type: Number, required: true},
+     *       soundFileID: {type: String, required: true},
+     *       userID: {type: String, default: ""} //optional, for two-way referencing if desired
+     *   });
+     *
+     *   /api/soundfiles
+     *
+     *   soundFileID references a soundFile
+     *
+     *   SoundFile Schema
+     *
+     *   var soundFileSchema = new mongoose.Schema({
+     *       name: {type: String, required: true},
+     *       imageLocation: {type: String, required: true},
+     *       soundFileLocation: {type: String, required: true}
+     *   });
+     *
+     *
+     *   Using the API
+     *
+     *   Users
+     *   get(), gets all Users
+     *   newUser(newUserInfo), creates new User, newUserInfo is type User object
+     *   deleteUser(userID), deletes a User, userID is type String
+     *   getSingleUser(userID), gets one User, userID is type String
+     *   updateUser(updatedUserInfo), updates a User, updatedUserInfo is type User object
+     *
+     *
+     *   SoundObjects
+     *   get(), gets all SoundObjects
+     *   newSoundObject(newSoundObjectInfo), creates new SoundObject, newSoundObjectInfo is type SoundObject object
+     *   deleteSoundObject(soundObjectID), deletes a SoundObject, soundObjectID is type String
+     *   getSingleSoundObject(soundObjectID), gets one SoundObject, soundObjectID is type String
+     *   updateSoundObject(updatedSoundObjectInfo), updates a SoundObject, updatedSoundObjectInfo is type SoundObject object
+     *
+     *
+     *   SoundFiles
+     *   get(), gets all SoundFiles
+     *   newSoundObject(newSoundObjectInfo), creates new SoundFile, newSoundObjectInfo is type SoundFile object
+     *   deleteSoundObject(soundObjectID), deletes a SoundFile, soundFileID is type String
+     *   getSingleSoundObject(soundObjectID), gets one SoundFile, soundFileID is type String
+     *   updateSoundObject(updatedSoundObjectInfo), updates a SoundFile, updatedSoundObjectInfo is type SoundFile object
+     *
+     */
+
+
+
 
 }]);
 

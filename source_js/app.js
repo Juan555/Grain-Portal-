@@ -20,7 +20,7 @@ app.config(['$routeProvider', function($routeProvider) {
   }).
     when('/soundtest', {
     templateUrl: 'partials/soundtest.html',
-    controller: 'SoundtestController'
+    controller: 'SoundTestController'
   }).
   otherwise({
     redirectTo: '/settings'
