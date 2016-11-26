@@ -35,7 +35,7 @@ require('./routes')(app, router);
 app.listen(port);
 console.log('Server running on port ' + port);
 
-mongoose.connect('mongodb://gcchang2:my6$n!FvmQ0XPds@ds159517.mlab.com:59517/wittydb');
+mongoose.connect('mongodb://kale:idontremember@ds161487.mlab.com:61487/kaledb');
     // .then(console.log('connection succesful'))
     // .catch(console.log('connection error'));
 

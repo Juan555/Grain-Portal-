@@ -12,7 +12,16 @@ kaleServices.factory('CommonData', function() {
     }
 });
 
-kaleServices.factory('soundLogic', function() {
+kaleServices.factory('Llamas', function($http, $window) {
+    return {
+        get: function() {
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.get(baseUrl + '/api/llamas');
+        }
+    }
+});
+
+kaleServices.factory('SoundLogic', function() {
     return {
         start: function(sounds, angles, volumes) {
 
@@ -136,21 +145,107 @@ kaleServices.factory('soundLogic', function() {
     }
 });
 
-kaleServices.factory('Llamas', function($http, $window) {
+kaleServices.factory('Users', function($http, $window) {
     return {
         get: function() {
+            console.log("Users Service Attempt get GET");
             var baseUrl = $window.sessionStorage.baseurl;
-            return $http.get(baseUrl + '/api/llamas');
+            return $http.get(baseUrl + '/api/users');
+        },
+        newUser: function(newUserInfo) {
+            console.log("Users Service Attempt newUser POST");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.post(baseUrl + '/api/users', newUserInfo);
+        },
+        deleteUser: function(userID) {
+            console.log("Users Service Attempt deleteUser DELETE");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.delete(baseUrl + '/api/users/' + userID);
+        },
+        getSingleUser: function(userID) {
+            console.log("Users Service Attempt getSingleUser GET");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.get(baseUrl + '/api/users?where={"_id": "' + userID + '"}');
+        },
+        updateUser: function(updatedUserInfo) {
+            console.log("Users Service Attempt updateUser PUT");
+            // console.log("and user id is " + updatedUser._id);
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http({
+                method: 'PUT',
+                url: baseUrl + '/api/users/' + updatedUserInfo._id,
+                data: updatedUserInfo
+            });
         }
     }
 });
 
-kaleServices.factory('Users', function($http, $window) {
+kaleServices.factory('SoundObjects', function($http, $window) {
     return {
         get: function() {
-            console.log("Users get");
+            console.log("SoundObjects Service Attempt get GET");
             var baseUrl = $window.sessionStorage.baseurl;
-            return $http.get(baseUrl + '/api/users');
+            return $http.get(baseUrl + '/api/soundobjects');
+        },
+        newSoundObject: function(newSoundObjectInfo) {
+            console.log("SoundObjects Service Attempt Users POST");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.post(baseUrl + '/api/soundobjects', newSoundObjectInfo);
+        },
+        deleteSoundObject: function(soundObjectID) {
+            console.log("SoundObjects Service Attempt deleteSoundObject DELETE");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.delete(baseUrl + '/api/soundobjects/' + soundObjectID);
+        },
+        getSingleSoundObject: function(soundObjectID) {
+            console.log("SoundObjects Service Attempt getSingleSoundObject GET");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.get(baseUrl + '/api/soundobjects?where={"_id": "' + soundObjectID + '"}');
+        },
+        updateSoundObject: function(updatedSoundObjectInfo) {
+            console.log("Users Service Attempt updateSoundObject PUT");
+            // console.log("and user id is " + updatedUser._id);
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http({
+                method: 'PUT',
+                url: baseUrl + '/api/soundobjects/' + updatedSoundObjectInfo._id,
+                data: updatedSoundObjectInfo
+            });
+        }
+    }
+});
+
+kaleServices.factory('SoundFiles', function($http, $window) {
+    return {
+        get: function() {
+            console.log("SoundFiles Service Attempt get GET");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.get(baseUrl + '/api/soundfiles');
+        },
+        newSoundFile: function(newSoundFileInfo) {
+            console.log("SoundFiles Service Attempt newSoundFile POST");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.post(baseUrl + '/api/soundfiles', newSoundFileInfo);
+        },
+        deleteSoundFile: function(soundFileID) {
+            console.log("SoundFiles Service Attempt deleteSoundFile DELETE");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.delete(baseUrl + '/api/soundfiles/' + soundFileID);
+        },
+        getSingleSoundFile: function(soundFileID) {
+            console.log("SoundFiles Service Attempt getSingleSoundFile GET");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.get(baseUrl + '/api/soundfiles?where={"_id": "' + soundFileID + '"}');
+        },
+        updateSoundFile: function(updatedSoundFileInfo) {
+            console.log("SoundFiles Service Attempt updateSoundFile PUT");
+            // console.log("and user id is " + updatedUser._id);
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http({
+                method: 'PUT',
+                url: baseUrl + '/api/soundfiles/' + updatedSoundFileInfo._id,
+                data: updatedSoundFileInfo
+            });
         }
     }
 });
