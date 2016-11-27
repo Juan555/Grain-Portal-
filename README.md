@@ -23,3 +23,7 @@ to install Compass and Sass for grunt
 Run `grunt` to start up grunt + livereload if you're working on frontend files.
 
 Run `gulp` to start up nodemon + livereload if you're working on backend files.
+
+## Running
+
+To get website working locally, run `grunt` in a Terminal window, then run `gulp` in another Terminal window. The former will be on port 3000, and the latter on port 4000

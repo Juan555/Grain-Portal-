@@ -1,14 +1,21 @@
 var kaleControllers = angular.module('kaleControllers', []);
 
 kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', function($scope, SoundLogic) {
+    $window.sessionStorage.baseurl = 'http://localhost:3000';
+
+    /*
+     *   Greg's To-Do List
+     *   1. Save environment as audio file
+     *   2. Proper login system that doesn't store passwords in plaintext
+     *   3. Deployment
+     */
 
     //Example of how to call SoundLogic
     $scope.playEnvironment = function() {
 
         //required
         //Paths are to files in /public/media
-        sounds = [
-            '../media/DubstepDrumLoop(140bpm).mp3',
+        sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
             '../media/EDMloop95BPM.wav'
         ];
 
@@ -108,6 +115,8 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', funct
 }]);
 
 kaleControllers.controller('FirstController', ['$scope', 'CommonData', function($scope, CommonData) {
+    $window.sessionStorage.baseurl = 'http://localhost:3000';
+
     $scope.data = "";
     $scope.displayText = ""
 
@@ -120,6 +129,8 @@ kaleControllers.controller('FirstController', ['$scope', 'CommonData', function(
 }]);
 
 kaleControllers.controller('SecondController', ['$scope', 'CommonData', function($scope, CommonData) {
+    $window.sessionStorage.baseurl = 'http://localhost:3000';
+
     $scope.data = "";
 
     $scope.getData = function() {
@@ -136,6 +147,8 @@ kaleControllers.controller('LlamaListController', ['$scope', '$http', 'Users', '
     //     $scope.llamas = data;
     // });
 
+    $window.sessionStorage.baseurl = 'http://localhost:3000';
+
     Users.get().success(function(data) {
         $scope.users = data.data;
         console.log("Users GET success");
@@ -150,7 +163,7 @@ kaleControllers.controller('LlamaListController', ['$scope', '$http', 'Users', '
 
 kaleControllers.controller('SettingsController', ['$scope', '$window', function($scope, $window) {
     $scope.url = $window.sessionStorage.baseurl;
-
+    $scope.url = 'http://localhost:3000';
     $scope.setUrl = function() {
         $window.sessionStorage.baseurl = $scope.url;
         $scope.displayText = "URL set";

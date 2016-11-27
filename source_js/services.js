@@ -179,6 +179,11 @@ kaleServices.factory('SoundLogic', function() {
             // }
 
         }
+
+        // musicFile: function() {
+
+        // }
+
     }
 });
 
