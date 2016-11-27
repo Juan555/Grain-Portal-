@@ -117,15 +117,6 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', funct
 kaleControllers.controller('FirstController', ['$scope', 'CommonData', function($scope, CommonData) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
-<<<<<<< HEAD
-// mp4Controllers.controller('main_page',['$scope', '$window', function($scope, $window){
-
-
-// }]);
-
-mp4Controllers.controller('FirstController', ['$scope', 'CommonData', function($scope, CommonData) {
-=======
->>>>>>> cc20cfecaac8d610fa690aa168bcb581d1491350
     $scope.data = "";
     $scope.displayText = ""
 
