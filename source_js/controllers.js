@@ -1,6 +1,6 @@
 var kaleControllers = angular.module('kaleControllers', []);
 
-kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', function($scope, SoundLogic) {
+kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', '$window', function($scope, SoundLogic, $window) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
     /*
@@ -109,8 +109,16 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', funct
      *
      */
 
+        // var pano = $("#myPano").pano({
+        //     img: "../media/background.jpg",
+        //     interval: 100,
+        //     speed: 50
+        // });
 
-
+        // pano.moveLeft();
+        // pano.stopMoving();
+        // pano.moveRight();
+        // pano.stopMoving();
 
 }]);
 
@@ -156,8 +164,6 @@ kaleControllers.controller('LlamaListController', ['$scope', '$http', 'Users', '
         $scope.status = "Users GET Error: " + $scope.status;
         console.log($scope.status);
     });
-
-
 
 }]);
 
