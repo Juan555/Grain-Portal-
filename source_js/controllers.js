@@ -1,5 +1,10 @@
 var mp4Controllers = angular.module('mp4Controllers', []);
 
+// mp4Controllers.controller('main_page',['$scope', '$window', function($scope, $window){
+
+
+// }]);
+
 mp4Controllers.controller('FirstController', ['$scope', 'CommonData', function($scope, CommonData) {
     $scope.data = "";
     $scope.displayText = ""
