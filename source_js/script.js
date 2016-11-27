@@ -1,20 +1,8 @@
 var main = function() {
 
-if('AudioContext' in window) {
-	var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-	console.log("AudioContext created");
-
-	var oscillator = audioCtx.createOscillator();
-	var gainNode = audioCtx.createGain();
-
-	oscillator.connect(gainNode);
-	gainNode.connect(audioCtx.destination);
-
-	oscillator.type = 'sine';
-	oscillator.frequency.value = 500;
-	oscillator.start();
-
-}
+	var testfunc = function() {
+		alert("lol");
+	}
 
 }
 

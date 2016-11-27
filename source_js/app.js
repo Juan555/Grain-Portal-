@@ -1,4 +1,4 @@
-var app = angular.module('mp4', ['ngRoute', 'mp4Controllers', 'mp4Services']);
+var app = angular.module('kaleidoscope', ['ngRoute', 'kaleControllers', 'kaleServices']);
 
 app.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
@@ -17,6 +17,10 @@ app.config(['$routeProvider', function($routeProvider) {
   when('/llamalist', {
     templateUrl: 'partials/llamalist.html',
     controller: 'LlamaListController'
+  }).
+    when('/soundtest', {
+    templateUrl: 'partials/soundtest.html',
+    controller: 'SoundTestController'
   }).
   otherwise({
     redirectTo: '/settings'
