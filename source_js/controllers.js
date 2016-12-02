@@ -109,21 +109,24 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', '$win
      *
      */
 
-        // var pano = $("#myPano").pano({
-        //     img: "../media/background.jpg",
-        //     interval: 100,
-        //     speed: 50
-        // });
+    // var pano = $("#myPano").pano({
+    //     img: "../media/background.jpg",
+    //     interval: 100,
+    //     speed: 50
+    // });
 
-        // pano.moveLeft();
-        // pano.stopMoving();
-        // pano.moveRight();
-        // pano.stopMoving();
+    // pano.moveLeft();
+    // pano.stopMoving();
+    // pano.moveRight();
+    // pano.stopMoving();
 
 }]);
 
 kaleControllers.controller('MainPageController', ['$scope', '$window', function($scope, $window) {
 
+    $("#myPano").pano({
+        img: "../media/background_small.jpg"
+    });
 
 }]);
 

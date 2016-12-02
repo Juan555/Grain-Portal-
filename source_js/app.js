@@ -22,11 +22,11 @@ app.config(['$routeProvider', function($routeProvider) {
         templateUrl: 'partials/soundtest.html',
         controller: 'SoundTestController'
     }).
-    // when('/', {
-    //     templateUrl: 'partials/mainpage.html',
-    //     controller: 'MainPageController'
-    // }).
+    when('/', {
+        templateUrl: 'partials/mainpage.html',
+        controller: 'MainPageController'
+    }).
     otherwise({
-        redirectTo: '/settings'
+        redirectTo: '/'
     });
 }]);
