@@ -1,5 +1,6 @@
 var secrets = require('../config/secrets');
 var User = require('../models/user');
+var jwt = require('jwt-simple');
 
 module.exports = function(router) {
 
@@ -76,28 +77,28 @@ module.exports = function(router) {
 
     userRoute.post(function(req, res) {
 
-        var name = req.body.name;
+        var username = req.body.username;
         var email = req.body.email;
         var password = req.body.password
 
         var newUser = new User({
-            name: name,
+            username: username,
             email: email,
             password: password
         });
 
-        if (name.length == 0 && email.length == 0) {
+        if (username.length == 0 && email.length == 0) {
             var result = {};
-            result.message = "Error: Name and email are required";
+            result.message = "Error: Username and email are required";
             result.data = [];
             res.status(400);
             res.json(result);
             return;
         }
 
-        if (name.length == 0 && password.length == 0) {
+        if (username.length == 0 && password.length == 0) {
             var result = {};
-            result.message = "Error: Name and password are required";
+            result.message = "Error: Username and password are required";
             result.data = [];
             res.status(400);
             res.json(result);
@@ -113,9 +114,9 @@ module.exports = function(router) {
             return;
         }
 
-        if (name.length == 0) {
+        if (username.length == 0) {
             var result = {};
-            result.message = "Error: Name is required";
+            result.message = "Error: Username is required";
             result.data = [];
             res.status(400);
             res.json(result);
@@ -183,6 +184,7 @@ module.exports = function(router) {
         });
     });
 
+
     userRoute.options(function(req, res) {
         res.writeHead(200);
         res.end();
@@ -223,12 +225,12 @@ module.exports = function(router) {
     userIDRoute.put(function(req, res) {
         var id = req.params.id;
 
-        var name = req.body.name;
+        var username = req.body.username;
         var email = req.body.email;
         var password = req.body.password;
         var sounds = req.body.sounds;
 
-        if (name.length == 0 || email.length == 0 || password.length == 0 || sounds.length == 0) {
+        if (username.length == 0 || email.length == 0 || password.length == 0 || sounds.length == 0) {
             var result = {};
             result.message = "Error: Missing data";
             result.data = [];
@@ -254,7 +256,7 @@ module.exports = function(router) {
                 res.json(result);
                 return;
             } else {
-                user.name = name;
+                user.username = username;
                 user.email = email;
                 user.password = password;
                 user.sounds = sounds;
@@ -321,6 +323,37 @@ module.exports = function(router) {
             });
         });
     })
+
+    var userAuthRoute = router.route('/userauth');
+
+    userAuthRoute.post(function(req, res) {
+        var username = req.body.username;
+
+        User.findOne({ 'username': username }, function(error, user) {
+            if (error) {
+                console.log("Auth findOne error");
+                throw error;
+            }
+
+            if (!user) {
+                res.send({ success: false, msg: 'Authentication failed, user not found' });
+            } else {
+                //check if password matches
+                var password = req.body.password;
+                user.comparePassword(password, function(error, passMatch) {
+                    if (passMatch && !error) {
+                        // create token if user is found and password matches then create token
+                        var token = jwt.encode(user, secrets.secret);
+                        //return token
+                        res.json({ success: true, token: 'JWT' + token });
+                    } else {
+                        res.send({ success: false, msg: 'Authentication failed, password mismatch' });
+                    }
+                });
+            }
+        });
+    });
+
 
     return router;
 }

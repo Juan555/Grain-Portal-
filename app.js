@@ -4,6 +4,12 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
+var morgan      = require('morgan');
+var passport	= require('passport');
+var config      = require('./config/secrets'); // get db config file
+// var User        = require('./app/models/user'); // get the mongoose model
+var jwt         = require('jwt-simple');
+
 // Create our Express application
 var app = express();
 
@@ -39,3 +45,8 @@ mongoose.connect('mongodb://kale:idontremember@ds161487.mlab.com:61487/kaledb');
     // .then(console.log('connection succesful'))
     // .catch(console.log('connection error'));
 
+//log to console
+app.use(morgan('dev'));
+
+//use passport
+app.use(passport.initialize());
