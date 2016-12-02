@@ -122,6 +122,11 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', '$win
 
 }]);
 
+kaleControllers.controller('MainPageController', ['$scope', '$window', function($scope, $window) {
+
+
+}]);
+
 kaleControllers.controller('FirstController', ['$scope', 'CommonData', function($scope, CommonData) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
