@@ -1,4 +1,4 @@
-var app = angular.module('kaleidoscope', ['ngRoute', 'kaleControllers', 'kaleServices']);
+var app = angular.module('kaleidoscope', ['ngRoute', 'kaleControllers', 'kaleServices', 'ngDragDrop']);
 
 app.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
