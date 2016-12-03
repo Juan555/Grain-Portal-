@@ -13,6 +13,8 @@
 html,
 body {
     height: 100%;
+		width: 100%;
+		overflow: hidden;
 }
 
 .pano {
@@ -50,4 +52,54 @@ body {
     color: #eee;
 }
 
-/* End */
+
+#test {
+    background: lightgrey;
+    padding: 5px;
+    position: absolute;
+    padding-top: 20px;
+    top: 100px;
+}
+
+.close-button {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    cursor: pointer;
+		color: white;
+		z-index: 2;
+}
+
+.close-button:hover {
+	color: red;
+}
+
+.sound-icon {
+	z-index: 2;
+	color: rgba(255,255,255,0.9);
+	position: absolute !important;
+}
+
+#icon-toolbar {
+	z-index: 1;
+	bottom: 0;
+	position: fixed;
+	width: 100%;
+	background-color: rgba(200,200,200,0.5);
+	display: block;
+	margin: 0px;
+	padding: 15px;
+	height: 100px;
+}
+
+.fullWidth {
+   width: 100%;
+   margin-left: auto;
+   margin-right: auto;
+   max-width: initial;
+}
+
+.icon-wrapper {
+	position: absolute !important;
+	color: white;
+}
