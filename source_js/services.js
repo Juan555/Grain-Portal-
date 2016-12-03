@@ -222,6 +222,41 @@ kaleServices.factory('Users', function($http, $window) {
     }
 });
 
+kaleServices.factory('SoundEnvironments', function($http, $window) {
+    return {
+        get: function() {
+            console.log("SoundEnvironments Service Attempt get GET");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.get(baseUrl + '/api/soundenvironments');
+        },
+        newSoundObject: function(newSoundEnvironmentInfo) {
+            console.log("SoundEnvironments Service Attempt Users POST");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.post(baseUrl + '/api/soundenvironments', newSoundEnvironmentInfo);
+        },
+        deleteSoundObject: function(soundEnvironmentID) {
+            console.log("SoundEnvironments Service Attempt deleteSoundEnvironment DELETE");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.delete(baseUrl + '/api/soundenvironments/' + soundEnvironmentID);
+        },
+        getSingleSoundObject: function(soundEnvironmentID) {
+            console.log("SoundEnvironments Service Attempt getSingleSoundEnvironment GET");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.get(baseUrl + '/api/soundenvironments?where={"_id": "' + soundEnvironmentID + '"}');
+        },
+        updateSoundObject: function(updatedSoundEnvironmentInfo) {
+            console.log("Users Service Attempt updateSoundEnvironment PUT");
+            // console.log("and user id is " + updatedUser._id);
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http({
+                method: 'PUT',
+                url: baseUrl + '/api/soundenvironments/' + updatedSoundEnvironmentInfo._id,
+                data: updatedSoundEnvironmentInfo
+            });
+        }
+    }
+});
+
 kaleServices.factory('SoundObjects', function($http, $window) {
     return {
         get: function() {

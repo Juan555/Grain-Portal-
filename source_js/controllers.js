@@ -6,7 +6,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', '$win
     /*
      *   Greg's To-Do List
      *   1. Save environment as audio file
-     *   2. Proper login system that doesn't store passwords in plaintext
+     *   2. Proper login system that doesn't store passwords in plaintext (70% done)
      *   3. Deployment
      */
 
@@ -44,6 +44,20 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', '$win
     }
 
 
+    /* DB Structure
+     *
+     * The general structure of our database is as follows:
+     * A user has an array of soundEnvironment IDs.
+     * Each soundEnvironment has an array of soundObject IDs.
+     * Each soundObject references a soundFile via ID.
+     */
+
+
+    /*  Compatible sound file types
+     *  https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats#Browser_compatibility
+     */
+
+
     /*  API - Similar to MP4's
      *   Limited support for queries.
      *   Let me (Greg) know if you would like additional API functionality
@@ -56,7 +70,18 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', '$win
      *       name: {type: String, required: true},
      *       email: {type: String, required: true},
      *       password: {type: String, required: true},
-     *       soundObjectIDArray: {type: [String], default: []} //array of ids of soundObjects
+     *       soundEnvironmentIDArray: {type: [String], default: []} //array of ids of soundEnvironments
+     *   });
+     *
+     *   /api/soundenvironments
+     *
+     *   soundEnvironment Schema
+     *
+     *   var soundEnvironmentSchema = new mongoose.Schema({
+     *       name: {type: String, required: true},   //Unique in each user's scope
+     *       soundObjectIDArray: {type: [String], default: []},
+     *       userID: {type: String, required: true}, //Not optional, used to check for user environment with same name
+     *       dateCreated: {type: Date, default: Date.now}
      *   });
      *
      *   /api/soundobjects
@@ -91,6 +116,12 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', '$win
      *   getSingleUser(userID), gets one User, userID is type String
      *   updateUser(updatedUserInfo), updates a User, updatedUserInfo is type User object
      *
+     *   SoundEnvironments
+     *   get(), gets all SoundEnvironments
+     *   newSoundEnvironment(newSoundEnvironmentInfo), creates new SoundEnvironment, newSoundEnvironmentInfo is type SoundEnvironments object
+     *   deleteSoundEnvironment(soundEnvironmentID), deletes a SoundEnvironment, soundEnvironmentID is type String
+     *   getSingleSoundEnvironment(soundEnvironmentID), gets one SoundEnvironment, soundEnvironmentID is type String
+     *   updateSoundEnvironment(updatedSoundEnvironmentInfo), updates a SoundEnvironment, updatedSoundEnvironmentInfo is type SoundEnvironments object
      *
      *   SoundObjects
      *   get(), gets all SoundObjects
@@ -98,7 +129,6 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', '$win
      *   deleteSoundObject(soundObjectID), deletes a SoundObject, soundObjectID is type String
      *   getSingleSoundObject(soundObjectID), gets one SoundObject, soundObjectID is type String
      *   updateSoundObject(updatedSoundObjectInfo), updates a SoundObject, updatedSoundObjectInfo is type SoundObject object
-     *
      *
      *   SoundFiles
      *   get(), gets all SoundFiles
@@ -108,17 +138,6 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', '$win
      *   updateSoundObject(updatedSoundObjectInfo), updates a SoundFile, updatedSoundObjectInfo is type SoundFile object
      *
      */
-
-    // var pano = $("#myPano").pano({
-    //     img: "../media/background.jpg",
-    //     interval: 100,
-    //     speed: 50
-    // });
-
-    // pano.moveLeft();
-    // pano.stopMoving();
-    // pano.moveRight();
-    // pano.stopMoving();
 
 }]);
 

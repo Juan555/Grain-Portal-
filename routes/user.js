@@ -228,9 +228,9 @@ module.exports = function(router) {
         var username = req.body.username;
         var email = req.body.email;
         var password = req.body.password;
-        var sounds = req.body.sounds;
+        var soundEnvironmentIDArray = req.body.soundEnvironmentIDArray;
 
-        if (username.length == 0 || email.length == 0 || password.length == 0 || sounds.length == 0) {
+        if (username.length == 0 || email.length == 0 || password.length == 0 || soundEnvironmentIDArray.length == 0) {
             var result = {};
             result.message = "Error: Missing data";
             result.data = [];
@@ -259,7 +259,7 @@ module.exports = function(router) {
                 user.username = username;
                 user.email = email;
                 user.password = password;
-                user.sounds = sounds;
+                user.soundEnvironmentIDArray = soundEnvironmentIDArray;
 
                 user.save(function(error) {
                     if (error) {

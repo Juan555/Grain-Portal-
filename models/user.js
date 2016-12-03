@@ -7,7 +7,7 @@ var UserSchema = new mongoose.Schema({
     username: {type: String, unique: true, required: true},
     email: {type: String, required: true},
     password: {type: String, required: true},
-    soundObjectIDArray: {type: [String], default: []} //array of ids of soundObjects
+    soundEnvironmentIDArray: {type: [String], default: []} //array of ids of soundObjects
 });
 
 UserSchema.pre('save', function (next) {
