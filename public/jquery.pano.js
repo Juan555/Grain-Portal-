@@ -1,13 +1,11 @@
 /* global jQuery, module, require */
 
 /*
-
 Pano v1.2.0
 jQuery plugin to display a 360 degree panoramic image
 Sean Coyne
 https://github.com/seancoyne/pano
 https://seancoyne.github.io/pano
-
 */
 
 (function (factory) {
@@ -38,9 +36,6 @@ https://seancoyne.github.io/pano
 			cb = cb || function(){};
 			$pano.animate({
 				"background-position": newPos.toString() + "px"
-			}, duration, "linear", cb);
-      $pano.find('.sound-icon').animate({
-        "background-position": newPos.toString() + "px"
 			}, duration, "linear", cb);
 		};
 
