@@ -1,3 +1,5 @@
+// Citation: https://devdactic.com/restful-api-user-authentication-1/
+
 var User = require('../models/user');
 var config = require('../config/secrets');
 

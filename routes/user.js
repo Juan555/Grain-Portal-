@@ -1,3 +1,5 @@
+// Citation: /userauth from https://devdactic.com/restful-api-user-authentication-1/
+
 var secrets = require('../config/secrets');
 var User = require('../models/user');
 var jwt = require('jwt-simple');
@@ -140,12 +142,11 @@ module.exports = function(router) {
             res.json(result);
             return;
         }
-
-        User.findOne({ email: email }, function(error, user) {
+        User.findOne({ username: username }, function(error, user) {
 
             if (error) {
                 var result = {};
-                result.message = "Server Error: Error finding user with same email";
+                result.message = "Server Error: Error finding user with same username";
                 result.data = [];
                 res.status(500);
                 res.json(result);
@@ -155,7 +156,7 @@ module.exports = function(router) {
             if (user) {
 
                 var result = {};
-                result.message = "Error: This email already exists";
+                result.message = "Error: This username already exists";
                 result.data = [];
                 res.status(400);
                 res.json(result);
@@ -163,23 +164,46 @@ module.exports = function(router) {
 
             }
 
-            newUser.save(function(error) {
+            User.findOne({ email: email }, function(error, user) {
+
                 if (error) {
                     var result = {};
-                    result.message = "Server Error: Unable to save user";
+                    result.message = "Server Error: Error finding user with same email";
                     result.data = [];
                     res.status(500);
                     res.json(result);
                     return;
                 }
 
-                var result = {};
-                result.message = "User added";
-                result.data = newUser;
-                res.status(201);
-                res.json(result);
-                return;
+                if (user) {
 
+                    var result = {};
+                    result.message = "Error: This email already exists";
+                    result.data = [];
+                    res.status(400);
+                    res.json(result);
+                    return;
+
+                }
+
+                newUser.save(function(error) {
+                    if (error) {
+                        var result = {};
+                        result.message = "Server Error: Unable to save user " + error;
+                        result.data = [];
+                        res.status(500);
+                        res.json(result);
+                        return;
+                    }
+
+                    var result = {};
+                    result.message = "User added";
+                    result.data = newUser;
+                    res.status(201);
+                    res.json(result);
+                    return;
+
+                });
             });
         });
     });
@@ -345,7 +369,7 @@ module.exports = function(router) {
                         // create token if user is found and password matches then create token
                         var token = jwt.encode(user, secrets.secret);
                         //return token
-                        res.json({ success: true, token: 'JWT' + token });
+                        res.json({ success: true, msg: 'Authentication successful', token: 'JWT ' + token });
                     } else {
                         res.send({ success: false, msg: 'Authentication failed, password mismatch' });
                     }
@@ -353,6 +377,34 @@ module.exports = function(router) {
             }
         });
     });
+
+    // userIDRoute.get(function(req, res) {
+    //     var id = req.params.id;
+
+    //     User.findById(id, function(error, user) {
+    //         if (error) {
+    //             var result = {};
+    //             result.message = "Server Error: Error getting user";
+    //             result.data = [];
+    //             res.status(500);
+    //             res.json(result);
+    //             return;
+    //         } else if (user == null) {
+    //             var result = {};
+    //             result.message = "Error: User not found";
+    //             result.data = [];
+    //             res.status(404);
+    //             res.json(result);
+    //         } else {
+    //             var result = {};
+    //             result.message = "Ok";
+    //             result.data = user;
+    //             res.status(200);
+    //             res.json(result);
+    //             return;
+    //         }
+    //     });
+    // });
 
 
     return router;

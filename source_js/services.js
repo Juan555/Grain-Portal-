@@ -326,3 +326,13 @@ kaleServices.factory('SoundFiles', function($http, $window) {
         }
     }
 });
+
+kaleServices.factory('UserAuth', function($http, $window) {
+    return {
+        getToken: function(userCredentials) {
+            console.log("UserAuth Service Attempt getToken (JWT) POST");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.post(baseUrl + '/api/userauth', userCredentials);
+        }
+    }
+});
