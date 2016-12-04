@@ -29,7 +29,6 @@
     <script src="./js/app.js"></script>
     <script src="./js/controllers.js"></script>
     <script src="./js/services.js"></script>
-
     <!-- More Scripts -->
     <!--         <script type="text/javascript" src="./panorama/cvi_text_lib.js"></script>
     <script type="text/javascript" src="./panorama/jquery.panorama.js"></script>
@@ -37,6 +36,8 @@
     <script type="text/javascript" src="./panorama/jquery.flipv.js"></script> -->
     <!-- <script type="text/javascript" src="./panorama/jquery.fancybox-1.3.1.pack.js"></script> -->
     <script src="./lib/foundation-sites/dist/foundation.min.js"></script>
+    <script src="./lib/foundation-sites/dist/plugins/foundation.core.js"></script>
+    <script src="./lib/foundation-sites/dist/plugins/foundation.abide.js"></script>    
     <script src="./buffer-loader.js"></script>
     <script src="jquery.pano.js"></script>
     <script src="./js/script.js"></script>
@@ -50,43 +51,21 @@
         <a class="button" href="#/secondview">Second View</a>
     </div> -->
     <!--     <img src="media/background.jpg" class="advancedpanorama" width="6000" height="700" usemap="testmap" alt="forest image" /> -->
-
-
-<div ng-view></div>
-
-   <div id="myPano" class="pano">
-
-     <div ng-controller="EditViewController" data-ng-init="open('partials/intro.html')">
-       <a class="button" ng-click="open('partials/login.html')">Login</a>
-       <a class="button" ng-click="open('partials/sign-up.html')">Sign Up</a>
-       <a class="button" ng-href="#/edit">Edit Mode</a>
-
-     </div>
-          <div class="controls">
-              <a class="left">&laquo;</a>
-              <a class="right">&raquo;</a>
-          </div>
-      </div>
+    <div ng-view></div>
+    <div id="myPano" class="pano">
+        <div ng-controller="EditViewController" data-ng-init="open('partials/intro.html')">
+            <a class="button" ng-click="open('partials/login.html')">Login</a>
+            <a class="button" ng-click="open('partials/sign-up.html')">Sign Up</a>
+            <a class="button" ng-href="#/edit">Edit Mode</a>
+        </div>
+        <div class="controls">
+            <a class="left">&laquo;</a>
+            <a class="right">&raquo;</a>
+        </div>
+    </div>
 
 
 
-<!--
-        <script>
-        /* jshint jquery: true */
-        jQuery(document).ready(function($){
-            $("#myPano").pano({
-                img: "../media/background_small.jpg"
-            });
-        });
-        </script> -->
-    <!--     <script type="text/javascript">
-    $(document).ready(function() {
-        $("img.advancedpanorama").panorama({
-            auto_start: 0,
-            start_position: 1527
-        });
-    });
-    </script> -->
     <script>
     $(document).foundation();
     </script>
