@@ -31,7 +31,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         angles = [-90, 90, 45];
 
         //optional, volumes has default values of 0.5 for sounds
-        volumes = [0.1, 1, 1];
+        volumes = [0.1, 0.1, 1];
 
         //optional, offset has default value of 0 degrees
         offset = 0;
