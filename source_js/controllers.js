@@ -285,7 +285,7 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 }]);
 
 
-kaleControllers.controller('EditViewController', ['$scope', 'CommonData', function($scope, CommonData) {
+kaleControllers.controller('EditViewController', ['$scope', 'CommonData', '$window', function($scope, CommonData, $window) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
     $scope.data = "";
