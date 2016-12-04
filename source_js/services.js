@@ -329,10 +329,21 @@ kaleServices.factory('SoundFiles', function($http, $window) {
 
 kaleServices.factory('UserAuth', function($http, $window) {
     return {
-        getToken: function(userCredentials) {
-            console.log("UserAuth Service Attempt getToken (JWT) POST");
+        //login requires username and password, returns token
+        login: function(userCredentials) {
+                console.log("UserAuth Service Attempt getToken (JWT) POST");
+                var baseUrl = $window.sessionStorage.baseurl;
+                return $http.post(baseUrl + '/api/userauth', userCredentials);
+            },
+            //useToken requires a token #obvious
+        useToken: function(token) {
+            console.log("UserAuth Service Attempt userToken (JWT) GET");
             var baseUrl = $window.sessionStorage.baseurl;
-            return $http.post(baseUrl + '/api/userauth', userCredentials);
+            return $http({
+                method: 'POST',
+                url: baseUrl + '/api/userauth/',
+                headers: token
+            });
         }
     }
 });

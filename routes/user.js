@@ -1,8 +1,12 @@
 // Citation: /userauth from https://devdactic.com/restful-api-user-authentication-1/
 
+var passport = require('passport');
 var secrets = require('../config/secrets');
 var User = require('../models/user');
 var jwt = require('jwt-simple');
+
+require('../config/passport')(passport); // as strategy in ./passport.js needs passport object
+
 
 module.exports = function(router) {
 
@@ -355,57 +359,99 @@ module.exports = function(router) {
 
         User.findOne({ 'username': username }, function(error, user) {
             if (error) {
-                console.log("Auth findOne error");
-                throw error;
+                var result = {};
+                result.message = "Server Error: Unable to find user";
+                result.data = [];
+                res.status(500);
+                res.json(result);
+                return;
             }
 
             if (!user) {
-                res.send({ success: false, msg: 'Authentication failed, user not found' });
+                var result = {};
+                result.success = false;
+                result.message = "Authentication failed, username and password do not match";
+                result.data = [];
+                res.status(401);
+                res.json(result);
+                return;
             } else {
                 //check if password matches
                 var password = req.body.password;
                 user.comparePassword(password, function(error, passMatch) {
                     if (passMatch && !error) {
                         // create token if user is found and password matches then create token
-                        var token = jwt.encode(user, secrets.secret);
+                        //Hash-based message authentication code with SHA-512
+                        var token = jwt.encode(user, secrets.secret, 'HS512');
                         //return token
-                        res.json({ success: true, msg: 'Authentication successful', token: 'JWT ' + token });
+                        var result = {};
+                        result.success = true;
+                        result.message = "Authentication successful";
+                        res.cookie('access-token', token, { expires: new Date(Date.now() + 1000*60*60), httpOnly: true, signed: true });
+                        result.token = 'JWT ' + token;
+                        // result.data = [];
+                        res.status(200);
+                        res.json(result);
+                        return;
+                        // res.json({ success: true, msg: 'Authentication successful', token: 'JWT ' + token });
                     } else {
-                        res.send({ success: false, msg: 'Authentication failed, password mismatch' });
+                        var result = {};
+                        result.success = false;
+                        result.message = "Authentication failed, username and password do not match";
+                        result.data = [];
+                        res.status(401);
+                        res.json(result);
+                        return;
                     }
                 });
             }
         });
     });
 
-    // userIDRoute.get(function(req, res) {
-    //     var id = req.params.id;
+    userAuthRoute.get(passport.authenticate('jwt', { session: false }), function(req, res) {
+        // var token = getToken(req.headers);
+        var token = req.signedCookies['access-token'];
+        console.log("access-token: " + token);
+        if (token) {
+            var decoded = jwt.decode(token, secrets.secret);
+            User.findOne({ username: decoded.username }, function(error, user) {
+                if (error) {
+                    console.log('Server Error: userAuthRoute GET Error');
+                    throw error;
+                }
 
-    //     User.findById(id, function(error, user) {
-    //         if (error) {
-    //             var result = {};
-    //             result.message = "Server Error: Error getting user";
-    //             result.data = [];
-    //             res.status(500);
-    //             res.json(result);
-    //             return;
-    //         } else if (user == null) {
-    //             var result = {};
-    //             result.message = "Error: User not found";
-    //             result.data = [];
-    //             res.status(404);
-    //             res.json(result);
-    //         } else {
-    //             var result = {};
-    //             result.message = "Ok";
-    //             result.data = user;
-    //             res.status(200);
-    //             res.json(result);
-    //             return;
-    //         }
-    //     });
-    // });
+                if (!user) {
+                    return res.status(403).send({ success: false, msg: 'Authentication failed, user not found.' })
+                } else {
+                    var result = {};
+                    result.success = true;
+                    result.message = 'Welcome to the member area ' + user.username + '!';
+                    // result.data = user;
+                    result.userID = user._id;
+                    result.userEmail = user.email;
+                    result.soundEnvironmentIDArray = user.soundEnvironmentIDArray;
+                    res.json(result);
+                    return;
+                }
+            })
+        } else {
+            return res.status(403).send({ success: false, msg: 'No token provided.' });
+        }
+    });
 
+    getToken = function(headers) {
+        if (headers && headers.authorization) {
+            var parted = headers.authorization.split(' ');
+            if (parted.length === 2) {
+            	console.log('parted[1]: ' + parted[1]);
+                return parted[1];
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    };
 
     return router;
 }
