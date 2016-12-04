@@ -408,7 +408,7 @@ module.exports = function(router) {
         });
     });
 
-    // Three-hour bug right here -> userAuthRoute.get(passport.authenticate('jwt', { session: false }), function(req, res) {
+    // Two-hour bug right here -> userAuthRoute.get(passport.authenticate('jwt', { session: false }), function(req, res) {
     userAuthRoute.get(function(req, res) {
         // var token = getToken(req.headers);
         var token = req.signedCookies['access-token'];

@@ -51,6 +51,15 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         SoundLogic.playSingleSoundNoAngle(sound);
     }
 
+    $scope.playEnvironmentOffline = function() {
+        sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
+            '../media/EDMloop95BPM.wav'
+        ];
+        angles = [-90, 90];
+        volumes = [0.1, 1];
+        SoundLogic.playEnvironmentOffline(sounds, angles);
+    }
+
 
     /* DB Structure
      *
@@ -148,7 +157,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
      *
      *   UserAuth
      *   login, takes a String username and String password as input inside a userCredentials, returns a String token
-     *   useToken, takes a String token, returns an user's userID, an userEmail, and a soundEnvironmentIDArray
+     *   useToken, no input required, returns an user's userID, an userEmail, and a soundEnvironmentIDArray
      *
      *   
      */
@@ -219,6 +228,12 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     }
 
     $scope.accessUserData();
+
+    // SoundLogic.savemusic();
+
+
+    var anchor = document.createElement('a');
+    document.body.appendChild(anchor);
 
 }]);
 
