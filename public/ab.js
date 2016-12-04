@@ -1,50 +1,58 @@
-// https://www.html5rocks.com/en/tutorials/webaudio/intro/
-// http://webaudioapi.com/static/js/shared.js
+// Citation: https://github.com/Jam3/audiobuffer-to-wav/blob/master/demo/index.js
+// Requests and decodes an MP3 file
+// Encodes the audio data as WAV
+// Then triggers a download of the file
 
-function BufferLoader(context, urlList, callback) {
-  this.context = context;
-  this.urlList = urlList;
-  this.onload = callback;
-  this.bufferList = new Array();
-  this.loadCount = 0;
-}
+var abf = (function abfunction() {
+    console.log('abfunction');
 
-BufferLoader.prototype.loadBuffer = function(url, index) {
-  // Load buffer asynchronously
-  var request = new XMLHttpRequest();
-  request.open("GET", url, true);
-  request.responseType = "arraybuffer";
+    var xhr = require('xhr')
+    var bufferToWav = require('audiobuffer-to-wav')
 
-  var loader = this;
+    var audioContext = new(window.AudioContext || window.webkitAudioContext)()
 
-  request.onload = function() {
-    // Asynchronously decode the audio file data in request.response
-    loader.context.decodeAudioData(
-      request.response,
-      function(buffer) {
-        if (!buffer) {
-          alert('error decoding file data: ' + url);
-          return;
-        }
-        loader.bufferList[index] = buffer;
-        if (++loader.loadCount == loader.urlList.length)
-          loader.onload(loader.bufferList);
-      },
-      function(error) {
-        console.error('decodeAudioData error', error);
-      }
-    );
-  }
+    xhr({
+        uri: './media/DubstepDrumLoop(140bpm).mp3',
+        responseType: 'arraybuffer'
+    }, function(err, body, resp) {
+        if (err) throw err
 
-  request.onerror = function() {
-    alert('BufferLoader: XHR error');
-  }
+        var anchor = document.createElement('a')
+        document.body.appendChild(anchor)
+        anchor.style = 'display: none'
 
-  request.send();
-}
+        audioContext.decodeAudioData(resp, function(buffer) {
+            var wav = bufferToWav(buffer)
+            var blob = new window.Blob([new DataView(wav)], {
+                type: 'audio/wav'
+            })
 
-BufferLoader.prototype.load = function() {
-  for (var i = 0; i < this.urlList.length; ++i)
-  this.loadBuffer(this.urlList[i], i);
-}
+            var url = window.URL.createObjectURL(blob)
+            anchor.href = url
+            anchor.download = 'audio.wav'
+            anchor.click()
+            window.URL.revokeObjectURL(url)
+        }, function() {
+            throw new Error('Could not decode audio data.')
+        })
+    })
 
+})();
+
+// var doSomething = (function () {
+//   "use strict";
+//    return {
+//       test: (function () {
+//         return 'test';
+//       }()),
+//       test2: (function () {
+//         return console.log('test 2');
+//       })
+//    };
+// }());
+
+// function abf() {
+//     alert("aloha");
+//     console.log('stuff');
+//     return "hello";
+// }
