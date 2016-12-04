@@ -42,6 +42,9 @@ https://seancoyne.github.io/pano
 		var moveBackgroundBy = function(distance, duration, cb) {
 			duration = duration || 0;
 			cb = cb || function(){};
+			
+			localStorage.setItem("position_diff",getCurrentPosition());
+			
 			moveBackgroundTo(getCurrentPosition() + distance, duration, cb);
 		};
 
@@ -76,6 +79,7 @@ https://seancoyne.github.io/pano
 
 			// calculate the change in position
 			var diff = (xPos - startPosition);
+			
 
 			// move it
 			moveBackgroundBy(diff, 0, cb);
@@ -94,7 +98,7 @@ https://seancoyne.github.io/pano
 			"background-size": "auto 100%",
 			"background-repeat": "repeat-x"
 		});
-
+ 
 		// set the initial position in pixels (easier math)
 		var halfWidth = (getImageWidth(options.img) / 2);
 		moveBackgroundTo(halfWidth);
@@ -108,11 +112,11 @@ https://seancoyne.github.io/pano
 			indicateMovement();
 
 			// immediately move
-			moveBackgroundBy(speed, 100);
+			moveBackgroundBy(speed, 50);
 
 			// move left on interval
 			leftMover = setInterval(function(){
-				moveBackgroundBy(speed, 100);
+				moveBackgroundBy(speed, 50);
 			}, interval);
 
 		};
@@ -126,11 +130,11 @@ https://seancoyne.github.io/pano
 			indicateMovement();
 
 			// immediately move
-			moveBackgroundBy(-speed, 100);
+			moveBackgroundBy(-speed, 50);
 
 			// move right on interval
 			rightMover = setInterval(function(){
-				moveBackgroundBy(-speed, 100);
+				moveBackgroundBy(-speed, 50);
 			}, interval);
 		};
 

@@ -18,7 +18,7 @@
     <script src="./lib/jquery/dist/jquery.min.js"></script>
     <script src="./lib/jquery-ui/jquery-ui.min.js"></script>
     <!-- <script type="text/javascript" src="./bundle.js"></script> -->
-<!--     <script>
+    <!--     <script>
     abf();
     </script> -->
     <script src="./lib/angular/angular.min.js"></script>
@@ -30,7 +30,7 @@
     <script src="./js/controllers.js"></script>
     <script src="./js/services.js"></script>
     <!-- More Scripts -->
-<!--         <script type="text/javascript" src="./panorama/cvi_text_lib.js"></script>
+    <!--         <script type="text/javascript" src="./panorama/cvi_text_lib.js"></script>
     <script type="text/javascript" src="./panorama/jquery.panorama.js"></script>
     <script type="text/javascript" src="./panorama/jquery.advanced-panorama.js"></script>
     <script type="text/javascript" src="./panorama/jquery.flipv.js"></script> -->
@@ -50,13 +50,22 @@
     </div> -->
     <!--     <img src="media/background.jpg" class="advancedpanorama" width="6000" height="700" usemap="testmap" alt="forest image" /> -->
     <div ng-view></div>
-        <div id="myPano" class="pano">
-          <div class="controls">
-              <a class="left">&laquo;</a>
-              <a class="right">&raquo;</a>
-          </div>
-      </div>
-
+    <div id="myPano" class="pano">
+        <div class="controls">
+            <a href="#" class="left">&laquo;</a>
+            <a href="#" class="right">&raquo;</a>
+        </div>
+        <button ng-click="hello()">hello</button>
+    </div>
+    <!-- 
+        <script>
+        /* jshint jquery: true */
+        jQuery(document).ready(function($){
+            $("#myPano").pano({
+                img: "../media/background_small.jpg"
+            });
+        });
+        </script> -->
     <!--     <script type="text/javascript">
     $(document).ready(function() {
         $("img.advancedpanorama").panorama({

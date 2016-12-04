@@ -1,20 +1,7 @@
 
-<div class="reveal" id="signup-modal" data-reveal>
-  <div class="row">
-    <div class="small-12 columns">
-      <h2>Sign Up</h2>
+<a class="button" ng-click="open('partials/login.html')">Login</a>
 
-      <form>
-      <label>Email</label><input type="text"></input>
-      <label>Username</label><input type="text"></input>
-      <label>Password</label><input type="text"></input>
-      <input class="button" type="submit"></input>
-      </form>
-
-    </div>
-  </div>
-</div>
-<a class="button" data-open="signup-modal">Sign Up</a>
+<a class="button" ng-click="open('partials/sign-up.html')">Sign Up</a>
 
 <!--<div ng-include="'partials/intro.html'"></div>-->
 <!--<div ng-include="'partials/sign-up.html'"></div>-->
@@ -23,28 +10,28 @@
 
     <div id="icon-toolbar" data-drop="true" jqyoui-droppable>
       <div class="row">
-        <div class="small-3 columns">
+        <div class="small-3 columns" data-drop="true" jqyoui-droppable>
           <div id="thunderIcon" class="icon-wrapper" data-drag="true" ng-hide="thunder==false" jqyoui-draggable>
             <img src="./media/Icons/Thunder.png" aria-hidden="true">
-            <i class="fa fa-times-circle close-button" aria-hidden="true"></i>
+            <i class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
          </div>
         </div>
-        <div class="small-3 columns">
+        <div class="small-3 columns" data-drop="true" jqyoui-droppable>
           <div id="birdIcon" class="icon-wrapper" data-drag="true" ng-hide="bird==false" jqyoui-draggable>
             <img src="./media/Icons/Bird.png" aria-hidden="true">
-            <i class="fa fa-times-circle close-button" aria-hidden="true"></i>
+            <i class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
           </div>
         </div>
-      <div class="small-3 columns">
+      <div class="small-3 columns" data-drop="true" jqyoui-droppable>
           <div id="windIcon" class="icon-wrapper" data-drag="true" ng-hide="wind==false" jqyoui-draggable>
             <img src="./media/Icons/Wind.png" aria-hidden="true">
-            <i class="fa fa-times-circle close-button" aria-hidden="true"></i>
+            <i class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
           </div>
         </div>
         <div class="small-3 columns">
           <div id="pawIcon" class="icon-wrapper" data-drag="true" ng-hide="paw==false" jqyoui-draggable>
             <img src="./media/Icons/Paw.png" aria-hidden="true">
-            <i ng-click="closeIcon(this)" class="fa fa-times-circle close-button" aria-hidden="true"></i>
+            <i ng-click="closeIcon(this)" class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
           </div>
         </div>
     </div>
