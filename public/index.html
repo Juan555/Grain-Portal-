@@ -5,21 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Kaleidoscope</title>
-    <link rel="shortcut icon" type="image/png" href="./media/favicon-32x32.png"/>
+    <link rel="shortcut icon" type="image/png" href="./media/favicon-32x32.png" />
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./css/styles.css">
-
     <!-- <link rel="stylesheet" type="text/css" href="./jquery.panorama.css" media="screen" /> -->
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <link rel="stylesheet" type="text/css" href="./jquery.fancybox-1.3.1.css" media="screen" />
+    <!-- <link rel="stylesheet" type="text/css" href="./jquery.fancybox-1.3.1.css" media="screen" /> -->
     <!-- Angular Scripts -->
     <!-- NOTE: removing the ".min." can help debugging in the console-->
     <!--April: I know jQuery's already getting loaded in the body, but just want to try loading it
                 before Angular to get jQuery UI and the Angular Drag/Drop plugin to play nice  -->
     <script src="./lib/jquery/dist/jquery.min.js"></script>
     <script src="./lib/jquery-ui/jquery-ui.min.js"></script>
+    <!-- <script type="text/javascript" src="./bundle.js"></script> -->
+<!--     <script>
+    abf();
+    </script> -->
     <script src="./lib/angular/angular.min.js"></script>
     <script src="./lib/angular-dragdrop/src/angular-dragdrop.min.js"></script>
     <script src="./lib/jqueryui-touch-punch/jquery.ui.touch-punch.min.js"></script>
@@ -29,11 +30,11 @@
     <script src="./js/controllers.js"></script>
     <script src="./js/services.js"></script>
     <!-- More Scripts -->
-    <!--     <script type="text/javascript" src="./panorama/cvi_text_lib.js"></script>
+<!--         <script type="text/javascript" src="./panorama/cvi_text_lib.js"></script>
     <script type="text/javascript" src="./panorama/jquery.panorama.js"></script>
     <script type="text/javascript" src="./panorama/jquery.advanced-panorama.js"></script>
-    <script type="text/javascript" src="./panorama/jquery.flipv.js"></script>
-    <script type="text/javascript" src="./panorama/jquery.fancybox-1.3.1.pack.js"></script> -->
+    <script type="text/javascript" src="./panorama/jquery.flipv.js"></script> -->
+    <!-- <script type="text/javascript" src="./panorama/jquery.fancybox-1.3.1.pack.js"></script> -->
     <script src="./lib/foundation-sites/dist/foundation.min.js"></script>
     <script src="./buffer-loader.js"></script>
     <script src="jquery.pano.js"></script>
@@ -47,22 +48,14 @@
         <a class="button" href="#/firstview">First View</a>
         <a class="button" href="#/secondview">Second View</a>
     </div> -->
-
     <!--     <img src="media/background.jpg" class="advancedpanorama" width="6000" height="700" usemap="testmap" alt="forest image" /> -->
-
-
-      <div ng-view></div>
-
-
-
-    <div id="myPano" class="pano">
+    <div ng-view></div>
+        <div id="myPano" class="pano">
           <div class="controls">
-              <a href="#" class="left">&laquo;</a>
-              <a href="#" class="right">&raquo;</a>
+              <a class="left">&laquo;</a>
+              <a class="right">&raquo;</a>
           </div>
       </div>
-
-
 
     <!--     <script type="text/javascript">
     $(document).ready(function() {

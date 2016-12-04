@@ -6,13 +6,15 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     /*
      *   Greg's To-Do List
      *   1. Save environment as audio file
-     *   2. Proper login system that doesn't store passwords in plaintext (70% done)
+     *   2. Proper login system that doesn't store passwords in plaintext (Done)
      *   3. Deployment
+     *   4. Signup and Login modal content
      *
      *
      *   Fun Facts
      *   Passwords hashed and salted with bcrypt
      *   JWTs signed with SHA-512
+     *   Signed cookies
      */
 
     //Example of how to call SoundLogic
@@ -21,14 +23,15 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         //required
         //Paths are to files in /public/media
         sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
-            '../media/EDMloop95BPM.wav'
+            '../media/EDMloop95BPM.wav',
+            '../media/birdschirping1.wav'
         ];
 
         //required
-        angles = [-90, 90];
+        angles = [-90, 90, 45];
 
         //optional, volumes has default values of 0.5 for sounds
-        volumes = [0.1, 1];
+        volumes = [0.1, 1, 1];
 
         //optional, offset has default value of 0 degrees
         offset = 0;
@@ -53,7 +56,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
     $scope.playEnvironmentOffline = function() {
         sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
-            '../media/EDMloop95BPM.wav'
+            '../media/birdschirping1.wav'
         ];
         angles = [-90, 90];
         volumes = [0.1, 1];
@@ -232,8 +235,14 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     // SoundLogic.savemusic();
 
 
-    var anchor = document.createElement('a');
-    document.body.appendChild(anchor);
+    // $('#testbutton4').click(function() {
+    //     // console.log($window.doSomething());
+    //     // doSomething.test2();
+    //     // $.getScript('../bundle.js', function() {
+    //     // });
+    // });
+
+
 
 }]);
 
