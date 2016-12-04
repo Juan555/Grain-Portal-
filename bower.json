@@ -19,6 +19,7 @@
     "foundation-sites": "^6.2.3",
     "angular-dragdrop": "^1.0.13",
     "jquery-ui": "^1.12.1",
-    "jqueryui-touch-punch": "*"
+    "jqueryui-touch-punch": "*",
+    "angular-foundation-6": "^0.10.19"
   }
 }

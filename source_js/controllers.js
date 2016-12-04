@@ -239,9 +239,6 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
 kaleControllers.controller('MainPageController', ['$scope', '$window', function($scope, $window) {
 
-    $("#myPano").pano({
-        img: "../media/background_small.jpg"
-    });
 
 }]);
 
@@ -270,6 +267,23 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
     };
 
 }]);
+
+kaleControllers.controller('EditViewController', ['$scope', 'CommonData', function($scope, CommonData) {
+    $window.sessionStorage.baseurl = 'http://localhost:3000';
+
+    $scope.data = "";
+
+    $scope.getData = function() {
+        $scope.data = CommonData.getData();
+
+    };
+
+    $scope.closeIcon = function() {
+
+    };
+
+}]);
+
 
 
 kaleControllers.controller('LlamaListController', ['$scope', '$http', 'Users', 'Llamas', '$window', function($scope, $http, Users, Llamas, $window) {

@@ -1,4 +1,4 @@
-var app = angular.module('kaleidoscope', ['ngRoute', 'kaleControllers', 'kaleServices', 'ngDragDrop']);
+var app = angular.module('kaleidoscope', ['ngRoute', 'kaleControllers', 'kaleServices', 'ngDragDrop', 'mm.foundation']);
 
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
@@ -25,6 +25,10 @@ app.config(['$routeProvider', function($routeProvider) {
     when('/', {
         templateUrl: 'partials/mainpage.html',
         controller: 'MainPageController'
+    }).
+    when('/edit', {
+        templateUrl:'partials/edit.html',
+        controller: 'EditViewController'
     }).
     otherwise({
         redirectTo: '/'
