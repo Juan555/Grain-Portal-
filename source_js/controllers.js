@@ -146,6 +146,12 @@ kaleControllers.controller('MainPageController', ['$scope', '$window', function(
     $("#myPano").pano({
         img: "../media/background_small.jpg"
     });
+  
+        $scope.hello = function(){
+             console.log("1");
+            
+
+        }
 
 }]);
 
