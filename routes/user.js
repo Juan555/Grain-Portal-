@@ -370,7 +370,7 @@ module.exports = function(router) {
             if (!user) {
                 var result = {};
                 result.success = false;
-                result.message = "Authentication failed, username and password do not match";
+                result.message = "Authentication 1 failed, username and password do not match";
                 result.data = [];
                 res.status(401);
                 res.json(result);
@@ -380,14 +380,14 @@ module.exports = function(router) {
                 var password = req.body.password;
                 user.comparePassword(password, function(error, passMatch) {
                     if (passMatch && !error) {
-                        // create token if user is found and password matches then create token
+                        // create token => if user is found and password matches then create token
                         //Hash-based message authentication code with SHA-512
                         var token = jwt.encode(user, secrets.secret, 'HS512');
                         //return token
                         var result = {};
                         result.success = true;
                         result.message = "Authentication successful";
-                        res.cookie('access-token', token, { expires: new Date(Date.now() + 1000*60*60), httpOnly: true, signed: true });
+                        res.cookie('access-token', token, { expires: new Date(Date.now() + 1000 * 60 * 60), httpOnly: true, signed: true });
                         result.token = 'JWT ' + token;
                         // result.data = [];
                         res.status(200);
@@ -397,7 +397,7 @@ module.exports = function(router) {
                     } else {
                         var result = {};
                         result.success = false;
-                        result.message = "Authentication failed, username and password do not match";
+                        result.message = "Authentication 2 failed, username and password do not match";
                         result.data = [];
                         res.status(401);
                         res.json(result);
@@ -408,20 +408,33 @@ module.exports = function(router) {
         });
     });
 
-    userAuthRoute.get(passport.authenticate('jwt', { session: false }), function(req, res) {
+    // Three-hour bug right here -> userAuthRoute.get(passport.authenticate('jwt', { session: false }), function(req, res) {
+    userAuthRoute.get(function(req, res) {
         // var token = getToken(req.headers);
         var token = req.signedCookies['access-token'];
+        // token = token.split('=')[1];
         console.log("access-token: " + token);
         if (token) {
             var decoded = jwt.decode(token, secrets.secret);
             User.findOne({ username: decoded.username }, function(error, user) {
                 if (error) {
-                    console.log('Server Error: userAuthRoute GET Error');
-                    throw error;
+                    var result = {};
+                    result.success = false;
+                    result.message = "Server Error: userAuthRoute GET Error";
+                    result.data = [];
+                    res.status(500);
+                    res.json(result);
+                    return;
                 }
 
                 if (!user) {
-                    return res.status(403).send({ success: false, msg: 'Authentication failed, user not found.' })
+                    var result = {};
+                    result.success = false;
+                    result.message = "Authentication failed, user not found";
+                    result.data = [];
+                    res.status(403);
+                    res.json(result);
+                    return;
                 } else {
                     var result = {};
                     result.success = true;
@@ -435,23 +448,29 @@ module.exports = function(router) {
                 }
             })
         } else {
-            return res.status(403).send({ success: false, msg: 'No token provided.' });
+            var result = {};
+            result.success = false;
+            result.message = "No token provided";
+            res.status(403);
+            res.json(result);
+            return;
+            // return res.status(403).send({ success: false, msg: 'No token provided.' });
         }
     });
 
-    getToken = function(headers) {
-        if (headers && headers.authorization) {
-            var parted = headers.authorization.split(' ');
-            if (parted.length === 2) {
-            	console.log('parted[1]: ' + parted[1]);
-                return parted[1];
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    };
+    // getToken = function(headers) {
+    //     if (headers && headers.authorization) {
+    //         var parted = headers.authorization.split(' ');
+    //         if (parted.length === 2) {
+    //             console.log('parted[1]: ' + parted[1]);
+    //             return parted[1];
+    //         } else {
+    //             return null;
+    //         }
+    //     } else {
+    //         return null;
+    //     }
+    // };
 
     return router;
 }

@@ -153,24 +153,24 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
      *   
      */
 
-     // Authentification Demonstration
+    // Authentification Demonstration
 
-     // Signup (using Foundation Abide Form Validation plugin in next iteration)
-     $scope.newuser = {
+    // Signup (using Foundation Abide Form Validation plugin in next iteration)
+    $scope.newuser = {
         username: '',
         email: '',
         password: ''
-     }
+    }
 
-     $scope.confirmpassword = '';
+    $scope.confirmpassword = '';
 
-     // $scope.signupErrors = {
-     //    username: false,
-     //    email: false,
-     //    password: false
-     // }
+    // $scope.signupErrors = {
+    //    username: false,
+    //    email: false,
+    //    password: false
+    // }
 
-     $scope.signup = function() {
+    $scope.signup = function() {
 
         if (username.length == 0) {
 
@@ -182,28 +182,44 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
             $scope.status = "soundTest Users Signup error: " + error.message;
             console.log($scope.status);
         });
-     }
+    }
 
 
-     // Login (using Foundation Abide Form Validation plugin in next iteration)
-     $scope.user = {
+    // Login (using Foundation Abide Form Validation plugin in next iteration)
+    $scope.user = {
         username: '',
         password: ''
-     };
+    };
 
-     $scope.login = function() {
+    $scope.userData = '';
+
+    $scope.login = function() {
         // console.log($scope.user.username);
         // console.log($scope.user.password);
         UserAuth.login($scope.user).success(function(data) {
-            var token = data.token;
+            $scope.token = data.token;
             console.log("UserAuth login success");
-            console.log(token);
+            console.log("Token: " + $scope.token);
+            $scope.accessUserData();
         }).error(function(error) {
             $scope.status = "soundTest UserAuth login error: " + error.message;
             console.log($scope.status);
         });
-     }
-     
+
+
+    }
+
+    $scope.accessUserData = function() {
+        UserAuth.useToken().success(function(data) {
+            $scope.userData = data;
+        }).error(function(error) {
+            $scope.status = "soundTest UserAuth userToken error: " + error;
+            console.log($scope.status);
+        });
+    }
+
+    $scope.accessUserData();
+
 }]);
 
 kaleControllers.controller('MainPageController', ['$scope', '$window', function($scope, $window) {

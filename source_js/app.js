@@ -29,4 +29,7 @@ app.config(['$routeProvider', function($routeProvider) {
     otherwise({
         redirectTo: '/'
     });
+
+    // $httpProvider.defaults.withCredentials = true;
+
 }]);

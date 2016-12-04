@@ -332,18 +332,18 @@ kaleServices.factory('UserAuth', function($http, $window) {
     return {
         //login requires username and password, returns token
         login: function(userCredentials) {
-                console.log("UserAuth Service Attempt getToken (JWT) POST");
-                var baseUrl = $window.sessionStorage.baseurl;
-                return $http.post(baseUrl + '/api/userauth', userCredentials);
-            },
-            //useToken requires a token #obvious
-        useToken: function(token) {
+            console.log("UserAuth Service Attempt getToken (JWT) POST");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.post(baseUrl + '/api/userauth', userCredentials);
+        },
+        //useToken does not require a token because magic fairy cookies
+        useToken: function() {
             console.log("UserAuth Service Attempt userToken (JWT) GET");
             var baseUrl = $window.sessionStorage.baseurl;
             return $http({
-                method: 'POST',
-                url: baseUrl + '/api/userauth/',
-                headers: token
+                method: 'GET',
+                url: baseUrl + '/api/userauth',
+                withCredentials: true
             });
         }
     }
