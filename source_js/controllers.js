@@ -162,7 +162,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
      *   login, takes a String username and String password as input inside a userCredentials, returns a String token
      *   useToken, no input required, returns an user's userID, an userEmail, and a soundEnvironmentIDArray
      *
-     *   
+     *
      */
 
     // Authentification Demonstration
@@ -287,19 +287,54 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 
 }]);
 
-kaleControllers.controller('EditViewController', ['$scope', 'CommonData', function($scope, CommonData) {
+kaleControllers.controller('EditViewController', ['$scope', 'CommonData', '$window', '$modal', function($scope, CommonData, $window, $modal) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
     $scope.data = "";
+
+
+
+    $scope.open =  function open(link) {
+        var params = {
+            templateUrl: link,
+            resolve: {
+                items: function() {
+                    return $scope.items;
+                },
+            },
+            controller: function($scope, $modalInstance) {
+
+                $scope.reposition = function() {
+                    $modalInstance.reposition();
+                };
+
+                $scope.ok = function() {
+                    $modalInstance.close($scope.selected.item);
+                };
+
+                $scope.cancel = function() {
+                    $modalInstance.dismiss('cancel');
+                };
+
+            }
+        };
+
+
+        var modalInstance = $modal.open(params);
+
+        modalInstance.result.then(function(selectedItem) {
+            $scope.selected = selectedItem;
+        }, function() {
+            //$log.info('Modal dismissed at: ' + new Date());
+        });
+    };
 
     $scope.getData = function() {
         $scope.data = CommonData.getData();
 
     };
 
-    $scope.closeIcon = function() {
-
-    };
+    
 
 }]);
 

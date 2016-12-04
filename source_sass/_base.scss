@@ -61,7 +61,7 @@ body {
     top: 100px;
 }
 
-.close-button {
+.icon-close-button {
     position: absolute;
     right: 0px;
     top: 0px;
@@ -69,9 +69,8 @@ body {
 		color: white;
 		z-index: 2;
 }
-
-.close-button:hover {
-	color: red;
+.icon-close-button:hover{
+  color: black;
 }
 
 .sound-icon {
@@ -92,7 +91,6 @@ div {
 	display: block;
 	margin: 0px;
 	padding: 15px;
-  //height: 200px;
 }
 
 .icon-wrapper {

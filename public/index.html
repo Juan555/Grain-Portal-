@@ -29,6 +29,7 @@
     <script src="./js/app.js"></script>
     <script src="./js/controllers.js"></script>
     <script src="./js/services.js"></script>
+
     <!-- More Scripts -->
     <!--         <script type="text/javascript" src="./panorama/cvi_text_lib.js"></script>
     <script type="text/javascript" src="./panorama/jquery.panorama.js"></script>
@@ -49,15 +50,27 @@
         <a class="button" href="#/secondview">Second View</a>
     </div> -->
     <!--     <img src="media/background.jpg" class="advancedpanorama" width="6000" height="700" usemap="testmap" alt="forest image" /> -->
-    <div ng-view></div>
-    <div id="myPano" class="pano">
-        <div class="controls">
-            <a href="#" class="left">&laquo;</a>
-            <a href="#" class="right">&raquo;</a>
-        </div>
-        <button ng-click="hello()">hello</button>
-    </div>
-    <!-- 
+
+
+<div ng-view></div>
+
+   <div id="myPano" class="pano">
+
+     <div ng-controller="EditViewController" data-ng-init="open('partials/intro.html')">
+       <a class="button" ng-click="open('partials/login.html')">Login</a>
+       <a class="button" ng-click="open('partials/sign-up.html')">Sign Up</a>
+       <a class="button" ng-href="#/edit">Edit Mode</a>
+
+     </div>
+          <div class="controls">
+              <a class="left">&laquo;</a>
+              <a class="right">&raquo;</a>
+          </div>
+      </div>
+
+
+
+<!--
         <script>
         /* jshint jquery: true */
         jQuery(document).ready(function($){
