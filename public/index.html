@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Kaleidoscope Starter</title>
+    <title>Kaleidoscope</title>
     <link rel="shortcut icon" type="image/png" href="./media/favicon-32x32.png"/>
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./css/styles.css">
@@ -22,8 +22,9 @@
     <script src="./lib/jquery-ui/jquery-ui.min.js"></script>
     <script src="./lib/angular/angular.min.js"></script>
     <script src="./lib/angular-dragdrop/src/angular-dragdrop.min.js"></script>
-    <script src="./lib/jquery.ui.touch-punch.min.js"></script>
+    <script src="./lib/jqueryui-touch-punch/jquery.ui.touch-punch.min.js"></script>
     <script src="./lib/angular-route/angular-route.min.js"></script>
+    <script src="./lib/angular-foundation-6/dist/angular-foundation.min.js"></script>
     <script src="./js/app.js"></script>
     <script src="./js/controllers.js"></script>
     <script src="./js/services.js"></script>
@@ -50,8 +51,6 @@
 
     <!--     <img src="media/background.jpg" class="advancedpanorama" width="6000" height="700" usemap="testmap" alt="forest image" /> -->
 
-    <div ng-view></div>
-    <div id="myPano" class="pano">
 
         <div class="controls">
             <a href="#" class="left">&laquo;</a>
@@ -60,6 +59,16 @@
     <button ng-click = "hello()">hello</button>
     </div>
 
+
+
+
+    <div id="myPano" class="pano">
+      <div ng-view></div>
+          <div class="controls">
+              <a href="#" class="left">&laquo;</a>
+              <a href="#" class="right">&raquo;</a>
+          </div>
+      </div>
 
 
 
@@ -72,6 +81,7 @@
             });
         });
         </script> -->
+
 
     <!--     <script type="text/javascript">
     $(document).ready(function() {

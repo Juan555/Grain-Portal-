@@ -1,11 +1,12 @@
 <!-- Leave me be, Greg needs me -->
+<!-- That is, feel free to play around and change things, but don't commit those changes -->
 <div ng-click="playEnvironment()" id="testbutton1" class="button">
     Play Environment (on loop)
 </div>
 <div ng-click="playSingleSoundNoAngle()" id="testbutton2" class="button">
     Play Single Sound No Angle
 </div>
-<div id="testbutton3" class="button">
+<div ng-click="playEnvironmentOffline()" id="testbutton3" class="button">
     Test Button 3
 </div>
 <!-- <div id="myPano" class="pano">
@@ -14,3 +15,121 @@
         <a href="#" class="right">&raquo;</a>
     </div>
 </div> -->
+<div class="row">
+    <div class="small-6 columns">
+        <div class="row text-center">
+            <h3>Signup</h3>
+        </div>
+        <form>
+            <div class="row">
+                <div class="small-3 columns">
+                </div>
+                <div class="small-6 small-centered columns">
+                    <label for="username">Username:
+                        <input name="username" type="text" ng-model="newuser.username" />
+                    </label>
+                    <small class="error">Invalid entry</small>
+                </div>
+                <div class="small-3 columns">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                </div>
+                <div class="small-6 small-centered columns">
+                    <label for="email">Email:
+                        <input name="email" type="email" ng-model="newuser.email" />
+                    </label>
+                </div>
+                <div class="small-3 columns">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                </div>
+                <div class="small-6 small-centered columns">
+                    <label for="username">Password:
+                        <input name="username" type="text" ng-model="newuser.password" />
+                    </label>
+                </div>
+                <div class="small-3 columns">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                </div>
+                <div class="small-6 small-centered columns">
+                    <label for="password">Confirm Password:
+                        <input name="password" type="text" ng-model="confirmPassword" />
+                    </label>
+                </div>
+                <div class="small-3 columns">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-4 columns">
+                </div>
+                <div class="text-center small-4 small-centered columns">
+                    <div ng-click="signup()" class="button expand">
+                        Signup
+                    </div>
+                </div>
+                <div class="small-4 columns">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="small-6 columns">
+        <div class="row text-center">
+            <h3>Login</h3>
+        </div>
+        <form>
+            <div class="row">
+                <div class="small-3 columns">
+                </div>
+                <div class="small-6 small-centered columns">
+                    <label for="username">Username:</label>
+                    <input name="username" type="text" ng-model="user.username" />
+                </div>
+                <div class="small-3 columns">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                </div>
+                <div class="small-6 small-centered columns">
+                    <label for="password">Password:</label>
+                    <input name="password" type="text" ng-model="user.password" />
+                </div>
+                <div class="small-3 columns">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-4 columns">
+                </div>
+                <div class="text-center small-4 small-centered columns">
+                    <div ng-click="login()" class="button expand">
+                        Login
+                    </div>
+                </div>
+                <div class="small-4 columns">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-4 columns">
+                </div>
+                <div class="text-center small-4 small-centered columns">
+                    <div ng-click="accessUserData()" class="button expand">
+                        Data
+                    </div>
+                </div>
+                <div class="small-4 columns">
+                </div>
+            </div>
+        </form>
+        <p>Token: {{token}}</p>
+        <p>Email: {{userData.userEmail}}</p>
+        <p>SoundEnvironmentIDArray: {{userData.soundEnvironmentIDArray}}</p>
+    </div>
+</div>
+

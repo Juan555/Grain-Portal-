@@ -63,12 +63,13 @@ kaleServices.factory('SoundLogic', function() {
 
         },
 
-        playEnvironment: function(sounds, angles, volumes) {
+        playEnvironment: function(sounds, angles, volumes, offset) {
 
             var bufferLoader;
             var soundPathArray = sounds;
             var angleArray = angles;
             var volumeArray = typeof volumes !== 'undefined' ? volumes : [];
+            var offset = typeof volumes !== 'undefined' ? offset : 0;
 
             if ('AudioContext' in window) {
                 var context = new(window.AudioContext || window.webkitAudioContext)();
@@ -93,7 +94,7 @@ kaleServices.factory('SoundLogic', function() {
                     var panner = context.createPanner();
                     // panner.coneOuterGain = 0.1;
                     mult = 5;
-                    angle = angleArray[i];
+                    angle = angleArray[i] + offset;
                     if (angle < 0) {
                         angle += 360;
                     }
@@ -170,19 +171,141 @@ kaleServices.factory('SoundLogic', function() {
 
             }
 
-            // function loadSounds(obj, sounds, callback) {
-            //  var name = [];
-            //  var paths = [];
-            //  for (var sound in sounds) {
-            //      var path = sounds[name];
-            //  }
-            // }
+        },
 
-        }
+        playEnvironmentOffline: function(sounds, angles, volumes, offset) {
 
-        // musicFile: function() {
+                var bufferLoader;
+                var soundPathArray = sounds;
+                var angleArray = angles;
+                var volumeArray = typeof volumes !== 'undefined' ? volumes : [];
+                var offset = typeof volumes !== 'undefined' ? offset : 0;
 
-        // }
+                if ('AudioContext' in window) {
+                    // var context = new(window.AudioContext || window.webkitAudioContext)();
+                    var context = new OfflineAudioContext(2, 44100 * 5, 44100);
+
+                    console.log("AudioContext created");
+
+                    bufferLoader = new BufferLoader(context, soundPathArray, finishedLoading);
+                    bufferLoader.load();
+
+                }
+
+                function finishedLoading(bufferList) {
+                    var i;
+                    for (i = 0; i < bufferList.length; i++) {
+
+                        var source = context.createBufferSource();
+                        // var source = offlineCtx.createBufferSource();
+
+                        context.listener.setPosition(0, 0, 0);
+
+                        // source.loop = true;
+
+                        source.buffer = bufferList[i];
+
+                        var panner = context.createPanner();
+                        // panner.coneOuterGain = 0.1;
+                        mult = 5;
+                        angle = angleArray[i] + offset;
+                        if (angle < 0) {
+                            angle += 360;
+                        }
+                        angle = angle % 360;
+
+                        if (angle >= 0 && angle <= 45) {
+                            //angle to rad
+                            rad = angle * Math.PI / 180;
+                            //determine sound position in 
+                            x = Math.asin(rad);
+                            y = Math.acos(rad);
+                        } else if (angle > 45 && angle <= 90) {
+                            angle = 90 - angle
+                            rad = angle * Math.PI / 180;
+                            x = Math.acos(rad);
+                            y = Math.asin(rad);
+                        } else if (angle > 90 && angle <= 135) {
+                            angle = angle - 90;
+                            rad = angle * Math.PI / 180;
+                            x = Math.acos(rad);
+                            y = -Math.asin(rad);
+                        } else if (angle > 135 && angle <= 180) {
+                            angle = 180 - angle;
+                            rad = angle * Math.PI / 180;
+                            x = Math.asin(rad);
+                            y = -Math.acos(rad);
+                        } else if (angle > 180 && angle <= 225) {
+                            angle = angle - 180
+                            rad = angle * Math.PI / 180;
+                            x = -Math.asin(rad);
+                            y = -Math.acos(rad);
+                        } else if (angle > 225 && angle <= 270) {
+                            angle = 270 - angle;
+                            rad = angle * Math.PI / 180;
+                            x = -Math.acos(rad);
+                            y = -Math.asin(rad);
+                        } else if (angle > 270 && angle <= 315) {
+                            angle = angle - 270;
+                            rad = angle * Math.PI / 180;
+                            x = -Math.acos(rad);
+                            y = Math.asin(rad);
+                        } else if (angle > 315 && angle <= 360) {
+                            angle = 360 - angle;
+                            rad = angle * Math.PI / 180;
+                            x = -Math.asin(rad);
+                            y = Math.acos(rad);
+                        } else {
+                            console.log("Invalid angle");
+                            return;
+                        }
+
+                        console.log("x is " + x);
+                        console.log("y is " + y);
+
+                        x *= mult;
+                        y *= mult / 2;
+
+                        panner.setPosition(x, y, -0.5);
+
+                        source.connect(panner);
+                        var gainNode = context.createGain();
+                        if (volumeArray.length == 0) {
+                            gainNode.gain.value = 0.5;
+
+                        } else {
+                            gainNode.gain.value = volumes[i];
+                        }
+                        panner.connect(gainNode);
+                        gainNode.connect(context.destination);
+                        // gainNode.connect(offlineCtx.destination);
+
+
+                        source.start(0);
+                        console.log("source start");
+                        context.startRendering();
+                    }
+
+                }
+
+                context.oncomplete = function(e) {
+                    // alert("lol");
+                    var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                    context.suspend(6);
+                    var song = audioCtx.createBufferSource();
+                    song.buffer = e.renderedBuffer;
+
+                    song.connect(audioCtx.destination);
+
+                    song.start();
+
+
+                    console.log("completed!");
+
+
+                }
+
+            } //
 
     }
 });
@@ -329,10 +452,20 @@ kaleServices.factory('SoundFiles', function($http, $window) {
 
 kaleServices.factory('UserAuth', function($http, $window) {
     return {
-        getToken: function(userCredentials) {
+        //login requires username and password, returns token
+        login: function(userCredentials) {
             console.log("UserAuth Service Attempt getToken (JWT) POST");
             var baseUrl = $window.sessionStorage.baseurl;
             return $http.post(baseUrl + '/api/userauth', userCredentials);
+        },
+        //useToken does not require a token because magic fairy cookies
+        useToken: function() {
+            console.log("UserAuth Service Attempt userToken (JWT) GET");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http({
+                method: 'GET',
+                url: baseUrl + '/api/userauth'
+            });
         }
     }
 });
