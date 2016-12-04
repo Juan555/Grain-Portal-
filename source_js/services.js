@@ -63,12 +63,13 @@ kaleServices.factory('SoundLogic', function() {
 
         },
 
-        playEnvironment: function(sounds, angles, volumes) {
+        playEnvironment: function(sounds, angles, volumes, offset) {
 
             var bufferLoader;
             var soundPathArray = sounds;
             var angleArray = angles;
             var volumeArray = typeof volumes !== 'undefined' ? volumes : [];
+            var offset = typeof volumes !== 'undefined' ? offset : 0;
 
             if ('AudioContext' in window) {
                 var context = new(window.AudioContext || window.webkitAudioContext)();
@@ -93,7 +94,7 @@ kaleServices.factory('SoundLogic', function() {
                     var panner = context.createPanner();
                     // panner.coneOuterGain = 0.1;
                     mult = 5;
-                    angle = angleArray[i];
+                    angle = angleArray[i] + offset;
                     if (angle < 0) {
                         angle += 360;
                     }

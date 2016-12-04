@@ -30,8 +30,11 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         //optional, volumes has default values of 0.5 for sounds
         volumes = [0.1, 1];
 
-        //sound, type string array, an array of file paths to sounds
-        //angle, type number array, an array of angles
+        //optional, offset has default value of 0 degrees
+        offset = 0;
+
+        //sound => type string array, an array of file paths to sounds
+        //angle => type number array, an array of angles
         //The ith sound in sounds corresponds to the ith angle in angles and the ith volume in volumes
 
         SoundLogic.playEnvironment(sounds, angles);
