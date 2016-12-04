@@ -69,7 +69,7 @@ kaleServices.factory('SoundLogic', function($window) {
             var soundPathArray = sounds;
             var angleArray = angles;
             var volumeArray = typeof volumes !== 'undefined' ? volumes : [];
-            var offset = typeof volumes !== 'undefined' ? offset : 0;
+            var offset = typeof offset !== 'undefined' ? offset : 0;
 
             if ('AudioContext' in window) {
                 var context = new(window.AudioContext || window.webkitAudioContext)();
@@ -142,7 +142,7 @@ kaleServices.factory('SoundLogic', function($window) {
                         x = -Math.asin(rad);
                         y = Math.acos(rad);
                     } else {
-                        console.log("Invalid angle");
+                        console.log("Invalid angle 1: " + angle);
                         return;
                     }
 
@@ -160,7 +160,7 @@ kaleServices.factory('SoundLogic', function($window) {
                         gainNode.gain.value = 0.5;
 
                     } else {
-                        gainNode.gain.value = volumes[i];
+                        gainNode.gain.value = volumeArray[i];
                     }
                     panner.connect(gainNode);
                     gainNode.connect(context.destination);
@@ -179,7 +179,7 @@ kaleServices.factory('SoundLogic', function($window) {
             var soundPathArray = sounds;
             var angleArray = angles;
             var volumeArray = typeof volumes !== 'undefined' ? volumes : [];
-            var offset = typeof volumes !== 'undefined' ? offset : 0;
+            var offset = typeof offset !== 'undefined' ? offset : 0;
 
             if ('AudioContext' in window) {
                 // var context = new(window.AudioContext || window.webkitAudioContext)();
@@ -256,7 +256,7 @@ kaleServices.factory('SoundLogic', function($window) {
                         x = -Math.asin(rad);
                         y = Math.acos(rad);
                     } else {
-                        console.log("Invalid angle");
+                        console.log("Invalid angle: " + angle);
                         return;
                     }
 
@@ -457,7 +457,7 @@ kaleServices.factory('SoundLogic', function($window) {
 
 
 
-                        console.log("completed!");
+                        console.log("Buffer-to-file completed!");
                     });
                 }
 

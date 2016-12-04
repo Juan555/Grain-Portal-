@@ -31,7 +31,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         angles = [-90, 90, 45];
 
         //optional, volumes has default values of 0.5 for sounds
-        volumes = [0.1, 0.1, 1];
+        volumes = [0.8, 0.8, 1];
 
         //optional, offset has default value of 0 degrees
         offset = 0;
@@ -40,7 +40,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         //angle => type number array, an array of angles
         //The ith sound in sounds corresponds to the ith angle in angles and the ith volume in volumes
 
-        SoundLogic.playEnvironment(sounds, angles);
+        SoundLogic.playEnvironment(sounds, angles, volumes);
         //or
         //soundLogic.start(sounds, angles, volumes);
 
