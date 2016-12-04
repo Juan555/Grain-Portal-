@@ -30,6 +30,10 @@ app.config(['$routeProvider', function($routeProvider) {
         templateUrl:'partials/edit.html',
         controller: 'EditViewController'
     }).
+    when('/view', {
+        templateUrl:'partials/view.html',
+        controller: 'EditViewController'
+    }).
     otherwise({
         redirectTo: '/'
     });

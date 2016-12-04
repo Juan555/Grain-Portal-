@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Kaleidoscope</title>
-    <link rel="shortcut icon" type="image/png" href="./media/favicon-32x32.png" />
+    <link rel="shortcut icon" type="image/png" href="./media/favicon-32x32.png">
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./css/styles.css">
     <!-- <link rel="stylesheet" type="text/css" href="./jquery.panorama.css" media="screen" /> -->
@@ -37,7 +37,7 @@
     <!-- <script type="text/javascript" src="./panorama/jquery.fancybox-1.3.1.pack.js"></script> -->
     <script src="./lib/foundation-sites/dist/foundation.min.js"></script>
     <script src="./lib/foundation-sites/dist/plugins/foundation.core.js"></script>
-    <script src="./lib/foundation-sites/dist/plugins/foundation.abide.js"></script>    
+    <script src="./lib/foundation-sites/dist/plugins/foundation.abide.js"></script>
     <script src="./buffer-loader.js"></script>
     <script src="jquery.pano.js"></script>
     <script src="./js/script.js"></script>
@@ -63,9 +63,27 @@
             <a class="right">&raquo;</a>
         </div>
     </div>
-
-
-
+    <div ng-view></div>
+    <div id="myPano" class="pano">
+        <nav ng-controller="NavController" data-ng-init="open('partials/intro.html')">
+            <div class="row">
+                <div class="small-4 medium-3 large-2 columns">
+                    <img src="./media/logo.png" alt="Kaleidoscope Logo"></img>
+                </div>
+                <div class="small-4 medium-4 columns" style="float:right">
+                    <a class="button" ng-click="open('partials/login.html')">Login</a>
+                    <a class="button" ng-click="open('partials/sign-up.html')">Sign Up</a>
+                    <a class="button" ng-href="#/edit">Edit Mode</a>
+                    <a class="button" ng-href="#/view">View Mode</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="controls">
+        <a class="left">&laquo;</a>
+        <a class="right">&raquo;</a>
+    </div>
+    </div>
     <script>
     $(document).foundation();
     </script>

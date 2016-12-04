@@ -1,12 +1,3 @@
-
-
-
-<!--<div ng-include="'partials/intro.html'"></div>-->
-<!--<div ng-include="'partials/sign-up.html'"></div>-->
-<!--<div ng-include="'partials/login.html'"></div>-->
-
-
-
     <div id="icon-toolbar" data-drop="true" jqyoui-droppable>
       <div class="row">
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable data-jqyoui-options>
@@ -16,7 +7,7 @@
          </div>
         </div>
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable data-jqyoui-options>
-          <div ng-model="birdIcon" class="icon-wrapper" data-drag="true" ng-hide="birdIcon==false" jqyoui-draggable data-jqyoui-options="{helper: 'clone'}">
+          <div ng-model="birdIcon" class="icon-wrapper" data-drag="true" ng-hide="birdIcon==false" jqyoui-draggable data-jqyoui-options>
             <img src="./media/Icons/Bird.png" aria-hidden="true">
             <i ng-click="birdIcon=false" class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
           </div>
@@ -35,19 +26,3 @@
         </div>
     </div>
 </div>
-
-<script>
-/*app.directive('panoramaDirective', function(){
-  return{
-    restrict: 'A',
-    link: function(scope, element, attrs){
-      angular.element(window).load(function(){
-        element.pano({
-          img: "../media/background_small.jpg"
-      });
-    });
-    }
-  };
-});*/
-
-</script>
