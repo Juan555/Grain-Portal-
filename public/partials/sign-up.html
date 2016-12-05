@@ -2,18 +2,18 @@
     <div class="row">
         <div class="small-12 columns">
             <h2>Sign Up</h2>
-            <form>
+            <form data-abide novalidate>
                 <label>Email</label>
-                <input type="text" ng-model="newuser.email"></input>
+                <input type="email" required ng-model="newuser.email"></input>
                 <label>Username</label>
-                <input type="text" ng-model="newuser.username"></input>
+                <input type="text" required ng-model="newuser.username"></input>
                 <label>Password</label>
-                <input type="password" ng-model="newuser.password"></input>
+                <input type="password" required ng-model="newuser.password"></input>
                 <label>Confirm Password</label>
-                <input type="password" ng-model="confirmpassword"></input>
-                <input ng-click="signup()" class="button" type="submit"></input>
+                <input type="password" required ng-model="confirmpassword"></input>
+                <input ng-click="signup()" class="button-submit" type="submit"></input>
             </form>
-            <button ng-click="cancel()" class="close-button" aria-label="Close reveal" type="button">
+            <a ng-click="cancel()" class="close-button" aria-label="Close reveal" type="button">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>

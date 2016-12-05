@@ -42,6 +42,12 @@ app.config(['$routeProvider', function($routeProvider) {
 
 }]);
 
+app.run(function($rootScope) {
+    $rootScope.$on('$viewContentLoaded', function () {
+        $(document).foundation();
+    });
+});
+
 /*
 app.directive('panoramaDirective', function(){
   return{
