@@ -7,14 +7,26 @@
     }
 }
 
+
 /* Panaroma plugin styling */
+
+
 /* Start */
 
 html,
 body {
     height: 100%;
-		width: 100%;
-		overflow: hidden;
+    width: 100%;
+    overflow: hidden;
+}
+
+.nodrag {
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .pano {
@@ -52,7 +64,6 @@ body {
     color: #eee;
 }
 
-
 #test {
     background: lightgrey;
     padding: 5px;
@@ -66,34 +77,35 @@ body {
     right: 0px;
     top: 0px;
     cursor: pointer;
-		color: white;
-		z-index: 2;
+    color: white;
+    z-index: 2;
 }
-.icon-close-button:hover{
-  color: black;
+
+.icon-close-button:hover {
+    color: black;
 }
 
 .sound-icon {
-	z-index: 2;
-	position: absolute !important;
+    z-index: 2;
+    position: absolute !important;
 }
 
 div {
-  padding: auto;
+    padding: auto;
 }
 
 #icon-toolbar {
-	z-index: 1;
-	bottom: 0;
-	position: fixed;
-	width: 100%;
-	background-color: rgba(200,200,200,0.5);
-	display: block;
-	margin: 0px;
-	padding: 15px;
+    z-index: 1;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    background-color: rgba(200, 200, 200, 0.5);
+    display: block;
+    margin: 0px;
+    padding: 15px;
 }
 
 .icon-wrapper {
-	position: relative !important;
-	color: white;
+    position: relative !important;
+    color: white;
 }
