@@ -6,7 +6,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     /*
      *   Greg's To-Do List
      *   1. Save environment as audio file (Done)
-     *   2. Backend + Proper login system that doesn't store passwords in plaintext (Done - polish)
+     *   2. Backend + Proper login system that doesn't store passwords in plaintext (Done)
      *   3. Deployment (April's VM)
      *   4. Signup and Login modal content (Basic implementation)
      *   5. Enhance soundLogic to dynamically apply pano offset from original position
@@ -15,7 +15,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
      *   Fun Facts
      *   Passwords hashed and salted with bcrypt
      *   JWTs signed with SHA-512
-     *   Signed cookies
+     *   HTTP-only signed cookies
      */
 
     //Example of how to call SoundLogic
@@ -55,6 +55,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         SoundLogic.playSingleSoundNoAngle(sound);
     }
 
+    // On function call downloads given environment as WAV file, volumes optional as usual
     $scope.downloadEnvironmentAsWAV = function() {
         sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
             '../media/birdschirping1.wav'
@@ -244,7 +245,12 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     //     // });
     // });
 
-
+    $scope.slider = {
+        value: 10,
+        options: {
+            showSelectionBar: true
+        }
+    };
 
 }]);
 
@@ -290,10 +296,10 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 kaleControllers.controller('EditViewController', ['$scope', '$window', function($scope, $window) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
-    $scope.birdIcon=$scope.windIcon=$scope.thunderIcon=$scope.pawIcon = {};
-    $scope.birdIcon["position"]=$scope.windIcon["position"]=$scope.thunderIcon["position"]=$scope.pawIcon["position"] = null;
+    $scope.birdIcon = $scope.windIcon = $scope.thunderIcon = $scope.pawIcon = {};
+    $scope.birdIcon["position"] = $scope.windIcon["position"] = $scope.thunderIcon["position"] = $scope.pawIcon["position"] = null;
 
-    $scope.getPosition = function(icon){
+    $scope.getPosition = function(icon) {
         //icon.position = 10;
         console.log(icon + icon.position);
     }

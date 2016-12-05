@@ -6,15 +6,11 @@ var config = require('../config/secrets');
 var JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
 
-// And then:
 
 module.exports = function(passport) {
 
     var opts = {};
     opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
-
-    // Otherwise it will not run!
-
     opts.secretOrKey = config.secret;
 
     passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
