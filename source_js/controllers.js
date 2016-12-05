@@ -285,20 +285,17 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 }]);
 
 
-kaleControllers.controller('EditViewController', ['$scope', 'CommonData', '$window', function($scope, CommonData, $window) {
+kaleControllers.controller('EditViewController', ['$scope', '$window', function($scope, $window) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
-    $scope.data = "";
+    $scope.getPosition = function(){
 
-    $scope.getData = function() {
-        $scope.data = CommonData.getData();
-
-    };
+    }
 
 
 }]);
 
-kaleControllers.controller('NavController', ['$scope', 'CommonData', '$window', '$modal', function($scope, CommonData, $window, $modal) {
+kaleControllers.controller('NavController', ['$scope', '$window', '$modal', function($scope, $window, $modal) {
 
     $scope.open =  function open(link) {
         var params = {
@@ -333,11 +330,6 @@ kaleControllers.controller('NavController', ['$scope', 'CommonData', '$window', 
         }, function() {
             //$log.info('Modal dismissed at: ' + new Date());
         });
-    };
-
-    $scope.getData = function() {
-        $scope.data = CommonData.getData();
-
     };
 
 }]);
