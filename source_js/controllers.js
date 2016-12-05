@@ -293,9 +293,9 @@ kaleControllers.controller('EditViewController', ['$scope', '$window', function(
     $scope.birdIcon=$scope.windIcon=$scope.thunderIcon=$scope.pawIcon = {};
     $scope.birdIcon["position"]=$scope.windIcon["position"]=$scope.thunderIcon["position"]=$scope.pawIcon["position"] = null;
 
-    $scope.getPosition = function(icon){
-        //icon.position = 10;
-        console.log(icon + icon.position);
+    $scope.getPosition = function(element){
+        element.position = 10;
+        console.log(element.position);
     }
 
 

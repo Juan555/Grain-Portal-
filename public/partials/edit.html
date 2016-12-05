@@ -1,7 +1,7 @@
     <div id="icon-toolbar" data-drop="true" jqyoui-droppable>
       <div class="row">
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable >
-          <div ng-model="thunderIcon" class="icon-wrapper" data-drag="true" ng-hide="thunderIcon==false" jqyoui-draggable="{onStart: getPosition('#thunderIcon'), placeholder: 'keep'}">
+          <div ng-model="thunderIcon" class="icon-wrapper" data-drag="true" ng-hide="thunderIcon==false" jqyoui-draggable="{onStart: getPosition($event)}">
             <img src="./media/Icons/Thunder.png" aria-hidden="true">
             <i ng-click="thunderIcon=false" ng-hide="thunderIcon.position==null" class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
            </div>
