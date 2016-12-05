@@ -289,8 +289,12 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 kaleControllers.controller('EditViewController', ['$scope', '$window', function($scope, $window) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
-    $scope.getPosition = function(){
+    $scope.birdIcon=$scope.windIcon=$scope.thunderIcon=$scope.pawIcon = {};
+    $scope.birdIcon["position"]=$scope.windIcon["position"]=$scope.thunderIcon["position"]=$scope.pawIcon["position"] = null;
 
+    $scope.getPosition = function(icon){
+        //icon.position = 10;
+        console.log(icon + icon.position);
     }
 
 
