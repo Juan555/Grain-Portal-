@@ -184,12 +184,13 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
     $scope.signup = function() {
 
-        if (username.length == 0) {
-
+        if ($scope.newuser.username.length == 0 || $scope.newuser.email.length == 0 || $scope.confirmpassword != $scope.newuser.password) {
+            return;
         }
 
-        Users.newUser(newuser).success(function(data) {
+        Users.newUser($scope.newuser).success(function(data) {
             console.log("New User created");
+            console.log(data);
         }).error(function(error) {
             $scope.status = "soundTest Users Signup error: " + error.message;
             console.log($scope.status);
@@ -249,11 +250,11 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 kaleControllers.controller('MainPageController', ['$scope', '$window', function($scope, $window) {
 
 
-        $scope.hello = function(){
-             console.log("1");
+    $scope.hello = function() {
+        console.log("1");
 
 
-        }
+    }
 
 
 }]);
@@ -300,7 +301,7 @@ kaleControllers.controller('EditViewController', ['$scope', 'CommonData', '$wind
 
 kaleControllers.controller('NavController', ['$scope', 'CommonData', '$window', '$modal', function($scope, CommonData, $window, $modal) {
 
-    $scope.open =  function open(link) {
+    $scope.open = function open(link) {
         var params = {
             templateUrl: link,
             resolve: {
@@ -370,5 +371,71 @@ kaleControllers.controller('SettingsController', ['$scope', '$window', function(
         $scope.displayText = "URL set";
 
     };
+
+}]);
+
+kaleControllers.controller('LoginController', ['$scope', '$window', 'UserAuth', function($scope, $window, UserAuth) {
+
+    $scope.accessUserData = function() {
+        UserAuth.useToken().success(function(data) {
+            $scope.userData = data;
+            alert("Welcome " + data.username + " (" + data.email + ")");
+        }).error(function(error) {
+            $scope.status = "soundTest UserAuth userToken error: " + error;
+            console.log($scope.status);
+        });
+    }
+
+    $scope.accessUserData();
+
+    $scope.user = {
+        username: '',
+        password: ''
+    };
+
+    $scope.userData = '';
+
+    $scope.login = function() {
+        // console.log($scope.user.username);
+        // console.log($scope.user.password);
+        UserAuth.login($scope.user).success(function(data) {
+            $scope.token = data.token;
+            console.log("UserAuth login success");
+            console.log("Token: " + $scope.token);
+            $scope.accessUserData();
+        }).error(function(error) {
+            $scope.status = "soundTest UserAuth login error: " + error.message;
+            console.log($scope.status);
+        });
+
+
+    }
+
+}]);
+
+kaleControllers.controller('SignupController', ['$scope', '$window', 'UserAuth', 'Users', function($scope, $window, UserAuth, Users) {
+
+    $scope.newuser = {
+        username: '',
+        email: '',
+        password: ''
+    }
+
+    $scope.confirmpassword = '';
+
+    $scope.signup = function() {
+
+        if ($scope.newuser.username.length == 0 || $scope.newuser.email.length == 0 || $scope.confirmpassword != $scope.newuser.password) {
+            return;
+        }
+
+        Users.newUser($scope.newuser).success(function(data) {
+            console.log("New User created");
+            console.log(data);
+        }).error(function(error) {
+            $scope.status = "soundTest Users Signup error: " + error.message;
+            console.log($scope.status);
+        });
+    }
 
 }]);
