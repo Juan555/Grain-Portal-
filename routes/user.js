@@ -440,8 +440,9 @@ module.exports = function(router) {
                     result.success = true;
                     result.message = 'Welcome to the member area ' + user.username + '!';
                     // result.data = user;
-                    result.userID = user._id;
-                    result.userEmail = user.email;
+                    result._id = user._id;
+                    result.username = user.username;
+                    result.email = user.email;
                     result.soundEnvironmentIDArray = user.soundEnvironmentIDArray;
                     res.json(result);
                     return;
