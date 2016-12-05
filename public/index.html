@@ -52,27 +52,34 @@
     </div> -->
     <!--     <img src="media/background.jpg" class="advancedpanorama" width="6000" height="700" usemap="testmap" alt="forest image" /> -->
 
-    <div ng-view></div>
-    <div id="myPano" class="pano">
-        <nav ng-controller="NavController" data-ng-init="open('partials/intro.html')">
-            <div class="row">
-                <div class="small-4 medium-3 large-2 columns">
-                    <img src="./media/logo.png" alt="Kaleidoscope Logo"></img>
-                </div>
-                <div class="small-4 medium-4 columns" style="float:right">
-                    <a class="button" ng-click="open('partials/login.html')">Login</a>
-                    <a class="button" ng-click="open('partials/sign-up.html')">Sign Up</a>
-                    <a class="button" ng-href="#/edit">Edit Mode</a>
-                    <a class="button" ng-href="#/view">View Mode</a>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <div class="controls">
-        <a class="left">&laquo;</a>
-        <a class="right">&raquo;</a>
-    </div>
-    </div>
+
+
+<div ng-view></div>
+
+   <div id="myPano" class="pano">
+
+     <div class="controls">
+         <a class="left">&laquo;</a>
+         <a class="right">&raquo;</a>
+     </div>
+
+           <nav ng-controller="NavController" data-ng-init="open('partials/intro.html')">
+             <div class="row">
+               <div class="small-4 medium-3 large-2 columns">
+                 <img src="./media/logo.png" alt="Kaleidoscope Logo"></img>
+               </div>
+               <div class="small-4 medium-4 columns" style="float:right">
+                 <a class="button" ng-click="open('partials/login.html')">Login</a>
+                 <a class="button" ng-click="open('partials/sign-up.html')">Sign Up</a>
+                 <a class="button" ng-href="#/edit">Edit Mode</a>
+                 <a class="button" ng-href="#/view">View Mode</a>
+               </div>
+           </div>
+           </nav>
+
+
+   </div>
+
     <script>
     $(document).foundation();
     </script>
