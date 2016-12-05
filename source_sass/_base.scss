@@ -14,6 +14,8 @@ html,
 body {
     height: 100%;
     font-family: 'Open Sans', sans-serif;
+		width: 100%;
+		overflow: hidden;
 }
 
 .pano {
@@ -51,4 +53,48 @@ body {
     color: #eee;
 }
 
-/* End */
+
+#test {
+    background: lightgrey;
+    padding: 5px;
+    position: absolute;
+    padding-top: 20px;
+    top: 100px;
+}
+
+.icon-close-button {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    cursor: pointer;
+		color: white;
+		z-index: 2;
+}
+.icon-close-button:hover{
+  color: black;
+}
+
+.sound-icon {
+	z-index: 2;
+	position: absolute !important;
+}
+
+div {
+  padding: auto;
+}
+
+#icon-toolbar {
+	z-index: 1;
+	bottom: 0;
+	position: fixed;
+	width: 100%;
+	background-color: rgba(200,200,200,0.5);
+	display: block;
+	margin: 0px;
+	padding: 15px;
+}
+
+.icon-wrapper {
+	position: relative !important;
+	color: white;
+}

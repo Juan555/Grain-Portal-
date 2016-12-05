@@ -1,7 +1,7 @@
 var main = function() {
 
         $("#myPano").pano({
-            img: "../media/background_small.jpg"
+            img: "../../media/background_small.jpg"
         });
 
 
