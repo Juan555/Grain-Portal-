@@ -1,7 +1,7 @@
 <div ng-controller="SignupController">
     <div class="row">
         <div class="small-12 columns">
-            <h2>Sign Up</h2>
+            <h2 id="signup">Sign Up</h2>
             <form>
                 <label>Email</label>
                 <input type="text" ng-model="newuser.email"></input>
@@ -11,7 +11,7 @@
                 <input type="password" ng-model="newuser.password"></input>
                 <label>Confirm Password</label>
                 <input type="password" ng-model="confirmpassword"></input>
-                <input ng-click="signup()" class="button" type="submit"></input>
+                <input ng-click="signup()" class="button-submit" type="submit"></input>
             </form>
             <button ng-click="cancel()" class="close-button" aria-label="Close reveal" type="button">
                 <span aria-hidden="true">&times;</span>
