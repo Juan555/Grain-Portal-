@@ -5,10 +5,11 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
     /*
      *   Greg's To-Do List
-     *   1. Save environment as audio file
-     *   2. Proper login system that doesn't store passwords in plaintext (Done)
-     *   3. Deployment
-     *   4. Signup and Login modal content
+     *   1. Save environment as audio file (Done)
+     *   2. Backend + Proper login system that doesn't store passwords in plaintext (Done - polish)
+     *   3. Deployment (April's VM)
+     *   4. Signup and Login modal content (Basic implementation)
+     *   5. Enhance soundLogic to dynamically apply pano offset from original position
      *
      *
      *   Fun Facts
@@ -54,13 +55,13 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         SoundLogic.playSingleSoundNoAngle(sound);
     }
 
-    $scope.playEnvironmentOffline = function() {
+    $scope.downloadEnvironmentAsWAV = function() {
         sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
             '../media/birdschirping1.wav'
         ];
         angles = [-90, 90];
         volumes = [0.1, 1];
-        SoundLogic.playEnvironmentOffline(sounds, angles);
+        SoundLogic.downloadEnvironmentAsWAV(sounds, angles);
     }
 
 

@@ -103,7 +103,7 @@ kaleServices.factory('SoundLogic', function($window) {
                     if (angle >= 0 && angle <= 45) {
                         //angle to rad
                         rad = angle * Math.PI / 180;
-                        //determine sound position in 
+                        //determine sound position 
                         x = Math.asin(rad);
                         y = Math.acos(rad);
                     } else if (angle > 45 && angle <= 90) {
@@ -173,7 +173,7 @@ kaleServices.factory('SoundLogic', function($window) {
 
         },
 
-        playEnvironmentOffline: function(sounds, angles, volumes, offset) {
+        downloadEnvironmentAsWAV: function(sounds, angles, volumes, offset) {
 
             var bufferLoader;
             var soundPathArray = sounds;
@@ -292,8 +292,6 @@ kaleServices.factory('SoundLogic', function($window) {
                         song.buffer = buffer;
 
                         song.connect(audioCtx.destination);
-
-                        // sessionStorage.setItem('audioBuffer', song.buffer);
 
                         // song.start();
 
@@ -450,12 +448,7 @@ kaleServices.factory('SoundLogic', function($window) {
                             }, { "audiobuffer-to-wav": 1 }]
                         }, {}, [2]);
 
-
-
                         // END CODE
-
-
-
 
                         console.log("Buffer-to-file completed!");
                     });
