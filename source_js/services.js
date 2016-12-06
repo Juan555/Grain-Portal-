@@ -25,7 +25,7 @@ kaleServices.factory('SoundLogic', function($window) {
     return {
 
         playSingleSoundNoAngle: function(sound, time) {
-
+            fx();
             var bufferLoader;
             var soundPath = sound;
             var volumeNum = typeof volume !== 'undefined' ? volume : 0.5;
@@ -99,64 +99,11 @@ kaleServices.factory('SoundLogic', function($window) {
 
                     var panner = context.createPanner();
                     // panner.coneOuterGain = 0.1;
-                    mult = 5;
-                    angle = angleArray[i] + offset;
-                    if (angle < 0) {
-                        angle += 360;
-                    }
-                    angle = angle % 360;
 
-                    if (angle >= 0 && angle <= 45) {
-                        //angle to rad
-                        rad = angle * Math.PI / 180;
-                        //determine sound position 
-                        x = Math.asin(rad);
-                        y = Math.acos(rad);
-                    } else if (angle > 45 && angle <= 90) {
-                        angle = 90 - angle
-                        rad = angle * Math.PI / 180;
-                        x = Math.acos(rad);
-                        y = Math.asin(rad);
-                    } else if (angle > 90 && angle <= 135) {
-                        angle = angle - 90;
-                        rad = angle * Math.PI / 180;
-                        x = Math.acos(rad);
-                        y = -Math.asin(rad);
-                    } else if (angle > 135 && angle <= 180) {
-                        angle = 180 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = Math.asin(rad);
-                        y = -Math.acos(rad);
-                    } else if (angle > 180 && angle <= 225) {
-                        angle = angle - 180
-                        rad = angle * Math.PI / 180;
-                        x = -Math.asin(rad);
-                        y = -Math.acos(rad);
-                    } else if (angle > 225 && angle <= 270) {
-                        angle = 270 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.acos(rad);
-                        y = -Math.asin(rad);
-                    } else if (angle > 270 && angle <= 315) {
-                        angle = angle - 270;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.acos(rad);
-                        y = Math.asin(rad);
-                    } else if (angle > 315 && angle <= 360) {
-                        angle = 360 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.asin(rad);
-                        y = Math.acos(rad);
-                    } else {
-                        console.log("Invalid angle 1: " + angle);
-                        return;
-                    }
+                    coords = coordCalc(angleArray[i], offset);
 
-                    console.log("x is " + x);
-                    console.log("y is " + y);
-
-                    x *= mult;
-                    y *= mult / 2;
+                    var x = coords.x;
+                    var y = coords.y;
 
                     panner.setPosition(x, y, -0.5);
 
@@ -229,64 +176,11 @@ kaleServices.factory('SoundLogic', function($window) {
 
                     var panner = context.createPanner();
                     // panner.coneOuterGain = 0.1;
-                    mult = 5;
-                    angle = angleArray[i] + offset;
-                    if (angle < 0) {
-                        angle += 360;
-                    }
-                    angle = angle % 360;
 
-                    if (angle >= 0 && angle <= 45) {
-                        //angle to rad
-                        rad = angle * Math.PI / 180;
-                        //determine sound position in 
-                        x = Math.asin(rad);
-                        y = Math.acos(rad);
-                    } else if (angle > 45 && angle <= 90) {
-                        angle = 90 - angle
-                        rad = angle * Math.PI / 180;
-                        x = Math.acos(rad);
-                        y = Math.asin(rad);
-                    } else if (angle > 90 && angle <= 135) {
-                        angle = angle - 90;
-                        rad = angle * Math.PI / 180;
-                        x = Math.acos(rad);
-                        y = -Math.asin(rad);
-                    } else if (angle > 135 && angle <= 180) {
-                        angle = 180 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = Math.asin(rad);
-                        y = -Math.acos(rad);
-                    } else if (angle > 180 && angle <= 225) {
-                        angle = angle - 180
-                        rad = angle * Math.PI / 180;
-                        x = -Math.asin(rad);
-                        y = -Math.acos(rad);
-                    } else if (angle > 225 && angle <= 270) {
-                        angle = 270 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.acos(rad);
-                        y = -Math.asin(rad);
-                    } else if (angle > 270 && angle <= 315) {
-                        angle = angle - 270;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.acos(rad);
-                        y = Math.asin(rad);
-                    } else if (angle > 315 && angle <= 360) {
-                        angle = 360 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.asin(rad);
-                        y = Math.acos(rad);
-                    } else {
-                        console.log("Invalid angle: " + angle);
-                        return;
-                    }
+                    coords = coordCalc(angleArray[i], offset);
 
-                    console.log("x is " + x);
-                    console.log("y is " + y);
-
-                    x *= mult;
-                    y *= mult / 2;
+                    var x = coords.x;
+                    var y = coords.y;
 
                     panner.setPosition(x, y, -0.5);
 
@@ -308,7 +202,6 @@ kaleServices.factory('SoundLogic', function($window) {
                     context.startRendering().then(function(buffer) {
                         // buffer contains the output buffer
                         var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                        // context.suspend(6);
                         var song = audioCtx.createBufferSource();
                         // song.buffer = e.renderedBuffer;
                         song.buffer = buffer;
@@ -478,27 +371,6 @@ kaleServices.factory('SoundLogic', function($window) {
 
             }
 
-            // context.oncomplete = function(e) {
-            //     // alert("lol");
-            //     var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-            //     // context.suspend(6);
-            //     var song = audioCtx.createBufferSource();
-            //     song.buffer = e.renderedBuffer;
-
-            //     song.connect(audioCtx.destination);
-
-            //     $('#testbutton4').click(function() {
-            //         song.start();
-            //     });
-
-
-            //     console.log("completed!");
-
-            //     // abfunction();
-
-
-            // }
-
         }
 
     }
@@ -663,3 +535,77 @@ kaleServices.factory('UserAuth', function($http, $window) {
         }
     }
 });
+
+var fx = function() {
+    console.log('aloha');
+}
+
+var coordCalc = function(angleInput, offset) {
+    console.log("Coordinate calculation start");
+
+    mult = 5;
+    angle = angleInput + offset;
+    if (angle < 0) {
+        angle += 360;
+    }
+    angle = angle % 360;
+
+    if (angle >= 0 && angle <= 45) {
+        //angle to rad
+        rad = angle * Math.PI / 180;
+        //determine sound position 
+        x = Math.asin(rad);
+        y = Math.acos(rad);
+    } else if (angle > 45 && angle <= 90) {
+        angle = 90 - angle
+        rad = angle * Math.PI / 180;
+        x = Math.acos(rad);
+        y = Math.asin(rad);
+    } else if (angle > 90 && angle <= 135) {
+        angle = angle - 90;
+        rad = angle * Math.PI / 180;
+        x = Math.acos(rad);
+        y = -Math.asin(rad);
+    } else if (angle > 135 && angle <= 180) {
+        angle = 180 - angle;
+        rad = angle * Math.PI / 180;
+        x = Math.asin(rad);
+        y = -Math.acos(rad);
+    } else if (angle > 180 && angle <= 225) {
+        angle = angle - 180
+        rad = angle * Math.PI / 180;
+        x = -Math.asin(rad);
+        y = -Math.acos(rad);
+    } else if (angle > 225 && angle <= 270) {
+        angle = 270 - angle;
+        rad = angle * Math.PI / 180;
+        x = -Math.acos(rad);
+        y = -Math.asin(rad);
+    } else if (angle > 270 && angle <= 315) {
+        angle = angle - 270;
+        rad = angle * Math.PI / 180;
+        x = -Math.acos(rad);
+        y = Math.asin(rad);
+    } else if (angle > 315 && angle <= 360) {
+        angle = 360 - angle;
+        rad = angle * Math.PI / 180;
+        x = -Math.asin(rad);
+        y = Math.acos(rad);
+    } else {
+        console.log("Invalid angle 1: " + angle);
+        return;
+    }
+
+    console.log("x is " + x);
+    console.log("y is " + y);
+
+    x *= mult;
+    y *= mult / 2;
+
+    var coord = {
+        x: x,
+        y: y
+    }
+
+    return coord
+}
