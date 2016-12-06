@@ -301,17 +301,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
 kaleControllers.controller('MainPageController', ['$scope', '$window', function($scope, $window) {
 
-    $("#myPano").pano({
-        img: "../media/background_small.jpg"
-    })
-    .click(function(){
-        var x=localStorage.getItem("position_diff");
-             console.log(x);
-    });
-  console.log("12");
-        $scope.hello = function(){
-             var x=localStorage.getItem("position_diff");
-             console.log(x)};
+
 
 
 
@@ -345,6 +335,91 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 
 
 kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'SoundFiles', 'SoundObjects', '$window', function($scope, SoundLogic, SoundFiles, SoundObjects, $window) {
+
+
+    $scope.playEnvironment = function() {
+
+        //required
+        //Paths are to files in /public/media
+        sounds = [
+            '../media/DubstepDrumLoop(140bpm).mp3',
+            // '../media/EDMloop95BPM.wav',
+            '../media/birdschirping1.wav'
+        ];
+
+        //required
+        // angles = [-90, 90, 45];
+        angles = [90, -90];
+
+        //optional, volumes has default values of 0.5 for sounds
+        // volumes = [0.8, 0.8, 1];
+        volumes = [1, 1];
+
+        //optional, offset has default value of 0 degrees
+        offset = 0;
+
+        //sound => type string array, an array of file paths to sounds
+        //angle => type number array, an array of angles
+        //The ith sound in sounds corresponds to the ith angle in angles and the ith volume in volumes
+
+        SoundLogic.playEnvironment(sounds, angles, volumes);
+        //or
+        //soundLogic.start(sounds, angles, volumes);
+
+    }
+
+
+                        $scope.playEnvironment();
+                        
+
+ 
+
+
+//     stopPropagation('#myPano', 'mousedown');
+// stopPropagation('#myPano', 'mouseup');
+
+// function stopPropagation(id, event) {
+//     $(id).on(event, function(e) {
+//         e.stopPropagation();
+//         return false;
+//     });
+// }
+$scope.myVar = -1;
+// $('#myPano').on('click', function(e){
+//     e.stopPropagation();
+//     $scope.myVar = setInterval(function(){ 
+//     var x=localStorage.getItem("position_diff");
+//            console.log(x);
+//      }, 1000);
+//     return false;
+// });
+// $('#myPano').on('mousedown', function(e){
+//     if ($scope.myVar == -1){
+//         $scope.myVar = setInterval(function(){ 
+//         var x=localStorage.getItem("position_diff");
+//        console.log(x);
+//      }, 1000);
+//     }
+    
+    
+// });
+// $('#myPano').on('mouseup', function(e){
+//     if ($scope.myVar != -1){
+//         clearInterval($scope.myVar);
+//         $scope.myVar = -1;
+//         console.log("1");
+//     }
+
+// });
+
+
+
+
+  console.log("12");
+        $scope.hello = function(){
+             var x=localStorage.getItem("position_diff");
+             console.log(x)};
+
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
     $scope.birdIcon = $scope.windIcon = $scope.thunderIcon = $scope.pawIcon = {};
