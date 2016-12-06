@@ -212,9 +212,13 @@ div {
 #nav-toolbar {
   z-index: 1;
   top: 0;
-  right: 0px;
+  width: 100%;
   position: fixed;
   display: block;
   margin: 0px;
   padding: 15px;
+}
+
+.logo {
+  opacity: 0.85;
 }
