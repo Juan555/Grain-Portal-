@@ -308,13 +308,7 @@ kaleControllers.controller('MainPageController', ['$scope', '$window', function(
         $scope.hello = function(){
              var x=localStorage.getItem("position_diff");
              console.log(x);
-
-
-    $scope.hello = function() {
-        console.log("1");
-
-
-    }
+    };
 
 
 }]);
@@ -346,20 +340,37 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 }]);
 
 
-kaleControllers.controller('EditViewController', ['$scope', '$window', function($scope, $window) {
+kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'SoundFiles', 'SoundObjects', '$window', function($scope, SoundLogic, SoundFiles, SoundObjects, $window) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
     $scope.birdIcon = $scope.windIcon = $scope.thunderIcon = $scope.pawIcon = {};
     $scope.birdIcon["position"] = $scope.windIcon["position"] = $scope.thunderIcon["position"] = $scope.pawIcon["position"] = null;
+
+SoundFiles.get().then(function(data){
+  $scope.soundFiles = data.data.data;
+});
+
+$scope.myFunc = function(myE) {
+    console.log(myE.target.id);
+        $scope.x = myE.clientX;
+        $scope.y = myE.clientY;
+    }
 
     // $scope.getPosition = function(icon) {
     //     //icon.position = 10;
     //     console.log(icon + icon.position);
     // }
 
-    $scope.getPosition = function(element) {
+  $scope.getPosition = function(element){
         element.position = 10;
-        console.log(element.position);
+        console.log(element);
+        console.log(element);
+        SoundLogic.playSingleSoundNoAngle(element.sound);
+    }
+
+    $scope.playSound = function(path){
+      console.log(path);
+      SoundLogic.playSingleSoundNoAngle(path);
     }
 
 
