@@ -315,7 +315,7 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 }]);
 
 
-kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'SoundFiles', 'SoundObjects', '$window', function($scope, SoundLogic, SoundFiles, SoundObjects, $window) {
+kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'SoundFiles', 'SoundObjects', 'SoundEnvironments', '$window', function($scope, SoundLogic, SoundFiles, SoundObjects, SoundEnvironments, $window) {
 
 
     $scope.playEnvironment = function() {
@@ -351,9 +351,9 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
 
 
                         $scope.playEnvironment();
-                        
 
- 
+
+
 
 
 //     stopPropagation('#myPano', 'mousedown');
@@ -368,7 +368,7 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
 $scope.myVar = -1;
 // $('#myPano').on('click', function(e){
 //     e.stopPropagation();
-//     $scope.myVar = setInterval(function(){ 
+//     $scope.myVar = setInterval(function(){
 //     var x=localStorage.getItem("position_diff");
 //            console.log(x);
 //      }, 1000);
@@ -376,13 +376,13 @@ $scope.myVar = -1;
 // });
 // $('#myPano').on('mousedown', function(e){
 //     if ($scope.myVar == -1){
-//         $scope.myVar = setInterval(function(){ 
+//         $scope.myVar = setInterval(function(){
 //         var x=localStorage.getItem("position_diff");
 //        console.log(x);
 //      }, 1000);
 //     }
-    
-    
+
+
 // });
 // $('#myPano').on('mouseup', function(e){
 //     if ($scope.myVar != -1){
@@ -403,16 +403,22 @@ $scope.myVar = -1;
 
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
-    $scope.birdIcon = $scope.windIcon = $scope.thunderIcon = $scope.pawIcon = {};
-    $scope.birdIcon["position"] = $scope.windIcon["position"] = $scope.thunderIcon["position"] = $scope.pawIcon["position"] = null;
 
     SoundFiles.get().then(function(data){
       $scope.soundFiles = data.data.data;
     });
 
+    $scope.currentSoundObjects = [];
+
+    $scope.createSoundObject = function(){
+
+    };
+
+    $scope.environment = {};
     $scope.saveEnvironment = function() {
-      
-    }
+      //if user not logged in, tell them to login or signup
+      SoundEnvironments.newSoundObject()
+    };
 
     $scope.myFunc = function(myE) {
         console.log(myE.target.id);
@@ -440,7 +446,14 @@ $scope.myVar = -1;
 
 }]);
 
-kaleControllers.controller('NavController', ['$scope', '$window', '$modal', function($scope, $window, $modal) {
+kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', function($scope, $window, $location, $modal) {
+
+    $scope.currentPath = $location.path;
+    $scope.setCurrentLocation = function(path){
+      $scope.currentPath = path;
+      console.log($scope.currentPath);
+    };
+
 
     $scope.open = function open(link) {
         var params = {
