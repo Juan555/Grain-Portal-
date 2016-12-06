@@ -301,6 +301,14 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
 kaleControllers.controller('MainPageController', ['$scope', '$window', function($scope, $window) {
 
+    $("#myPano").pano({
+        img: "../media/background_small.jpg"
+    });
+  console.log("12");
+        $scope.hello = function(){
+             var x=localStorage.getItem("position_diff");
+             console.log(x);
+
 
     $scope.hello = function() {
         console.log("1");
