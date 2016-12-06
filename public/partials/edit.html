@@ -6,6 +6,8 @@
             <i ng-click="thunderIcon=false" ng-hide="thunderIcon.position==null" class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
            </div>
           </div>
+          
+<button ng-click = "hello()">hello</button>
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable data-jqyoui-options>
           <div ng-model="birdIcon" class="icon-wrapper" data-drag="true" ng-hide="birdIcon==false" jqyoui-draggable="{onStop: getPosition({{birdIcon}})}" data-jqyoui-options>
             <img src="./media/Icons/Bird.png" aria-hidden="true">
