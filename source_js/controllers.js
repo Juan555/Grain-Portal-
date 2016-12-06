@@ -410,9 +410,22 @@ $scope.myVar = -1;
 
     $scope.currentSoundObjects = [];
 
-    $scope.createSoundObject = function(){
+    $scope.createSoundObject = function(soundFile, event){
+        var newSoundObject = {
+          'angle': 90,
+          'soundFileID': soundFile._id,
+        };
 
-    };
+        for(var soundObj in $scope.currentSoundObjects){
+          if(newSoundObject.soundFileID == soundObj.soundFileID){
+            SoundObjects.updateSoundObject(newSoundObject);
+            return;
+          }
+        }
+
+        $scope.currentSoundObjects.push(newSoundObject);
+        SoundObjects.createSoundObject(newSoundObject);
+      };
 
     $scope.environment = {};
     $scope.saveEnvironment = function() {
@@ -424,18 +437,6 @@ $scope.myVar = -1;
         console.log(myE.target.id);
             $scope.x = myE.clientX;
             $scope.y = myE.clientY;
-        }
-
-        // $scope.getPosition = function(icon) {
-        //     //icon.position = 10;
-        //     console.log(icon + icon.position);
-        // }
-
-      $scope.getPosition = function(element){
-            element.position = 10;
-            console.log(element);
-            console.log(element);
-            SoundLogic.playSingleSoundNoAngle(element.sound);
         }
 
         $scope.playSound = function(path){

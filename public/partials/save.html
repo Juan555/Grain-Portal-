@@ -1,10 +1,13 @@
-<div class="row">
+<div class="row" ng-controller="EditViewController">
   <div class="small-12 columns">
     <form>
       <h2>Save Your Current Environment</h2>
-      <label>Environment name</label><input required type="text">
-      <a class="button" type="submit"><a>
+      <label>Environment name</label><input ng-model="environment.name" required type="text">
+      <input class="button-submit button"  ng-click="saveEnvironment()" type="submit">
 
     </form>
+    <a ng-click="cancel()" class="close-button" aria-label="Close reveal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </a>
   </div>
 </div>
