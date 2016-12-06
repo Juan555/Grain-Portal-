@@ -5,30 +5,40 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
     /*
      *   Greg's To-Do List
-     *   1. Save environment as audio file
-     *   2. Proper login system that doesn't store passwords in plaintext (70% done)
-     *   3. Deployment
+     *   1. Save environment as audio file (Done)
+     *   2. Backend + Proper login system that doesn't store passwords in plaintext (Done)
+     *   3. Deployment (April's VM)
+     *   4. Signup and Login modal content (Basic implementation)
+     *   5. Enhance soundLogic to dynamically apply pano offset from original position
      *
      *
      *   Fun Facts
      *   Passwords hashed and salted with bcrypt
      *   JWTs signed with SHA-512
+     *   HTTP-only signed cookies
      */
 
     //Example of how to call SoundLogic
+    //playEnvironment
+
+    //Stop environment sound by clicking element with class 'stopSound'
+    //Pause environment sound by clicking element with class 'pauseSound'
+    //Resume environment sound by clicking element with class 'resumeSound'
+    
     $scope.playEnvironment = function() {
 
         //required
         //Paths are to files in /public/media
         sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
-            '../media/EDMloop95BPM.wav'
+            '../media/EDMloop95BPM.wav',
+            '../media/birdschirping1.wav'
         ];
 
         //required
-        angles = [-90, 90];
+        angles = [-90, 90, 45];
 
         //optional, volumes has default values of 0.5 for sounds
-        volumes = [0.1, 1];
+        volumes = [0.8, 0.8, 1];
 
         //optional, offset has default value of 0 degrees
         offset = 0;
@@ -37,7 +47,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         //angle => type number array, an array of angles
         //The ith sound in sounds corresponds to the ith angle in angles and the ith volume in volumes
 
-        SoundLogic.playEnvironment(sounds, angles);
+        SoundLogic.playEnvironment(sounds, angles, volumes);
         //or
         //soundLogic.start(sounds, angles, volumes);
 
@@ -46,18 +56,30 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     // Play a single sound. Functions as an audio preview
     $scope.playSingleSoundNoAngle = function() {
 
-        var sound = '../media/birdschirping1.wav'
+        //required
+        var sound = '../media/birdschirping1.wav';
 
-        SoundLogic.playSingleSoundNoAngle(sound);
+        //optional, play time in milliseconds, default 5000 ms
+        var time = 3000;
+
+        SoundLogic.playSingleSoundNoAngle(sound, time);
     }
 
-    $scope.playEnvironmentOffline = function() {
+    // On function call downloads given environment as WAV file, volumes optional as usual
+    $scope.downloadEnvironmentAsWAV = function() {
+
+        //required
         sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
-            '../media/EDMloop95BPM.wav'
+            '../media/birdschirping1.wav'
         ];
+
+        //required
         angles = [-90, 90];
+
+        //optional, default is 0.5
         volumes = [0.1, 1];
-        SoundLogic.playEnvironmentOffline(sounds, angles);
+
+        SoundLogic.downloadEnvironmentAsWAV(sounds, angles);
     }
 
 
@@ -159,7 +181,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
      *   login, takes a String username and String password as input inside a userCredentials, returns a String token
      *   useToken, no input required, returns an user's userID, an userEmail, and a soundEnvironmentIDArray
      *
-     *   
+     *
      */
 
     // Authentification Demonstration
@@ -181,12 +203,13 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
     $scope.signup = function() {
 
-        if (username.length == 0) {
-
+        if ($scope.newuser.username.length == 0 || $scope.newuser.email.length == 0 || $scope.confirmpassword != $scope.newuser.password) {
+            return;
         }
 
-        Users.newUser(newuser).success(function(data) {
+        Users.newUser($scope.newuser).success(function(data) {
             console.log("New User created");
+            console.log(data);
         }).error(function(error) {
             $scope.status = "soundTest Users Signup error: " + error.message;
             console.log($scope.status);
@@ -232,8 +255,19 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     // SoundLogic.savemusic();
 
 
-    var anchor = document.createElement('a');
-    document.body.appendChild(anchor);
+    // $('#testbutton4').click(function() {
+    //     // console.log($window.doSomething());
+    //     // doSomething.test2();
+    //     // $.getScript('../bundle.js', function() {
+    //     // });
+    // });
+
+    $scope.slider = {
+        value: 10,
+        options: {
+            showSelectionBar: true
+        }
+    };
 
 }]);
 
@@ -247,9 +281,12 @@ kaleControllers.controller('MainPageController', ['$scope', '$window', function(
              var x=localStorage.getItem("position_diff");
              console.log(x);
 
-            
 
-        }
+    $scope.hello = function() {
+        console.log("1");
+
+
+    }
 
 
 }]);
@@ -280,18 +317,61 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 
 }]);
 
-kaleControllers.controller('EditViewController', ['$scope', 'CommonData', function($scope, CommonData) {
+
+kaleControllers.controller('EditViewController', ['$scope', '$window', function($scope, $window) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
-    $scope.data = "";
+    $scope.birdIcon = $scope.windIcon = $scope.thunderIcon = $scope.pawIcon = {};
+    $scope.birdIcon["position"] = $scope.windIcon["position"] = $scope.thunderIcon["position"] = $scope.pawIcon["position"] = null;
 
-    $scope.getData = function() {
-        $scope.data = CommonData.getData();
+    // $scope.getPosition = function(icon) {
+    //     //icon.position = 10;
+    //     console.log(icon + icon.position);
+    // }
 
-    };
+    $scope.getPosition = function(element){
+        element.position = 10;
+        console.log(element.position);
+    }
 
-    $scope.closeIcon = function() {
 
+}]);
+
+kaleControllers.controller('NavController', ['$scope', '$window', '$modal', function($scope, $window, $modal) {
+
+    $scope.open = function open(link) {
+        var params = {
+            templateUrl: link,
+            resolve: {
+                items: function() {
+                    return $scope.items;
+                },
+            },
+            controller: function($scope, $modalInstance) {
+
+                $scope.reposition = function() {
+                    $modalInstance.reposition();
+                };
+
+                $scope.ok = function() {
+                    $modalInstance.close($scope.selected.item);
+                };
+
+                $scope.cancel = function() {
+                    $modalInstance.dismiss('cancel');
+                };
+
+            }
+        };
+
+
+        var modalInstance = $modal.open(params);
+
+        modalInstance.result.then(function(selectedItem) {
+            $scope.selected = selectedItem;
+        }, function() {
+            //$log.info('Modal dismissed at: ' + new Date());
+        });
     };
 
 }]);
@@ -324,5 +404,71 @@ kaleControllers.controller('SettingsController', ['$scope', '$window', function(
         $scope.displayText = "URL set";
 
     };
+
+}]);
+
+kaleControllers.controller('LoginController', ['$scope', '$window', 'UserAuth', function($scope, $window, UserAuth) {
+
+    $scope.accessUserData = function() {
+        UserAuth.useToken().success(function(data) {
+            $scope.userData = data;
+            alert("Welcome " + data.username + " (" + data.email + ")");
+        }).error(function(error) {
+            $scope.status = "soundTest UserAuth userToken error: " + error;
+            console.log($scope.status);
+        });
+    }
+
+    $scope.accessUserData();
+
+    $scope.user = {
+        username: '',
+        password: ''
+    };
+
+    $scope.userData = '';
+
+    $scope.login = function() {
+        // console.log($scope.user.username);
+        // console.log($scope.user.password);
+        UserAuth.login($scope.user).success(function(data) {
+            $scope.token = data.token;
+            console.log("UserAuth login success");
+            console.log("Token: " + $scope.token);
+            $scope.accessUserData();
+        }).error(function(error) {
+            $scope.status = "soundTest UserAuth login error: " + error.message;
+            console.log($scope.status);
+        });
+
+
+    }
+
+}]);
+
+kaleControllers.controller('SignupController', ['$scope', '$window', 'UserAuth', 'Users', function($scope, $window, UserAuth, Users) {
+
+    $scope.newuser = {
+        username: '',
+        email: '',
+        password: ''
+    }
+
+    $scope.confirmpassword = '';
+
+    $scope.signup = function() {
+
+        if ($scope.newuser.username.length == 0 || $scope.newuser.email.length == 0 || $scope.confirmpassword != $scope.newuser.password) {
+            return;
+        }
+
+        Users.newUser($scope.newuser).success(function(data) {
+            console.log("New User created");
+            console.log(data);
+        }).error(function(error) {
+            $scope.status = "soundTest Users Signup error: " + error.message;
+            console.log($scope.status);
+        });
+    }
 
 }]);

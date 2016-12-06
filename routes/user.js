@@ -387,13 +387,13 @@ module.exports = function(router) {
                         var result = {};
                         result.success = true;
                         result.message = "Authentication successful";
+                        // Cookies should last an hour
                         res.cookie('access-token', token, { expires: new Date(Date.now() + 1000 * 60 * 60), httpOnly: true, signed: true });
                         result.token = 'JWT ' + token;
                         // result.data = [];
                         res.status(200);
                         res.json(result);
                         return;
-                        // res.json({ success: true, msg: 'Authentication successful', token: 'JWT ' + token });
                     } else {
                         var result = {};
                         result.success = false;
@@ -440,8 +440,9 @@ module.exports = function(router) {
                     result.success = true;
                     result.message = 'Welcome to the member area ' + user.username + '!';
                     // result.data = user;
-                    result.userID = user._id;
-                    result.userEmail = user.email;
+                    result._id = user._id;
+                    result.username = user.username;
+                    result.email = user.email;
                     result.soundEnvironmentIDArray = user.soundEnvironmentIDArray;
                     res.json(result);
                     return;
@@ -454,7 +455,6 @@ module.exports = function(router) {
             res.status(403);
             res.json(result);
             return;
-            // return res.status(403).send({ success: false, msg: 'No token provided.' });
         }
     });
 

@@ -1,4 +1,4 @@
-var app = angular.module('kaleidoscope', ['ngRoute', 'kaleControllers', 'kaleServices', 'ngDragDrop', 'mm.foundation']);
+var app = angular.module('kaleidoscope', ['rzModule', 'mm.foundation', 'ngRoute', 'kaleControllers', 'kaleServices', 'ngDragDrop']);
 
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
@@ -30,6 +30,10 @@ app.config(['$routeProvider', function($routeProvider) {
         templateUrl:'partials/edit.html',
         controller: 'EditViewController'
     }).
+    when('/view', {
+        templateUrl:'partials/view.html',
+        controller: 'EditViewController'
+    }).
     otherwise({
         redirectTo: '/'
     });
@@ -37,3 +41,22 @@ app.config(['$routeProvider', function($routeProvider) {
     // $httpProvider.defaults.withCredentials = true;
 
 }]);
+
+app.run(function($rootScope) {
+    $rootScope.$on('$viewContentLoaded', function () {
+        $(document).foundation();
+    });
+});
+
+/*
+app.directive('panoramaDirective', function(){
+  return{
+    restrict: 'A',
+    link: function(scope, element, attrs){
+        $(element).pano({
+          img: "../media/background_small.jpg"
+      });
+    }
+  };
+});
+*/
