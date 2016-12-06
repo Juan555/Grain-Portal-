@@ -2,7 +2,9 @@
   <a class="button" ng-click="saveEnvironment()">Save</a>
 </div>
 
-<div id="icon-toolbar" data-drop="true" jqyoui-droppable>
+<p>Coordinates: {{x + ', ' + y}}</p>1
+<!--<div id="icon-toolbar" data-drop="true" jqyoui-droppable>
+>>>>>>> Stashed changes
       <div class="row">
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable >
           <div ng-model="thunderIcon" class="icon-wrapper" data-drag="true" ng-hide="thunderIcon==false" jqyoui-draggable>
@@ -10,7 +12,7 @@
             <i ng-click="thunderIcon=false" ng-hide="thunderIcon.position==null" class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
            </div>
           </div>
-          
+
 <button ng-click = "hello()">hello</button>
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable data-jqyoui-options>
           <div ng-model="birdIcon" class="icon-wrapper" data-drag="true" ng-hide="birdIcon==false" jqyoui-draggable data-jqyoui-options>
@@ -32,17 +34,14 @@
         </div>
       </div>
   </div>
+-->
 
-<!--
 <div id="icon-toolbar">
   <div class="row">
-    <div class="small-3 large-2 columns">
-      <span ng-repeat="soundFile in soundFiles">
-      <div class="icon-wrapper" data-drag="true" jqyoui-draggable>
-      <img ng-src="{{soundFile.imageLocation}}">
-      <i ng-click="closeIcon(soundFile)" class="fa fa-times-circul"
-      </div>
-    </span>
+    <div class="small-12 large-8 columns">
+      <span class="icon-wrapper" data-drag="true" jqyoui-draggable ng-repeat="soundFile in soundFiles">
+      <img width="15%" ng-mousemove="myFunc(soundFile, $event)" ng-src="{{soundFile.imageLocation}}" ng-click="playSound(soundFile.soundFileLocation)">
+      <!--<i ng-click="closeIcon(soundFile)" class="fa fa-times-circul"-->
+      </span>
   </div>
 </div>
--->

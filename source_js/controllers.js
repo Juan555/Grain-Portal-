@@ -406,32 +406,36 @@ $scope.myVar = -1;
     $scope.birdIcon = $scope.windIcon = $scope.thunderIcon = $scope.pawIcon = {};
     $scope.birdIcon["position"] = $scope.windIcon["position"] = $scope.thunderIcon["position"] = $scope.pawIcon["position"] = null;
 
-SoundFiles.get().then(function(data){
-  $scope.soundFiles = data.data.data;
-});
+    SoundFiles.get().then(function(data){
+      $scope.soundFiles = data.data.data;
+    });
 
-$scope.myFunc = function(myE) {
-    console.log(myE.target.id);
-        $scope.x = myE.clientX;
-        $scope.y = myE.clientY;
+    $scope.saveEnvironment = function() {
+      
     }
 
-    // $scope.getPosition = function(icon) {
-    //     //icon.position = 10;
-    //     console.log(icon + icon.position);
-    // }
+    $scope.myFunc = function(myE) {
+        console.log(myE.target.id);
+            $scope.x = myE.clientX;
+            $scope.y = myE.clientY;
+        }
 
-  $scope.getPosition = function(element){
-        element.position = 10;
-        console.log(element);
-        console.log(element);
-        SoundLogic.playSingleSoundNoAngle(element.sound);
-    }
+        // $scope.getPosition = function(icon) {
+        //     //icon.position = 10;
+        //     console.log(icon + icon.position);
+        // }
 
-    $scope.playSound = function(path){
-      console.log(path);
-      SoundLogic.playSingleSoundNoAngle(path);
-    }
+      $scope.getPosition = function(element){
+            element.position = 10;
+            console.log(element);
+            console.log(element);
+            SoundLogic.playSingleSoundNoAngle(element.sound);
+        }
+
+        $scope.playSound = function(path){
+          console.log(path);
+          SoundLogic.playSingleSoundNoAngle(path);
+        }
 
 
 }]);
@@ -569,5 +573,9 @@ kaleControllers.controller('SignupController', ['$scope', '$window', 'UserAuth',
             console.log($scope.status);
         });
     }
+
+}]);
+
+kaleControllers.controller('LoadEnvironmentController', ['$scope', '$window', 'SoundLogic', function($scope, $window, SoundLogic){
 
 }]);
