@@ -148,7 +148,6 @@ kaleServices.factory('SoundLogic', function($window) {
                     console.log("SoundLogic playEnvironment offsetApply offsetTestAngle: " + offsetAngle);
                     var i;
                     for (i = 0; i < pannerArray.length; i++) {
-                        // console.log(parseInt(angleArray[i]) + parseInt(offsetAngle));
                         var coords = coordCalc(parseInt(angleArray[i]), parseInt(offsetAngle));
                         pannerArray[i].setPosition(coords.x, coords.y, -0.5);
                     }
