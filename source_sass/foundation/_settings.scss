@@ -236,7 +236,7 @@ $breadcrumbs-item-slash: true;
 $button-padding: 0.85em 1em;
 $button-margin: 0 0 $global-margin 0;
 $button-fill: solid;
-$button-background: $primary-color;
+$button-background: #4d5152;
 $button-background-hover: scale-color($button-background, $lightness: -15%);
 $button-color: $white;
 $button-color-alt: $black;
@@ -450,7 +450,11 @@ $progress-radius: $global-radius;
 // 28. Reveal
 // ----------
 
+<<<<<<< Updated upstream
 $reveal-background: rgba($white, 0.8);
+=======
+$reveal-background: rgba($white, 0.85);
+>>>>>>> Stashed changes
 $reveal-width: 600px;
 $reveal-max-width: $global-width;
 $reveal-padding: $global-padding;
