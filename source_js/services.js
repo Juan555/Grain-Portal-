@@ -24,11 +24,12 @@ kaleServices.factory('Llamas', function($http, $window) {
 kaleServices.factory('SoundLogic', function($window) {
     return {
 
-        playSingleSoundNoAngle: function(sound) {
+        playSingleSoundNoAngle: function(sound, time) {
 
             var bufferLoader;
             var soundPath = sound;
             var volumeNum = typeof volume !== 'undefined' ? volume : 0.5;
+            var time = typeof time !== 'undefined' ? time : 5000;
 
             if ('AudioContext' in window) {
                 var context = new(window.AudioContext || window.webkitAudioContext)();
@@ -40,12 +41,11 @@ kaleServices.factory('SoundLogic', function($window) {
             }
 
             function finishedLoading(bufferList) {
-                var i;
 
                 var source = context.createBufferSource();
                 context.listener.setPosition(0, 0, 0);
 
-                // source.loop = false;
+                source.loop = true;
 
                 source.buffer = bufferList[0];
 
@@ -58,8 +58,14 @@ kaleServices.factory('SoundLogic', function($window) {
                 source.start(0);
                 console.log("source start");
                 // context.close();
-
             }
+
+            function closeContext() {
+                console.log('Closing AudioContext');
+                context.close();
+            }
+
+            window.setTimeout(closeContext, time);
 
         },
 
@@ -167,7 +173,23 @@ kaleServices.factory('SoundLogic', function($window) {
 
                     source.start(0);
                     console.log("source start");
+
                 }
+
+                $('.stopSound').click(function() {
+                    console.log("Closing AudioContext");
+                    context.close();
+                });
+
+                $('.pauseSound').click(function() {
+                    console.log("Pausing AudioContext");
+                    context.suspend();
+                });
+
+                $('.resumeSound').click(function() {
+                    console.log("Resuming AudioContext");
+                    context.resume();
+                });
 
             }
 

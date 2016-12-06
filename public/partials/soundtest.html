@@ -9,8 +9,14 @@
 <div ng-click="downloadEnvironmentAsWAV()" id="testbutton3" class="button">
     Download WAV
 </div>
-<div id="testbutton4" class="button">
-    Test Button 4
+<div id="testbutton4" class="stopSound button">
+    Stop Sound
+</div>
+<div id="testbutton5" class="pauseSound button">
+    Pause Sound
+</div>
+<div id="testbutton5" class="resumeSound button">
+    Resume Sound
 </div>
 <div class="row">
     <div class="small-6 columns">
@@ -129,8 +135,7 @@
         <p>SoundEnvironmentIDArray: {{userData.soundEnvironmentIDArray}}</p>
     </div>
 </div>
-<rzslider rz-slider-model="slider.value"
-          rz-slider-options="slider.options"></rzslider>
+<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
 <!-- Abide Form Validation Testing Grounds
 
 <form data-abide novalidate>

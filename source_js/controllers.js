@@ -19,6 +19,12 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
      */
 
     //Example of how to call SoundLogic
+    //playEnvironment
+
+    //Stop environment sound by clicking element with class 'stopSound'
+    //Pause environment sound by clicking element with class 'pauseSound'
+    //Resume environment sound by clicking element with class 'resumeSound'
+    
     $scope.playEnvironment = function() {
 
         //required
@@ -50,18 +56,29 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     // Play a single sound. Functions as an audio preview
     $scope.playSingleSoundNoAngle = function() {
 
-        var sound = '../media/birdschirping1.wav'
+        //required
+        var sound = '../media/birdschirping1.wav';
 
-        SoundLogic.playSingleSoundNoAngle(sound);
+        //optional, play time in milliseconds, default 5000 ms
+        var time = 3000;
+
+        SoundLogic.playSingleSoundNoAngle(sound, time);
     }
 
     // On function call downloads given environment as WAV file, volumes optional as usual
     $scope.downloadEnvironmentAsWAV = function() {
+
+        //required
         sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
             '../media/birdschirping1.wav'
         ];
+
+        //required
         angles = [-90, 90];
+
+        //optional, default is 0.5
         volumes = [0.1, 1];
+
         SoundLogic.downloadEnvironmentAsWAV(sounds, angles);
     }
 
