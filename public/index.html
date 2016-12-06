@@ -13,6 +13,7 @@
     <!-- Font Import -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./lib/angularjs-slider/dist/rzslider.min.css" />
     <!-- <link rel="stylesheet" type="text/css" href="./jquery.fancybox-1.3.1.css" media="screen" /> -->
     <!-- Angular Scripts -->
     <!-- NOTE: removing the ".min." can help debugging in the console-->
@@ -44,6 +45,8 @@
     <script src="./buffer-loader.js"></script>
     <script src="jquery.pano.js"></script>
     <script src="./js/script.js"></script>
+    <!-- <script src="/path/to/angularjs/angular.min.js"></script> -->
+    <script src="./lib/angularjs-slider/dist/rzslider.min.js"></script>
 </head>
 
 <body ng-app="kaleidoscope">
@@ -55,33 +58,26 @@
     </div> -->
     <!--     <img src="media/background.jpg" class="advancedpanorama" width="6000" height="700" usemap="testmap" alt="forest image" /> -->
 
-
-
-<div ng-view></div>
-
-   <div id="myPano" class="pano">
-
-     <div class="controls">
-         <a class="left">&laquo;</a>
-         <a class="right">&raquo;</a>
-     </div>
-
-           <nav ng-controller="NavController" data-ng-init="open('partials/intro.html')">
-             <div class="row">
-               <div class="small-4 medium-3 large-2 columns">
-                 <img src="./media/logo.png" alt="Kaleidoscope Logo"></img>
-               </div>
-               <div class="small-4 medium-4 columns" style="float:right">
-                 <a class="button" ng-click="open('partials/login.html')">Login</a>
-                 <a class="button" ng-click="open('partials/sign-up.html')">Sign Up</a>
-                 <a class="button" ng-href="#/edit">Edit Mode</a>
-                 <a class="button" ng-href="#/view">View Mode</a>
-               </div>
-           </div>
-           </nav>
-
-
-   </div>
+    <div ng-view></div>
+    <div id="myPano" class="pano">
+        <div class="controls">
+            <a class="left">&laquo;</a>
+            <a class="right">&raquo;</a>
+        </div>
+        <nav ng-controller="NavController" data-ng-init="open('partials/intro.html')">
+            <div class="row">
+                <div class="small-4 medium-3 large-2 columns">
+                    <img class="nodrag" src="./media/logo.png" alt="Kaleidoscope Logo"></img>
+                </div>
+                <div class="small-4 medium-4 columns" style="float:right">
+                    <a class="button" ng-click="open('partials/login.html')">Login</a>
+                    <a class="button" ng-click="open('partials/sign-up.html')">Sign Up</a>
+                    <a class="button" ng-href="#/edit">Edit Mode</a>
+                    <a class="button" ng-href="#/view">View Mode</a>
+                </div>
+            </div>
+        </nav>
+    </div>
 
     <script>
     $(document).foundation();

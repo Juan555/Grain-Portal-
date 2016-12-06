@@ -6,11 +6,20 @@
 <div ng-click="playSingleSoundNoAngle()" id="testbutton2" class="button">
     Play Single Sound No Angle
 </div>
-<div ng-click="playEnvironmentOffline()" id="testbutton3" class="button">
+<div ng-click="downloadEnvironmentAsWAV()" id="testbutton3" class="button">
     Download WAV
 </div>
-<div id="testbutton4" class="button">
-    Test Button 4
+<div id="testbutton4" class="stopSound button">
+    Stop Sound
+</div>
+<div id="testbutton5" class="pauseSound button">
+    Pause Sound
+</div>
+<div id="testbutton5" class="resumeSound button">
+    Resume Sound
+</div>
+<div id="testbutton6" class="button">
+    Apply Offset
 </div>
 <div class="row">
     <div class="small-6 columns">
@@ -129,8 +138,8 @@
         <p>SoundEnvironmentIDArray: {{userData.soundEnvironmentIDArray}}</p>
     </div>
 </div>
-
-Abide Form Validation Testing Grounds
+<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+<!-- Abide Form Validation Testing Grounds
 
 <form data-abide novalidate>
     <div data-abide-error class="alert callout" style="display: none;">
@@ -226,7 +235,7 @@ Abide Form Validation Testing Grounds
             <button class="button" type="reset" value="Reset">Reset</button>
         </fieldset>
     </div>
-</form>
+</form> -->
 <!-- <script>
 $(document).foundation();
 </script> -->

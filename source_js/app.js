@@ -1,4 +1,4 @@
-var app = angular.module('kaleidoscope', ['mm.foundation', 'ngRoute', 'kaleControllers', 'kaleServices', 'ngDragDrop']);
+var app = angular.module('kaleidoscope', ['rzModule', 'mm.foundation', 'ngRoute', 'kaleControllers', 'kaleServices', 'ngDragDrop']);
 
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
@@ -41,6 +41,12 @@ app.config(['$routeProvider', function($routeProvider) {
     // $httpProvider.defaults.withCredentials = true;
 
 }]);
+
+app.run(function($rootScope) {
+    $rootScope.$on('$viewContentLoaded', function () {
+        $(document).foundation();
+    });
+});
 
 /*
 app.directive('panoramaDirective', function(){

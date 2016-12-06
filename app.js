@@ -18,7 +18,7 @@ var app = express();
 
 app.use(express.static(__dirname + '/public'));
 
-// Use environment defined port or 3000
+// Use environment defined port or user-defined
 var port = process.env.PORT || 4000;
 
 //Allow CORS so that backend and frontend can be put on different servers

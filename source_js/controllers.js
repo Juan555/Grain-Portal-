@@ -5,33 +5,43 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
     /*
      *   Greg's To-Do List
-     *   1. Save environment as audio file
-     *   2. Proper login system that doesn't store passwords in plaintext (Done)
-     *   3. Deployment
-     *   4. Signup and Login modal content
+     *   1. Save environment as audio file (Done)
+     *   2. Backend + Proper login system that doesn't store passwords in plaintext (Done)
+     *   3. Deployment (April's VM)
+     *   4. Signup and Login modal content (Basic implementation)
+     *   5. Enhance soundLogic to dynamically apply pano offset from original position (Done)
      *
      *
      *   Fun Facts
      *   Passwords hashed and salted with bcrypt
      *   JWTs signed with SHA-512
-     *   Signed cookies
+     *   HTTP-only signed cookies
      */
 
     //Example of how to call SoundLogic
+    //playEnvironment
+
+    //Stop environment sound by clicking element with class 'stopSound'
+    //Pause environment sound by clicking element with class 'pauseSound'
+    //Resume environment sound by clicking element with class 'resumeSound'
+
     $scope.playEnvironment = function() {
 
         //required
         //Paths are to files in /public/media
-        sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
-            '../media/EDMloop95BPM.wav',
+        sounds = [
+            '../media/DubstepDrumLoop(140bpm).mp3',
+            // '../media/EDMloop95BPM.wav',
             '../media/birdschirping1.wav'
         ];
 
         //required
-        angles = [-90, 90, 45];
+        // angles = [-90, 90, 45];
+        angles = [90, -90];
 
         //optional, volumes has default values of 0.5 for sounds
-        volumes = [0.8, 0.8, 1];
+        // volumes = [0.8, 0.8, 1];
+        volumes = [1, 1];
 
         //optional, offset has default value of 0 degrees
         offset = 0;
@@ -49,18 +59,36 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     // Play a single sound. Functions as an audio preview
     $scope.playSingleSoundNoAngle = function() {
 
-        var sound = '../media/birdschirping1.wav'
+        //required
+        var sound = '../media/birdschirping1.wav';
 
-        SoundLogic.playSingleSoundNoAngle(sound);
+        //optional, play time in milliseconds, default 5000 ms
+        var time = 3000;
+
+        SoundLogic.playSingleSoundNoAngle(sound, time);
     }
 
-    $scope.playEnvironmentOffline = function() {
+    // On function call downloads given environment as WAV file, volumes optional as usual
+    $scope.downloadEnvironmentAsWAV = function() {
+
+        //required
         sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
             '../media/birdschirping1.wav'
         ];
+
+        //required
         angles = [-90, 90];
-        volumes = [0.1, 1];
-        SoundLogic.playEnvironmentOffline(sounds, angles);
+
+        //optional, default is 0.5
+        volumes = [0.5, 0.5];
+
+        //optional, default is 0
+        var offset = 0;
+
+        //optional, default is 5
+        var length = 10;
+
+        SoundLogic.downloadEnvironmentAsWAV(sounds, angles, volumes, offset, length);
     }
 
 
@@ -198,7 +226,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     }
 
 
-    // Login (using Foundation Abide Form Validation plugin in next iteration)
+    // Login (using Foundation Abide Form Validation plugin in next iteration #hope)
     $scope.user = {
         username: '',
         password: ''
@@ -233,28 +261,39 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
     $scope.accessUserData();
 
-    // SoundLogic.savemusic();
+    //Initialize slider in soundtest partial
+    $scope.slider = {
+        value: 360,
+        // maxValue: 360,
+        options: {
+            showSelectionBar: true
+        }
+    };
 
-
-    // $('#testbutton4').click(function() {
-    //     // console.log($window.doSomething());
-    //     // doSomething.test2();
-    //     // $.getScript('../bundle.js', function() {
-    //     // });
-    // });
-
-
+    //Watch slider for changes, and save slider value in sessionStorage
+    $scope.$watchGroup(['slider.value'],
+        function() {
+            sessionStorage.setItem('offsetTestAngle', $scope.slider.value);
+            console.log($scope.slider.value);
+        }
+    );
 
 }]);
 
 kaleControllers.controller('MainPageController', ['$scope', '$window', function($scope, $window) {
 
+    $("#myPano").pano({
+        img: "../media/background_small.jpg"
+    })
+    .click(function(){
+        var x=localStorage.getItem("position_diff");
+             console.log(x);
+    });
+  console.log("12");
+        $scope.hello = function(){
+             var x=localStorage.getItem("position_diff");
+             console.log(x)};
 
-    $scope.hello = function() {
-        console.log("1");
-
-
-    }
 
 
 }]);
@@ -286,20 +325,43 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 }]);
 
 
-kaleControllers.controller('EditViewController', ['$scope', 'CommonData', '$window', function($scope, CommonData, $window) {
+kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'SoundFiles', 'SoundObjects', '$window', function($scope, SoundLogic, SoundFiles, SoundObjects, $window) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
-    $scope.data = "";
+    $scope.birdIcon = $scope.windIcon = $scope.thunderIcon = $scope.pawIcon = {};
+    $scope.birdIcon["position"] = $scope.windIcon["position"] = $scope.thunderIcon["position"] = $scope.pawIcon["position"] = null;
 
-    $scope.getData = function() {
-        $scope.data = CommonData.getData();
+SoundFiles.get().then(function(data){
+  $scope.soundFiles = data.data.data;
+});
 
-    };
+$scope.myFunc = function(myE) {
+    console.log(myE.target.id);
+        $scope.x = myE.clientX;
+        $scope.y = myE.clientY;
+    }
+
+    // $scope.getPosition = function(icon) {
+    //     //icon.position = 10;
+    //     console.log(icon + icon.position);
+    // }
+
+  $scope.getPosition = function(element){
+        element.position = 10;
+        console.log(element);
+        console.log(element);
+        SoundLogic.playSingleSoundNoAngle(element.sound);
+    }
+
+    $scope.playSound = function(path){
+      console.log(path);
+      SoundLogic.playSingleSoundNoAngle(path);
+    }
 
 
 }]);
 
-kaleControllers.controller('NavController', ['$scope', 'CommonData', '$window', '$modal', function($scope, CommonData, $window, $modal) {
+kaleControllers.controller('NavController', ['$scope', '$window', '$modal', function($scope, $window, $modal) {
 
     $scope.open = function open(link) {
         var params = {
@@ -334,11 +396,6 @@ kaleControllers.controller('NavController', ['$scope', 'CommonData', '$window', 
         }, function() {
             //$log.info('Modal dismissed at: ' + new Date());
         });
-    };
-
-    $scope.getData = function() {
-        $scope.data = CommonData.getData();
-
     };
 
 }]);

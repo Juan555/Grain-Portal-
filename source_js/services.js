@@ -24,11 +24,12 @@ kaleServices.factory('Llamas', function($http, $window) {
 kaleServices.factory('SoundLogic', function($window) {
     return {
 
-        playSingleSoundNoAngle: function(sound) {
-
+        playSingleSoundNoAngle: function(sound, time) {
+            fx();
             var bufferLoader;
             var soundPath = sound;
             var volumeNum = typeof volume !== 'undefined' ? volume : 0.5;
+            var time = typeof time !== 'undefined' ? time : 5000;
 
             if ('AudioContext' in window) {
                 var context = new(window.AudioContext || window.webkitAudioContext)();
@@ -40,12 +41,11 @@ kaleServices.factory('SoundLogic', function($window) {
             }
 
             function finishedLoading(bufferList) {
-                var i;
 
                 var source = context.createBufferSource();
                 context.listener.setPosition(0, 0, 0);
 
-                // source.loop = false;
+                source.loop = true;
 
                 source.buffer = bufferList[0];
 
@@ -58,8 +58,14 @@ kaleServices.factory('SoundLogic', function($window) {
                 source.start(0);
                 console.log("source start");
                 // context.close();
-
             }
+
+            function closeContext() {
+                console.log('Closing AudioContext');
+                context.close();
+            }
+
+            window.setTimeout(closeContext, time);
 
         },
 
@@ -82,9 +88,12 @@ kaleServices.factory('SoundLogic', function($window) {
 
             function finishedLoading(bufferList) {
                 var i;
+                var sourceArray = [];
+                var pannerArray = [];
                 for (i = 0; i < bufferList.length; i++) {
 
                     var source = context.createBufferSource();
+                    sourceArray.push(source);
                     context.listener.setPosition(0, 0, 0);
 
                     source.loop = true;
@@ -92,65 +101,13 @@ kaleServices.factory('SoundLogic', function($window) {
                     source.buffer = bufferList[i];
 
                     var panner = context.createPanner();
+                    pannerArray.push(panner);
                     // panner.coneOuterGain = 0.1;
-                    mult = 5;
-                    angle = angleArray[i] + offset;
-                    if (angle < 0) {
-                        angle += 360;
-                    }
-                    angle = angle % 360;
 
-                    if (angle >= 0 && angle <= 45) {
-                        //angle to rad
-                        rad = angle * Math.PI / 180;
-                        //determine sound position in 
-                        x = Math.asin(rad);
-                        y = Math.acos(rad);
-                    } else if (angle > 45 && angle <= 90) {
-                        angle = 90 - angle
-                        rad = angle * Math.PI / 180;
-                        x = Math.acos(rad);
-                        y = Math.asin(rad);
-                    } else if (angle > 90 && angle <= 135) {
-                        angle = angle - 90;
-                        rad = angle * Math.PI / 180;
-                        x = Math.acos(rad);
-                        y = -Math.asin(rad);
-                    } else if (angle > 135 && angle <= 180) {
-                        angle = 180 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = Math.asin(rad);
-                        y = -Math.acos(rad);
-                    } else if (angle > 180 && angle <= 225) {
-                        angle = angle - 180
-                        rad = angle * Math.PI / 180;
-                        x = -Math.asin(rad);
-                        y = -Math.acos(rad);
-                    } else if (angle > 225 && angle <= 270) {
-                        angle = 270 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.acos(rad);
-                        y = -Math.asin(rad);
-                    } else if (angle > 270 && angle <= 315) {
-                        angle = angle - 270;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.acos(rad);
-                        y = Math.asin(rad);
-                    } else if (angle > 315 && angle <= 360) {
-                        angle = 360 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.asin(rad);
-                        y = Math.acos(rad);
-                    } else {
-                        console.log("Invalid angle 1: " + angle);
-                        return;
-                    }
+                    coords = coordCalc(angleArray[i], offset);
 
-                    console.log("x is " + x);
-                    console.log("y is " + y);
-
-                    x *= mult;
-                    y *= mult / 2;
+                    var x = coords.x;
+                    var y = coords.y;
 
                     panner.setPosition(x, y, -0.5);
 
@@ -167,23 +124,116 @@ kaleServices.factory('SoundLogic', function($window) {
 
                     source.start(0);
                     console.log("source start");
+
                 }
+
+                $('.stopSound').click(function() {
+                    console.log("Closing AudioContext");
+                    context.close();
+                });
+
+                $('.pauseSound').click(function() {
+                    console.log("Pausing AudioContext");
+                    context.suspend();
+                });
+
+                $('.resumeSound').click(function() {
+                    console.log("Resuming AudioContext");
+                    context.resume();
+                });
+
+                function offsetApply() {
+                    console.log('offsetApply');
+                    var offsetAngle = sessionStorage.getItem('offsetTestAngle');
+                    console.log("SoundLogic playEnvironment offsetApply offsetTestAngle: " + offsetAngle);
+                    var i;
+                    for (i = 0; i < pannerArray.length; i++) {
+                        var coords = coordCalc(parseInt(angleArray[i]), parseInt(offsetAngle));
+                        pannerArray[i].setPosition(coords.x, coords.y, -0.5);
+                    }
+
+                }
+
+
+                function panoOffsetApply() {
+                    console.log('offsetApply');
+                    var offsetAngle = sessionStorage.getItem('insert whatever name');
+                    console.log("SoundLogic playEnvironment offsetApply offsetTestAngle: " + offsetAngle);
+                    var i;
+                    for (i = 0; i < pannerArray.length; i++) {
+                        // console.log(parseInt(angleArray[i]) + parseInt(offsetAngle));
+                        var coords = coordCalc(parseInt(angleArray[i]), parseInt(offsetAngle));
+                        pannerArray[i].setPosition(coords.x, coords.y, -0.5);
+                    }
+
+                }
+
+                // function testfx2() {
+                //     console.log('testfx2');
+                //     var coords = coordCalc(angleArray[0], 0);
+                //     // this.panner.setOrientation(Math.cos(angle), -Math.sin(angle), 1);
+                //     console.log(coords.x + " " + coords.y);
+                //     context.listener.setOrientation(0.5, 0, -1, 0, 1, 0);
+
+                // }
+
+                $('#testbutton6').click(function() {
+                    window.setInterval(offsetApply, 200);
+                });
+
+
+                $('#myPano').click(function() {
+                    console.log('pano click')
+                        // var offsetAngle = sessionStorage.getItem('position_diff');
+                        // console.log(offsetAngle);
+
+                    timeout = setInterval(panoOffsetApply, 250);
+                }).mousedown(function() {
+                    console.log('pano mousedown');
+                    // var offsetAngle = sessionStorage.getItem('position_diff');
+
+                    timeout = setInterval(panoOffsetApply, 250);
+                }).mouseup(function() {
+                    console.log('pano mouseup');
+
+                    clearInterval(timeout);
+                    return false;
+                }).mouseout(function() {
+                    console.log('pano mouseout');
+                    clearInterval(timeout);
+                    return false;
+                });
+
+
+
+                // $("html").on("dragover", function(event) {
+                //     event.preventDefault();
+                //     event.stopPropagation();
+                //     console.log('drag');
+                // });
+
+                // $('#myPano').ondrag = function(event) {
+                //     console.log('drag');
+                // };
+
+
 
             }
 
         },
 
-        playEnvironmentOffline: function(sounds, angles, volumes, offset) {
+        downloadEnvironmentAsWAV: function(sounds, angles, volumes, offset, length) {
 
             var bufferLoader;
             var soundPathArray = sounds;
             var angleArray = angles;
             var volumeArray = typeof volumes !== 'undefined' ? volumes : [];
             var offset = typeof offset !== 'undefined' ? offset : 0;
+            var length = typeof length !== 'undefined' ? length : 5;
 
             if ('AudioContext' in window) {
                 // var context = new(window.AudioContext || window.webkitAudioContext)();
-                var context = new OfflineAudioContext(2, 44100 * 5, 44100);
+                var context = new OfflineAudioContext(2, 44100 * length, 44100);
 
                 console.log("AudioContext created");
 
@@ -201,70 +251,17 @@ kaleServices.factory('SoundLogic', function($window) {
 
                     context.listener.setPosition(0, 0, 0);
 
-                    // source.loop = true;
+                    source.loop = true;
 
                     source.buffer = bufferList[i];
 
                     var panner = context.createPanner();
                     // panner.coneOuterGain = 0.1;
-                    mult = 5;
-                    angle = angleArray[i] + offset;
-                    if (angle < 0) {
-                        angle += 360;
-                    }
-                    angle = angle % 360;
 
-                    if (angle >= 0 && angle <= 45) {
-                        //angle to rad
-                        rad = angle * Math.PI / 180;
-                        //determine sound position in 
-                        x = Math.asin(rad);
-                        y = Math.acos(rad);
-                    } else if (angle > 45 && angle <= 90) {
-                        angle = 90 - angle
-                        rad = angle * Math.PI / 180;
-                        x = Math.acos(rad);
-                        y = Math.asin(rad);
-                    } else if (angle > 90 && angle <= 135) {
-                        angle = angle - 90;
-                        rad = angle * Math.PI / 180;
-                        x = Math.acos(rad);
-                        y = -Math.asin(rad);
-                    } else if (angle > 135 && angle <= 180) {
-                        angle = 180 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = Math.asin(rad);
-                        y = -Math.acos(rad);
-                    } else if (angle > 180 && angle <= 225) {
-                        angle = angle - 180
-                        rad = angle * Math.PI / 180;
-                        x = -Math.asin(rad);
-                        y = -Math.acos(rad);
-                    } else if (angle > 225 && angle <= 270) {
-                        angle = 270 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.acos(rad);
-                        y = -Math.asin(rad);
-                    } else if (angle > 270 && angle <= 315) {
-                        angle = angle - 270;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.acos(rad);
-                        y = Math.asin(rad);
-                    } else if (angle > 315 && angle <= 360) {
-                        angle = 360 - angle;
-                        rad = angle * Math.PI / 180;
-                        x = -Math.asin(rad);
-                        y = Math.acos(rad);
-                    } else {
-                        console.log("Invalid angle: " + angle);
-                        return;
-                    }
+                    coords = coordCalc(angleArray[i], offset);
 
-                    console.log("x is " + x);
-                    console.log("y is " + y);
-
-                    x *= mult;
-                    y *= mult / 2;
+                    var x = coords.x;
+                    var y = coords.y;
 
                     panner.setPosition(x, y, -0.5);
 
@@ -286,14 +283,11 @@ kaleServices.factory('SoundLogic', function($window) {
                     context.startRendering().then(function(buffer) {
                         // buffer contains the output buffer
                         var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-                        // context.suspend(6);
                         var song = audioCtx.createBufferSource();
                         // song.buffer = e.renderedBuffer;
                         song.buffer = buffer;
 
                         song.connect(audioCtx.destination);
-
-                        // sessionStorage.setItem('audioBuffer', song.buffer);
 
                         // song.start();
 
@@ -450,39 +444,13 @@ kaleServices.factory('SoundLogic', function($window) {
                             }, { "audiobuffer-to-wav": 1 }]
                         }, {}, [2]);
 
-
-
                         // END CODE
-
-
-
 
                         console.log("Buffer-to-file completed!");
                     });
                 }
 
             }
-
-            // context.oncomplete = function(e) {
-            //     // alert("lol");
-            //     var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-            //     // context.suspend(6);
-            //     var song = audioCtx.createBufferSource();
-            //     song.buffer = e.renderedBuffer;
-
-            //     song.connect(audioCtx.destination);
-
-            //     $('#testbutton4').click(function() {
-            //         song.start();
-            //     });
-
-
-            //     console.log("completed!");
-
-            //     // abfunction();
-
-
-            // }
 
         }
 
@@ -648,3 +616,77 @@ kaleServices.factory('UserAuth', function($http, $window) {
         }
     }
 });
+
+var fx = function() {
+    console.log('aloha');
+}
+
+var coordCalc = function(angleInput, offset) {
+    console.log("Coordinate calculation start");
+
+    mult = 5;
+    angle = angleInput + offset;
+    if (angle < 0) {
+        angle += 360;
+    }
+    angle = angle % 360;
+
+    if (angle >= 0 && angle <= 45) {
+        //angle to rad
+        rad = angle * Math.PI / 180;
+        //determine sound position 
+        x = Math.asin(rad);
+        y = Math.acos(rad);
+    } else if (angle > 45 && angle <= 90) {
+        angle = 90 - angle
+        rad = angle * Math.PI / 180;
+        x = Math.acos(rad);
+        y = Math.asin(rad);
+    } else if (angle > 90 && angle <= 135) {
+        angle = angle - 90;
+        rad = angle * Math.PI / 180;
+        x = Math.acos(rad);
+        y = -Math.asin(rad);
+    } else if (angle > 135 && angle <= 180) {
+        angle = 180 - angle;
+        rad = angle * Math.PI / 180;
+        x = Math.asin(rad);
+        y = -Math.acos(rad);
+    } else if (angle > 180 && angle <= 225) {
+        angle = angle - 180
+        rad = angle * Math.PI / 180;
+        x = -Math.asin(rad);
+        y = -Math.acos(rad);
+    } else if (angle > 225 && angle <= 270) {
+        angle = 270 - angle;
+        rad = angle * Math.PI / 180;
+        x = -Math.acos(rad);
+        y = -Math.asin(rad);
+    } else if (angle > 270 && angle <= 315) {
+        angle = angle - 270;
+        rad = angle * Math.PI / 180;
+        x = -Math.acos(rad);
+        y = Math.asin(rad);
+    } else if (angle > 315 && angle <= 360) {
+        angle = 360 - angle;
+        rad = angle * Math.PI / 180;
+        x = -Math.asin(rad);
+        y = Math.acos(rad);
+    } else {
+        console.log("Invalid angle 1: " + angle);
+        return;
+    }
+
+    // console.log("x is " + x);
+    // console.log("y is " + y);
+
+    x *= mult;
+    y *= mult / 2;
+
+    var coords = {
+        x: x,
+        y: y
+    }
+
+    return coords;
+}
