@@ -141,3 +141,13 @@ div {
     position: relative !important;
     color: white;
 }
+
+#nav-toolbar {
+  z-index: 1;
+  top: 0;
+  right: 0px;
+  position: fixed;
+  display: block;
+  margin: 0px;
+  padding: 15px;
+}

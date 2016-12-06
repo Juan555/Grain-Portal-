@@ -9,7 +9,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
      *   2. Backend + Proper login system that doesn't store passwords in plaintext (Done)
      *   3. Deployment (April's VM)
      *   4. Signup and Login modal content (Basic implementation)
-     *   5. Enhance soundLogic to dynamically apply pano offset from original position
+     *   5. Enhance soundLogic to dynamically apply pano offset from original position (Done)
      *
      *
      *   Fun Facts
@@ -24,21 +24,24 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     //Stop environment sound by clicking element with class 'stopSound'
     //Pause environment sound by clicking element with class 'pauseSound'
     //Resume environment sound by clicking element with class 'resumeSound'
-    
+
     $scope.playEnvironment = function() {
 
         //required
         //Paths are to files in /public/media
-        sounds = ['../media/DubstepDrumLoop(140bpm).mp3',
-            '../media/EDMloop95BPM.wav',
+        sounds = [
+            '../media/DubstepDrumLoop(140bpm).mp3',
+            // '../media/EDMloop95BPM.wav',
             '../media/birdschirping1.wav'
         ];
 
         //required
-        angles = [-90, 90, 45];
+        // angles = [-90, 90, 45];
+        angles = [90, -90];
 
         //optional, volumes has default values of 0.5 for sounds
-        volumes = [0.8, 0.8, 1];
+        // volumes = [0.8, 0.8, 1];
+        volumes = [1, 1];
 
         //optional, offset has default value of 0 degrees
         offset = 0;
@@ -77,9 +80,13 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         angles = [-90, 90];
 
         //optional, default is 0.5
-        volumes = [0.1, 1];
+        volumes = [0.5, 0.5];
 
-        SoundLogic.downloadEnvironmentAsWAV(sounds, angles);
+        var offset = 0;
+
+        var length = 10;
+
+        SoundLogic.downloadEnvironmentAsWAV(sounds, angles, volumes, offset, length);
     }
 
 
@@ -263,11 +270,32 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     // });
 
     $scope.slider = {
-        value: 10,
+        value: 360,
+        // maxValue: 360,
         options: {
             showSelectionBar: true
         }
     };
+
+    // $scope.$watchGroup(['slider.value'],
+    //     function() {
+    //         console.log($scope.slider.value);
+    //     }
+
+    // );
+
+    // function tf1() {
+    //     console.log($scope.slider.value);
+    // }
+
+    $scope.$watchGroup(['slider.value'],
+        function() {
+            sessionStorage.setItem('offsetTestAngle', $scope.slider.value);
+            console.log($scope.slider.value);
+        }
+
+    );
+
 
 }]);
 
@@ -285,12 +313,6 @@ kaleControllers.controller('MainPageController', ['$scope', '$window', function(
              var x=localStorage.getItem("position_diff");
              console.log(x)};
 
-
-    $scope.hello = function() {
-        console.log("1");
-
-
-    };
 
 
 }]);
@@ -322,20 +344,37 @@ kaleControllers.controller('SecondController', ['$scope', 'CommonData', function
 }]);
 
 
-kaleControllers.controller('EditViewController', ['$scope', '$window', function($scope, $window) {
+kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'SoundFiles', 'SoundObjects', '$window', function($scope, SoundLogic, SoundFiles, SoundObjects, $window) {
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
     $scope.birdIcon = $scope.windIcon = $scope.thunderIcon = $scope.pawIcon = {};
     $scope.birdIcon["position"] = $scope.windIcon["position"] = $scope.thunderIcon["position"] = $scope.pawIcon["position"] = null;
+
+SoundFiles.get().then(function(data){
+  $scope.soundFiles = data.data.data;
+});
+
+$scope.myFunc = function(myE) {
+    console.log(myE.target.id);
+        $scope.x = myE.clientX;
+        $scope.y = myE.clientY;
+    }
 
     // $scope.getPosition = function(icon) {
     //     //icon.position = 10;
     //     console.log(icon + icon.position);
     // }
 
-    $scope.getPosition = function(element){
+  $scope.getPosition = function(element){
         element.position = 10;
-        console.log(element.position);
+        console.log(element);
+        console.log(element);
+        SoundLogic.playSingleSoundNoAngle(element.sound);
+    }
+
+    $scope.playSound = function(path){
+      console.log(path);
+      SoundLogic.playSingleSoundNoAngle(path);
     }
 
 

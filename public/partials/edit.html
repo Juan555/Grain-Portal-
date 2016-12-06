@@ -1,30 +1,49 @@
-    <div id="icon-toolbar" data-drop="true" jqyoui-droppable>
+<div id="nav-toolbar">
+  <a class="button" ng-click="saveEnvironment()">Save</a>
+</div>
+
+<p>Coordinates: {{x + ', ' + y}}</p>1
+<div id="icon-toolbar" data-drop="true" jqyoui-droppable>
       <div class="row">
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable >
-          <div ng-model="thunderIcon" class="icon-wrapper" data-drag="true" ng-hide="thunderIcon==false" jqyoui-draggable="{onStart: getPosition($event)}">
-            <img src="./media/Icons/Thunder.png" aria-hidden="true">
+          <div ng-model="thunderIcon" class="icon-wrapper" data-drag="true" ng-hide="thunderIcon==false" jqyoui-draggable>
+            <img ng-mousemove="myFunc($event)" ng-click="playSound('../media/Sounds/thunder.wav')" src="./media/Icons/Thunder.png" aria-hidden="true">
             <i ng-click="thunderIcon=false" ng-hide="thunderIcon.position==null" class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
            </div>
           </div>
           
 <button ng-click = "hello()">hello</button>
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable data-jqyoui-options>
-          <div ng-model="birdIcon" class="icon-wrapper" data-drag="true" ng-hide="birdIcon==false" jqyoui-draggable="{onStop: getPosition({{birdIcon}})}" data-jqyoui-options>
-            <img src="./media/Icons/Bird.png" aria-hidden="true">
+          <div ng-model="birdIcon" class="icon-wrapper" data-drag="true" ng-hide="birdIcon==false" jqyoui-draggable data-jqyoui-options>
+            <img ng-mousemove="myFunc($event)" ng-click="playSound('../media/Sounds/birds.mp3')" src="./media/Icons/Bird.png" aria-hidden="true">
             <i ng-click="birdIcon=false" ng-hide="birdIcon.position==null" class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
           </div>
         </div>
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable data-jqyoui-options>
-          <div ng-model="windIcon" class="icon-wrapper" data-drag="true" ng-hide="windIcon==false" jqyoui-draggable="{onStop: getPosition({{windIcon}})}">
-            <img src="./media/Icons/Wind.png" aria-hidden="true">
+          <div ng-model="windIcon" class="icon-wrapper" data-drag="true" ng-hide="windIcon==false" jqyoui-draggable>
+            <img ng-mousemove="myFunc($event)" ng-click="playSound('../media/Sounds/wind.wav')" src="./media/Icons/Wind.png" aria-hidden="true">
             <i ng-click="windIcon=false" ng-hide="windIcon.position==null" class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
           </div>
         </div>
         <div class="small-3 large-2 columns" style="float:left !important" data-drop="true" jqyoui-droppable data-jqyoui-options>
-          <div ng-model="pawIcon" class="icon-wrapper" data-drag="true" ng-hide="pawIcon==false" jqyoui-draggable="{onStop: getPosition({{pawIcon}})}">
-            <img src="./media/Icons/Paw.png" aria-hidden="true">
+          <div ng-model="pawIcon" class="icon-wrapper" data-drag="true" ng-hide="pawIcon==false" jqyoui-draggable>
+            <img ng-mousemove="myFunc($event)" ng-click="playSound('../media/Sounds/dog.wav')"src="./media/Icons/Paw.png" aria-hidden="true">
             <i ng-click="pawIcon=false" ng-hide="pawIcon.position==null" class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
           </div>
         </div>
       </div>
   </div>
+
+<!--
+<div id="icon-toolbar">
+  <div class="row">
+    <div class="small-3 large-2 columns">
+      <span ng-repeat="soundFile in soundFiles">
+      <div class="icon-wrapper" data-drag="true" jqyoui-draggable>
+      <img ng-src="{{soundFile.imageLocation}}">
+      <i ng-click="closeIcon(soundFile)" class="fa fa-times-circul"
+      </div>
+    </span>
+  </div>
+</div>
+-->

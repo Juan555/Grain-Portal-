@@ -88,9 +88,12 @@ kaleServices.factory('SoundLogic', function($window) {
 
             function finishedLoading(bufferList) {
                 var i;
+                var sourceArray = [];
+                var pannerArray = [];
                 for (i = 0; i < bufferList.length; i++) {
 
                     var source = context.createBufferSource();
+                    sourceArray.push(source);
                     context.listener.setPosition(0, 0, 0);
 
                     source.loop = true;
@@ -98,6 +101,7 @@ kaleServices.factory('SoundLogic', function($window) {
                     source.buffer = bufferList[i];
 
                     var panner = context.createPanner();
+                    pannerArray.push(panner);
                     // panner.coneOuterGain = 0.1;
 
                     coords = coordCalc(angleArray[i], offset);
@@ -138,21 +142,99 @@ kaleServices.factory('SoundLogic', function($window) {
                     context.resume();
                 });
 
+                function offsetApply() {
+                    console.log('offsetApply');
+                    var offsetAngle = sessionStorage.getItem('offsetTestAngle');
+                    console.log("SoundLogic playEnvironment offsetApply offsetTestAngle: " + offsetAngle);
+                    var i;
+                    for (i = 0; i < pannerArray.length; i++) {
+                        // console.log(parseInt(angleArray[i]) + parseInt(offsetAngle));
+                        var coords = coordCalc(parseInt(angleArray[i]), parseInt(offsetAngle));
+                        pannerArray[i].setPosition(coords.x, coords.y, -0.5);
+                    }
+
+                }
+
+
+                function panoOffsetApply() {
+                    console.log('offsetApply');
+                    var offsetAngle = sessionStorage.getItem('insert whatever name');
+                    console.log("SoundLogic playEnvironment offsetApply offsetTestAngle: " + offsetAngle);
+                    var i;
+                    for (i = 0; i < pannerArray.length; i++) {
+                        // console.log(parseInt(angleArray[i]) + parseInt(offsetAngle));
+                        var coords = coordCalc(parseInt(angleArray[i]), parseInt(offsetAngle));
+                        pannerArray[i].setPosition(coords.x, coords.y, -0.5);
+                    }
+
+                }
+
+                // function testfx2() {
+                //     console.log('testfx2');
+                //     var coords = coordCalc(angleArray[0], 0);
+                //     // this.panner.setOrientation(Math.cos(angle), -Math.sin(angle), 1);
+                //     console.log(coords.x + " " + coords.y);
+                //     context.listener.setOrientation(0.5, 0, -1, 0, 1, 0);
+
+                // }
+
+                $('#testbutton6').click(function() {
+                    window.setInterval(offsetApply, 200);
+                });
+
+
+                $('#myPano').click(function() {
+                    console.log('pano click')
+                        // var offsetAngle = sessionStorage.getItem('position_diff');
+                        // console.log(offsetAngle);
+
+                    timeout = setInterval(panoOffsetApply, 250);
+                }).mousedown(function() {
+                    console.log('pano mousedown');
+                    // var offsetAngle = sessionStorage.getItem('position_diff');
+
+                    timeout = setInterval(panoOffsetApply, 250);
+                }).mouseup(function() {
+                    console.log('pano mouseup');
+
+                    clearInterval(timeout);
+                    return false;
+                }).mouseout(function() {
+                    console.log('pano mouseout');
+                    clearInterval(timeout);
+                    return false;
+                });
+
+
+
+                // $("html").on("dragover", function(event) {
+                //     event.preventDefault();
+                //     event.stopPropagation();
+                //     console.log('drag');
+                // });
+
+                // $('#myPano').ondrag = function(event) {
+                //     console.log('drag');
+                // };
+
+
+
             }
 
         },
 
-        downloadEnvironmentAsWAV: function(sounds, angles, volumes, offset) {
+        downloadEnvironmentAsWAV: function(sounds, angles, volumes, offset, length) {
 
             var bufferLoader;
             var soundPathArray = sounds;
             var angleArray = angles;
             var volumeArray = typeof volumes !== 'undefined' ? volumes : [];
             var offset = typeof offset !== 'undefined' ? offset : 0;
+            var length = typeof length !== 'undefined' ? length : 5;
 
             if ('AudioContext' in window) {
                 // var context = new(window.AudioContext || window.webkitAudioContext)();
-                var context = new OfflineAudioContext(2, 44100 * 5, 44100);
+                var context = new OfflineAudioContext(2, 44100 * length, 44100);
 
                 console.log("AudioContext created");
 
@@ -170,7 +252,7 @@ kaleServices.factory('SoundLogic', function($window) {
 
                     context.listener.setPosition(0, 0, 0);
 
-                    // source.loop = true;
+                    source.loop = true;
 
                     source.buffer = bufferList[i];
 
@@ -596,16 +678,16 @@ var coordCalc = function(angleInput, offset) {
         return;
     }
 
-    console.log("x is " + x);
-    console.log("y is " + y);
+    // console.log("x is " + x);
+    // console.log("y is " + y);
 
     x *= mult;
     y *= mult / 2;
 
-    var coord = {
+    var coords = {
         x: x,
         y: y
     }
 
-    return coord
+    return coords;
 }
