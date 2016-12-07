@@ -369,56 +369,56 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
     }
 
 
-                        $scope.playEnvironment();
+    // $scope.playEnvironment();
 
 
 
 
 
-//     stopPropagation('#myPano', 'mousedown');
-// stopPropagation('#myPano', 'mouseup');
+    //     stopPropagation('#myPano', 'mousedown');
+    // stopPropagation('#myPano', 'mouseup');
 
-// function stopPropagation(id, event) {
-//     $(id).on(event, function(e) {
-//         e.stopPropagation();
-//         return false;
-//     });
-// }
-$scope.myVar = -1;
-// $('#myPano').on('click', function(e){
-//     e.stopPropagation();
-//     $scope.myVar = setInterval(function(){
-//     var x=localStorage.getItem("position_diff");
-//            console.log(x);
-//      }, 1000);
-//     return false;
-// });
-// $('#myPano').on('mousedown', function(e){
-//     if ($scope.myVar == -1){
-//         $scope.myVar = setInterval(function(){
-//         var x=localStorage.getItem("position_diff");
-//        console.log(x);
-//      }, 1000);
-//     }
+    // function stopPropagation(id, event) {
+    //     $(id).on(event, function(e) {
+    //         e.stopPropagation();
+    //         return false;
+    //     });
+    // }
+    $scope.myVar = -1;
+    // $('#myPano').on('click', function(e){
+    //     e.stopPropagation();
+    //     $scope.myVar = setInterval(function(){
+    //     var x=localStorage.getItem("position_diff");
+    //            console.log(x);
+    //      }, 1000);
+    //     return false;
+    // });
+    // $('#myPano').on('mousedown', function(e){
+    //     if ($scope.myVar == -1){
+    //         $scope.myVar = setInterval(function(){
+    //         var x=localStorage.getItem("position_diff");
+    //        console.log(x);
+    //      }, 1000);
+    //     }
 
 
-// });
-// $('#myPano').on('mouseup', function(e){
-//     if ($scope.myVar != -1){
-//         clearInterval($scope.myVar);
-//         $scope.myVar = -1;
-//         console.log("1");
-//     }
+    // });
+    // $('#myPano').on('mouseup', function(e){
+    //     if ($scope.myVar != -1){
+    //         clearInterval($scope.myVar);
+    //         $scope.myVar = -1;
+    //         console.log("1");
+    //     }
 
-// });
+    // });
 
 
 
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
 
-    SoundFiles.get().then(function(data){
-      $scope.soundFiles = data.data.data;
+    SoundFiles.get().then(function(data) {
+        $scope.soundFiles = data.data.data;
     });
 
     $scope.currentSoundObjects = [];
@@ -436,52 +436,51 @@ $scope.myVar = -1;
 
 
 
-    $scope.createSoundObject = function(event, ui, data){
+    $scope.createSoundObject = function(event, ui, data) {
         console.log(data.soundFile._id);
-        if($scope.userData){
-          var newSoundObject = {
-            'angle': 90,
-            'soundFileID': data.soundFile._id,
-            'userID': $scope.userData._id
-          }
-        }
-        else {
-          $scope.error = "Please login if you would like to save or view your environment."
+        if ($scope.userData) {
+            var newSoundObject = {
+                'angle': 90,
+                'soundFileID': data.soundFile._id,
+                'userID': $scope.userData._id
+            }
+        } else {
+            $scope.error = "Please login if you would like to save or view your environment."
         }
 
-          var count = 0;
-          for(var soundObj in $scope.currentSoundObjects){
-            if(newSoundObject.soundFileID == soundObj.soundFileID){
-              SoundObjects.updateSoundObject(newSoundObject);
-              $scope.currentSoundObjects.splice(count, 1);
-              return;
+        var count = 0;
+        for (var soundObj in $scope.currentSoundObjects) {
+            if (newSoundObject.soundFileID == soundObj.soundFileID) {
+                SoundObjects.updateSoundObject(newSoundObject);
+                $scope.currentSoundObjects.splice(count, 1);
+                return;
             }
             count++;
-          }
+        }
 
-          $scope.currentSoundObjects.push(newSoundObject);
+        $scope.currentSoundObjects.push(newSoundObject);
 
-          SoundObjects.newSoundObject(newSoundObject).error(function(error){
-              console.log(error);
-          });
-      };
+        SoundObjects.newSoundObject(newSoundObject).error(function(error) {
+            console.log(error);
+        });
+    };
 
     $scope.environment = {};
     $scope.saveEnvironment = function() {
-      //if user not logged in, tell them to login or signup
-      SoundEnvironments.newSoundObject($scope.environment);
+        //if user not logged in, tell them to login or signup
+        SoundEnvironments.newSoundObject($scope.environment);
     };
 
     $scope.myFunc = function(myE) {
         console.log(myE.target.id);
-            $scope.x = myE.clientX;
-            $scope.y = myE.clientY;
-        }
+        $scope.x = myE.clientX;
+        $scope.y = myE.clientY;
+    }
 
-        $scope.playSound = function(path){
-          console.log(path);
-          SoundLogic.playSingleSoundNoAngle(path);
-        }
+    $scope.playSound = function(path) {
+        console.log(path);
+        SoundLogic.playSingleSoundNoAngle(path);
+    }
 
 
 
@@ -491,9 +490,9 @@ $scope.myVar = -1;
 kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', function($scope, $window, $location, $modal) {
 
     $scope.currentPath = $location.path;
-    $scope.setCurrentLocation = function(path){
-      $scope.currentPath = path;
-      console.log($scope.currentPath);
+    $scope.setCurrentLocation = function(path) {
+        $scope.currentPath = path;
+        console.log($scope.currentPath);
     };
 
 
@@ -631,6 +630,6 @@ kaleControllers.controller('SignupController', ['$scope', '$window', 'UserAuth',
 
 }]);
 
-kaleControllers.controller('LoadEnvironmentController', ['$scope', '$window', 'SoundLogic', 'UserAuth', function($scope, $window, SoundLogic, UserAuth){
+kaleControllers.controller('LoadEnvironmentController', ['$scope', '$window', 'SoundLogic', 'UserAuth', function($scope, $window, SoundLogic, UserAuth) {
 
 }]);
