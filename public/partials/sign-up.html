@@ -1,6 +1,9 @@
 <div ng-controller="SignupController">
     <div class="row">
         <div class="small-12 columns">
+            <h2 id="signup">Sign Up</h2>
+            <form>
+            <h2>Sign Up</h2>
             <form>
             <h2 class="title">Sign Up</h2>
             <form data-abide novalidate>
@@ -10,6 +13,8 @@
                 <input type="text" required ng-model="newuser.username"></input>
                 <label class="body">Password</label>
                 <input type="password" required ng-model="newuser.password"></input>
+                <label>Confirm Password</label>
+                <input type="password" ng-model="confirmpassword"></input>
                 <label class="body">Confirm Password</label>
                 <!--<input type="password" ng-model="confirmpassword"></input>-->
                 <input type="password" required ng-model="confirmpassword"></input>

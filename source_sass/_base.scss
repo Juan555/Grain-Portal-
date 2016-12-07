@@ -16,6 +16,9 @@
 html,
 body {
     height: 100%;
+    font-family: 'Open Sans', sans-serif !important;
+		width: 100%;
+		overflow: hidden;
     width: 100%;
     font-family: 'Open Sans', sans-serif !important;
     overflow: hidden;
@@ -79,7 +82,7 @@ h2 {
 }
 
 .button:active {
-  background-color: $darkgreen !important;
+  background-color: $midgreen;
 }
 
 .button-submit {
