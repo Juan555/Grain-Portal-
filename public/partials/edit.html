@@ -1,8 +1,23 @@
-<div id="nav-toolbar">
-  <a class="button" ng-click="saveEnvironment()">Save</a>
-</div>
 
-<div id="icon-toolbar" data-drop="true" jqyoui-droppable>
+
+<!--<nav id="nav-toolbar" ng-controller="NavController">
+    <div class="row">
+        <div class="small-4 medium-3 large-2 columns">
+            <img class="nodrag logo" src="./media/logo.png" alt="Kaleidoscope Logo"></img>
+        </div>
+        <div class="small-4 medium-4 large-5 columns" style="float:right">
+            <a class="button" ng-click="open('partials/login.html')">Login</a>
+            <a class="button" ng-click="open('partials/sign-up.html')">Sign Up</a>
+            <a class="button" ng-href="#/edit">Edit Mode</a>
+            <a class="button" ng-href="#/view">View Mode</a>
+            <a class="button" ng-click="open('partials/save.html')">Save Environment</a>
+        </div>
+    </div>
+</nav>-->
+
+
+<!--<div id="icon-toolbar" data-drop="true" jqyoui-droppable>
+
       <div class="row">
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable >
           <div ng-model="thunderIcon" class="icon-wrapper" data-drag="true" ng-hide="thunderIcon==false" jqyoui-draggable>
@@ -10,8 +25,7 @@
             <i ng-click="thunderIcon=false" ng-hide="thunderIcon.position==null" class="fa fa-times-circle icon-close-button" aria-hidden="true"></i>
            </div>
           </div>
-          
-
+>>>>>>> 197654376ba9a1e649246233b7ff5dad3f5290e3
         <div class="small-3 large-2 columns" data-drop="true" jqyoui-droppable data-jqyoui-options>
           <div ng-model="birdIcon" class="icon-wrapper" data-drag="true" ng-hide="birdIcon==false" jqyoui-draggable data-jqyoui-options>
             <img ng-mousemove="myFunc($event)" ng-click="playSound('../media/Sounds/birds.mp3')" src="./media/Icons/Bird.png" aria-hidden="true">
@@ -32,17 +46,14 @@
         </div>
       </div>
   </div>
+-->
 
-<!--
 <div id="icon-toolbar">
   <div class="row">
-    <div class="small-3 large-2 columns">
-      <span ng-repeat="soundFile in soundFiles">
-      <div class="icon-wrapper" data-drag="true" jqyoui-draggable>
-      <img ng-src="{{soundFile.imageLocation}}">
-      <i ng-click="closeIcon(soundFile)" class="fa fa-times-circul"
-      </div>
-    </span>
+    <div class="small-12 large-8 columns">
+      <span class="icon-wrapper" data-drag="true" jqyoui-draggable ng-repeat="soundFile in soundFiles">
+      <img width="15%" ng-mousemove="myFunc(soundFile, $event)" ng-src="{{soundFile.imageLocation}}" ng-click="playSound(soundFile.soundFileLocation)">
+      <!--<i ng-click="closeIcon(soundFile)" class="fa fa-times-circul"-->
+      </span>
   </div>
 </div>
--->

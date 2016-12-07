@@ -53,13 +53,79 @@ h2 {
 }
 
 .nodrag {
-    user-drag: none;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
     -webkit-user-select: none;
     -ms-user-select: none;
 }
+
+h2 {
+  font-family: 'Open Sans', sans-serif !important;
+  margin: auto;
+}
+
+.button {
+  background-color: rgba(255, 255, 255, 0.75);
+  margin-top: 20px;
+  color: $darkgreen;
+  font-weight: bold;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+}
+
+.button:hover {
+  background-color: $midgreen;
+}
+
+.button:active {
+  background-color: $darkgreen !important;
+}
+
+.button-submit {
+  background-color: $darkgreen;
+  color: $white;
+  padding: 10px;
+  margin: auto;
+}
+
+#welcome {
+  background-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bold;
+  color: $darkgreen;
+  padding: 10px;
+}
+
+.subtitle {
+  font-size: .8rem;
+  text-align: center;
+  color: $darkgreen;
+}
+
+.body {
+  font-size: .8rem;
+  color: $darkgreen;
+}
+
+#intro-logo {
+  height: 50%;
+  width: 50%;
+  margin: auto;
+}
+
+.small-12 columns {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+
+/*.button:visited {
+  background-color: $font-mid;
+}*/
 
 .pano {
     width: 100%;
@@ -120,6 +186,7 @@ h2 {
 .sound-icon {
     z-index: 2;
     position: absolute !important;
+    cursor: pointer;
 }
 
 div {
@@ -145,9 +212,13 @@ div {
 #nav-toolbar {
   z-index: 1;
   top: 0;
-  right: 0px;
+  width: 100%;
   position: fixed;
   display: block;
   margin: 0px;
   padding: 15px;
+}
+
+.logo {
+  opacity: 0.85;
 }
