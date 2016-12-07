@@ -92,6 +92,40 @@ h2 {
   margin: auto;
 }
 
+#welcome {
+  background-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bold;
+  color: $darkgreen;
+  padding: 10px;
+}
+
+.subtitle {
+  font-size: .8rem;
+  text-align: center;
+  color: $darkgreen;
+}
+
+.body {
+  font-size: .8rem;
+  color: $darkgreen;
+}
+
+#intro-logo {
+  height: 50%;
+  width: 50%;
+  margin: auto;
+}
+
+.small-12 columns {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+
 /*.button:visited {
   background-color: $font-mid;
 }*/
@@ -155,6 +189,7 @@ h2 {
 .sound-icon {
     z-index: 2;
     position: absolute !important;
+    cursor: pointer;
 }
 
 div {
@@ -180,9 +215,13 @@ div {
 #nav-toolbar {
   z-index: 1;
   top: 0;
-  right: 0px;
+  width: 100%;
   position: fixed;
   display: block;
   margin: 0px;
   padding: 15px;
+}
+
+.logo {
+  opacity: 0.85;
 }

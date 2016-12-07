@@ -1,13 +1,13 @@
 <div ng-controller="LoginController">
     <div class="row">
         <div class="small-12 columns">
-            <h2>Login</h2>
+            <h2 class="title">Login</h2>
             <form>
-                <label>Username</label>
+                <label class="body">Username</label>
                 <input type="text" ng-model="user.username"></input>
-                <label>Password</label>
+                <label class="body">Password</label>
                 <input type="password" ng-model="user.password"></input>
-                <input ng-click="login()" class="button-submit" type="submit"></input>
+                <input ng-click="login()" class="button-submit button" type="submit"></input>
             </form>
             <button ng-click="cancel()" class="close-button" aria-label="Close reveal" type="button">
                 <span aria-hidden="true">&times;</span>

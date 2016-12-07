@@ -155,9 +155,9 @@ kaleServices.factory('SoundLogic', function($window) {
                 }
 
 
-                function panoOffsetApply() {
+                function panoOffsetApply(y) {
                     console.log('offsetApply');
-                    var offsetAngle = sessionStorage.getItem('insert whatever name');
+                    var offsetAngle = y;
                     console.log("SoundLogic playEnvironment offsetApply offsetTestAngle: " + offsetAngle);
                     var i;
                     for (i = 0; i < pannerArray.length; i++) {
@@ -167,6 +167,24 @@ kaleServices.factory('SoundLogic', function($window) {
                     }
 
                 }
+                $('#myPano')
+
+                    .mousedown(function(){
+                        setInterval(function(){
+                                var x=3140 - localStorage.getItem("position_diff");
+                                if (x < 0){
+                                    y = (((3140 + (x%3140) )*18)/157)%360;
+                                    // console.log(y);
+                                }
+                                else{
+                                    y = ((18*x)/157)%360;
+                                    
+                                }
+                                
+                           panoOffsetApply(y);
+                        }, 250);
+                        
+                    });
 
                 // function testfx2() {
                 //     console.log('testfx2');
