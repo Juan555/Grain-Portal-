@@ -432,6 +432,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
                         };
 
                         SoundEnvironments.getUserEnvironments(params).success(function(data){
+                            $scope.soundEnvironments = data.data;
                             console.log("getUserEnv return");
                             console.log(data);
 
@@ -674,7 +675,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
         var soundAngles = [];
         var sounds = [];
 
-        SoundEnvironments.getSingleSoundEnvironment(envID)
+        SoundEnvironments.getSingleSoundObject(envID)
             .success(function(data) {
                 var soundObjectIDs = data.data.soundObjectIDArray;
 
@@ -942,5 +943,42 @@ kaleControllers.controller('LoadEnvironmentController', ['$scope', 'Users', '$wi
     };
 
     $scope.getEnvironments();
+
+
+    $scope.playViewEnvironment = function(envID){
+        var soundFileIDs = [];
+        var soundAngles = [];
+        var sounds = [];
+        console.log('hi');
+
+        SoundEnvironments.getSingleSoundEnvironment(envID)
+            .success(function(data){
+                var soundObjectIDs = data.data.soundObjectIDArray;
+
+                for(var i = 0; i < soundObjectIDs; i++){
+                  SoundObjects.getSingleSoundObject(soundObjectIDs[i])
+                      .success(function(data) {
+                        soundAngles.push(data.data.angle);
+                        soundFileIDs.push(data.data.soundFileID);
+                      });
+                }
+
+
+            });
+
+          for(var i=0; i < soundFileIDs; i++){
+            SoundFiles.getSingleSoundFile(soundFileIDs[i])
+                .success(function(data){
+                  sounds.push(data.data.soundFileLocation);
+                })
+          }
+
+
+          SoundLogic.playEnvironment(sounds, soundAngles);
+
+      };
+
+
+
 
 }]);
