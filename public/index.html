@@ -65,17 +65,22 @@
                 <a ng-hide="loggedin" class="button nodrag" ng-click="open('partials/login.html')">Login</a>
                 <a ng-show="loggedin" class="button nodrag" ng-click="logout()">Logout</a>
                 <a ng-hide="loggedin" class="button nodrag" ng-click="open('partials/sign-up.html')">Sign Up</a>
-                <a class="button nodrag" ng-click="setCurrentLocation('/edit')" ng-href="#/edit">Edit Mode</a>
-                <a class="button nodrag" ng-click="setCurrentLocation('/view')" ng-href="#/view">View Mode</a>
-                <a ng-hide="currentPath != '/edit'" class="button" ng-click="open('partials/save.html')">Save Environment</a>
-                <a ng-hide="currentPath != '/view'" ng-click="open('partials/saved-views.html')" class="button">Load Saved View</a>
+                <a class="button nodrag" ng-click="toEditView()" ng-href="#/edit">Edit Mode</a>
+                <a class="button nodrag" ng-click="toViewView()">View Mode</a>
+<!-- <a class="button nodrag" ng-click="setCurrentLocation('/edit')" ng-href="#/edit">Edit Mode</a>
+<a class="button nodrag" ng-click="setCurrentLocation('/view')" ng-href="#/view">View Mode</a>
+ -->
+                <!--<a ng-hide="currentPath != '/edit'" class="button" ng-click="open('partials/save.html')">Save Environment</a>
+                <a ng-hide="currentPath != '/view'" ng-click="open('partials/saved-views.html')" class="button">Load Saved View</a> -->
+                <a ng-show="isEditView" class="button" ng-click="open('partials/save.html')">Save Environment</a>
+                <a ng-hide="isEditView" ng-click="open('partials/saved-views.html')" class="button">Load Saved View</a>
             </div>
         </div>
     </nav>
     <div id="myPano" class="pano">
         <div class="controls">
-            <a class="left">&laquo;</a>
-            <a class="right">&raquo;</a>
+            <a id="leftpanoclick" class="left">&laquo;</a>
+            <a id="rightpanoclick" class="right">&raquo;</a>
         </div>
     </div>
     <script>

@@ -409,55 +409,160 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     $scope.accessUserData();
 
     $rootScope.currentSoundObjects = [];
+
+
+    function popsarray_h() {
+        // run this code
+
+        setTimeout(popsarray, 100);
+    }
+
+    function popsarray() {
+        if ($rootScope.sArray == undefined) {
+            console.log("rootscope undefined");
+            // Sorry rootScope but sleepy
+            $rootScope.sArray = [0, 0, 0, 0];
+            $rootScope.origArray = [0, 0, 0, 0];
+            $rootScope.diffArray = [0, 0, 0, 0];
+
+            $('.soundIcons').each(function(index) {
+                var t = ($(this).offset()).left;
+                // console.log("left start offset get");
+                // console.log(t);
+                $rootScope.origArray[index] = 0 - parseInt(t, 10);
+
+            });
+
+            console.log($rootScope.sArray);
+        }
+    }
+
+    popsarray_h();
+
+
+
     $scope.createSoundObject = function(event, ui, data) {
-            var newSound = {};
-              if(userID != ""){
-                 newSound = {
-                  "angle": 90,
-                  "soundFileID": data.soundFile._id,
-                  "userID": userID
-                };
-              }
-              else {
-                 newSound = {
-                  "angle": 90,
-                  "soundFileID": data.soundFile._id,
-                  "userID": ""
-                };
-              }
+        // console.log(data.soundFile._id);
+        console.log(event.clientX);
+        // console.log(event);
 
-              $rootScope.currentSoundObjects.push(newSound);
-              console.log($rootScope.currentSoundObjects);
-              SoundObjects.newSoundObject(newSound);
+        if (data.soundFile._id == "58461523b6b5711b4dae25dd") {
+            console.log("BIRD");
+            $rootScope.sArray[3] = event.clientX + $rootScope.origArray[3];
+            $rootScope.diffArray[3] = localStorage.getItem('position_diff');
 
-      };
+        } else if (data.soundFile._id == "584613beb6b5711b4dae25db") {
+            console.log("RAIN");
+            $rootScope.sArray[2] = event.clientX + $rootScope.origArray[2];
+            $rootScope.diffArray[2] = localStorage.getItem('position_diff');
+
+        } else if (data.soundFile._id == "584610e6b6b5711b4dae25da") {
+            console.log("WIND");
+            $rootScope.sArray[1] = event.clientX + $rootScope.origArray[1];
+            $rootScope.diffArray[1] = localStorage.getItem('position_diff');
+
+        } else {
+            console.log("DOG");
+            $rootScope.sArray[0] = event.clientX + $rootScope.origArray[0];
+            $rootScope.diffArray[0] = localStorage.getItem('position_diff');
+
+        }
+
+        console.log("sArray: " + $rootScope.sArray);
+        console.log("diffArray: " + $rootScope.diffArray);
 
 
-$scope.environment = {};
+        var newSound = {};
+        if (userID != "") {
+            newSound = {
+                "angle": 90,
+                "soundFileID": data.soundFile._id,
+                "userID": userID
+            };
+        } else {
+            newSound = {
+                "angle": 90,
+                "soundFileID": data.soundFile._id,
+                "userID": ""
+            };
+        }
 
-      $scope.saveEnvironment = function() {
+        $rootScope.currentSoundObjects.push(newSound);
+        console.log($rootScope.currentSoundObjects);
+        SoundObjects.newSoundObject(newSound);
+
+    };
+
+
+    $scope.environment = {};
+
+    $scope.saveEnvironment = function() {
         console.log($rootScope.currentSoundObjects);
         $scope.environment.soundObjectIDArray = $rootScope.currentSoundObjects;
         $scope.environment.userID = userID;
         SoundEnvironments.newSoundObject($scope.environment)
-          .error(function(error){
-            console.log(error);
-          });
-      };
+            .error(function(error) {
+                console.log(error);
+            });
+    };
 
 
-      $scope.myFunc = function(myE) {
-          console.log(myE.target.id);
-              $scope.x = myE.clientX;
-              $scope.y = myE.clientY;
-          }
+    $scope.myFunc = function(myE) {
+        console.log(myE.target.id);
+        $scope.x = myE.clientX;
+        $scope.y = myE.clientY;
+    }
 
-          $scope.playSound = function(path){
-            console.log(path);
-            SoundLogic.playSingleSoundNoAngle(path);
-          }
+    $scope.playSound = function(path) {
+        console.log(path);
+        SoundLogic.playSingleSoundNoAngle(path);
+    }
 
-  }]);
+
+    var timeout;
+    $("#myPano, #leftpanoclick, #rightpanoclick").mousedown(function() {
+
+        timeout = setInterval(function() {
+
+            $('.soundIcons').each(function(index) {
+                var diff = localStorage.getItem('position_diff') - $scope.diffArray[index] - 119 + 130;
+                diff += -40;
+                diff = diff % (4055);
+                // var offset = parseInt($(this).css('left'), 10);
+                var f = $rootScope.sArray[index];
+                // console.log("sArray " + index + " " + f);
+                // console  .log(offset);
+                if ($(this).css('top') != "0px") {
+                    $(this).css('left', diff + f);
+                }
+            })
+
+        }, 50);
+
+
+        //WEIRD STUFF HAPPENS AFTER LOOPAROUND
+
+        return false;
+
+    });
+
+
+    $(document).mouseup(function() {
+        clearInterval(timeout);
+
+        // $('.soundIcons').each(function(index) {
+        //     // console.log("attr start");
+        //     $(this).attr('start', 0);
+        // });
+        // $(".soundIcons").attr('start', 0);
+
+        return false;
+    });
+
+
+
+
+}]);
 
 
 kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', 'UserAuth', function($scope, $window, $location, $modal, UserAuth) {
@@ -556,7 +661,15 @@ kaleControllers.controller('NavController', ['$scope', '$window', '$location', '
         $scope.$root.loggedin = false;
     }
 
+    $scope.isEditView = true;
 
+    $scope.toEditView = function() {
+        $scope.isEditView = true;
+    }
+
+    $scope.toViewView = function() {
+        $scope.isEditView = false;
+    }
 
 }]);
 
@@ -657,29 +770,29 @@ kaleControllers.controller('SignupController', ['$scope', '$window', 'UserAuth',
 }]);
 
 kaleControllers.controller('LoadEnvironmentController', ['$scope', 'Users', '$window', 'SoundLogic', 'SoundEnvironments', 'UserAuth', function($scope, Users, $window, SoundLogic, SoundEnvironments, UserAuth) {
-  $scope.accessUserData = function() {
-      UserAuth.useToken().success(function(data) {
-          $scope.userData = data;
-      }).error(function(error) {
-          $scope.status = "soundTest UserAuth userToken error: " + error;
-          console.log($scope.status);
-      });
-  };
+    $scope.accessUserData = function() {
+        UserAuth.useToken().success(function(data) {
+            $scope.userData = data;
+        }).error(function(error) {
+            $scope.status = "soundTest UserAuth userToken error: " + error;
+            console.log($scope.status);
+        });
+    };
 
-  $scope.accessUserData();
+    $scope.accessUserData();
 
-  $scope.getEnvironments = function(){
-    if($scope.userData.username != null){
-      console.log($scope.userData);
-      console.log('hi');
-      Users.getSingleUser($scope.userData.userID).success(function(data) {
-          $scope.soundEnvironments = data.data.soundEnvironmentIDArray;
-      })
-      .error(function(error){
-        console.log(error);
-      });
+    $scope.getEnvironments = function() {
+        if ($scope.userData.username != null) {
+            console.log($scope.userData);
+            console.log('hi');
+            Users.getSingleUser($scope.userData.userID).success(function(data) {
+                    $scope.soundEnvironments = data.data.soundEnvironmentIDArray;
+                })
+                .error(function(error) {
+                    console.log(error);
+                });
+        }
     }
-  }
 
 
 }]);

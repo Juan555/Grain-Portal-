@@ -44,6 +44,7 @@ https://seancoyne.github.io/pano
 			cb = cb || function(){};
 			
 			localStorage.setItem("position_diff",getCurrentPosition());
+			// console.log(getCurrentPosition());
 			
 			moveBackgroundTo(getCurrentPosition() + distance, duration, cb);
 		};
