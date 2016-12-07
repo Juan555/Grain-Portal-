@@ -23,7 +23,6 @@
     abf();
     </script> -->
     <script src="./lib/angular/angular.min.js"></script>
-    <script src="./lib/angular-cookies/angular-cookies.min.js"></script>
     <script src="./lib/angular-dragdrop/src/angular-dragdrop.min.js"></script>
     <script src="./lib/jqueryui-touch-punch/jquery.ui.touch-punch.min.js"></script>
     <script src="./lib/angular-route/angular-route.min.js"></script>
@@ -55,34 +54,33 @@
         <a class="button" href="#/secondview">Second View</a>
     </div> -->
     <!--     <img src="media/background.jpg" class="advancedpanorama" width="6000" height="700" usemap="testmap" alt="forest image" /> -->
+
     <div ng-view></div>
-    <nav id="nav-toolbar" ng-controller="NavController" data-ng-init="open('partials/intro.html')">
-        <div class="row">
-            <div class="small-4 medium-3 large-2 columns">
-                <img class="nodrag logo" src="./media/logo.png" alt="Kaleidoscope Logo"></img>
-            </div>
-            <div class="small-3 medium-4 large-5 columns" style="float:right">
-                <a ng-hide="loggedin" class="button nodrag" ng-click="open('partials/login.html')">Login</a>
-                <a ng-show="loggedin" class="button nodrag" ng-click="logout()">Logout</a>
-                <a ng-hide="loggedin" class="button nodrag" ng-click="open('partials/sign-up.html')">Sign Up</a>
-                <a class="button nodrag" ng-click="toEditView()" ng-href="#/edit">Edit Mode</a>
-                <a class="button nodrag" ng-click="toViewView()">View Mode</a>
-<!-- <a class="button nodrag" ng-click="setCurrentLocation('/edit')" ng-href="#/edit">Edit Mode</a>
-<a class="button nodrag" ng-click="setCurrentLocation('/view')" ng-href="#/view">View Mode</a>
- -->
-                <!--<a ng-hide="currentPath != '/edit'" class="button" ng-click="open('partials/save.html')">Save Environment</a>
-                <a ng-hide="currentPath != '/view'" ng-click="open('partials/saved-views.html')" class="button">Load Saved View</a> -->
-                <a ng-show="isEditView" class="button" ng-click="open('partials/save.html')">Save Environment</a>
-                <a ng-hide="isEditView" ng-click="open('partials/saved-views.html')" class="button">Load Saved View</a>
-            </div>
-        </div>
-    </nav>
+
     <div id="myPano" class="pano">
         <div class="controls">
-            <a id="leftpanoclick" class="left">&laquo;</a>
-            <a id="rightpanoclick" class="right">&raquo;</a>
+            <a class="left">&laquo;</a>
+            <a class="right">&raquo;</a>
         </div>
+
+        <nav ng-controller="NavController" data-ng-init="open('partials/intro.html')">
+              <div class="row">
+                  <div class="small-4 medium-3 large-2 columns">
+                      <img class="nodrag logo" src="./media/logo.png" alt="Kaleidoscope Logo"></img>
+                  </div>
+                  <div class="small-3 medium-4 large-5 columns" style="float:right">
+                      <a class="button nodrag" ng-click="open('partials/login.html')">Login</a>
+                      <a class="button nodrag" ng-click="open('partials/sign-up.html')">Sign Up</a>
+                      <a class="button nodrag" ng-click="setCurrentLocation('/edit')" ng-href="#/edit">Edit Mode</a>
+                      <a class="button nodrag" ng-click="setCurrentLocation('/view')" ng-href="#/view">View Mode</a>
+                      <a ng-hide="currentPath != '/edit'" class="button" ng-click="open('partials/save.html')">Save Environment</a>
+                      <a ng-hide="currentPath != '/view'" ng-click="open('partials/saved-views.html')" class="button">Load Saved View</a>
+                  </div>
+              </div>
+          </nav>
+
     </div>
+
     <script>
     $(document).foundation();
     </script>
