@@ -23,8 +23,8 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'SoundTestController'
     }).
     when('/', {
-        templateUrl: 'partials/mainpage.html',
-        controller: 'MainPageController'
+        templateUrl: 'partials/edit.html',
+        controller: 'EditViewController'
     }).
     when('/edit', {
         templateUrl:'partials/edit.html',
