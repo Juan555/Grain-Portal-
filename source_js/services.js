@@ -473,6 +473,15 @@ kaleServices.factory('Users', function($http, $window) {
 
 kaleServices.factory('SoundEnvironments', function($http, $window) {
     return {
+        getUserEnvironments: function(params) {
+            console.log("SoundEnvironments Service Attempt getUserEnvironments");
+
+            var baseUrl = $window.sessionStorage.baseurl;
+            var combinedUrl = baseUrl + '/api/soundenvironments?';
+                combinedUrl += 'where={"userID": "' + params.userID + '"}';
+            
+            return $http.get(combinedUrl);
+        },
         get: function() {
             console.log("SoundEnvironments Service Attempt get GET");
             var baseUrl = $window.sessionStorage.baseurl;

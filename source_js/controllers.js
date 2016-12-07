@@ -393,8 +393,8 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     });
 
     var userID = "";
-    if($scope.userID == undefined){
-      $scope.userID = "";
+    if ($scope.userID == undefined) {
+        $scope.userID = "";
     }
 
     $scope.accessUserData = function() {
@@ -403,6 +403,55 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
 
             userID = $scope.userData._id;
             $scope.userID = userID;
+
+            console.log("right here: " + $scope.userID);
+
+
+            $scope.getEnvironments = function() {
+
+                Users.getSingleUser($scope.userID).success(function(data) {
+                        console.log(data);
+                        $scope.soundEnvironments = data.data[0].soundEnvironmentIDArray;
+                        // console.log("env");
+                        // console.log($scope.soundEnvironments);
+
+                        if ($scope.soundEnvironments.length == 0) {
+                            console.log("soundEnvironments array length is 0");
+                            return;
+                        }
+
+                        // SoundEnvironments.get($scope.soundEnvironments[0]).success(function(data){
+
+                        // }).error(function(error) {
+                        //   console.log(error);
+                        // })
+                        // console.log(data);
+
+                        var params = {
+                            userID: $scope.userID
+                        };
+
+                        SoundEnvironments.getUserEnvironments(params).success(function(data){
+                            console.log("getUserEnv return");
+                            console.log(data);
+
+                        }).error(function(error) {
+                        console.log("getUserEnv error: " + error);
+                        })
+
+
+
+
+                    })
+                    .error(function(error) {
+
+                        console.log("getEnvironments error: " + error);
+                    });
+            };
+
+            $scope.getEnvironments();
+
+
 
         }).error(function(error) {
             $scope.status = "EditView UserAuth userToken error: " + error;
@@ -428,7 +477,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
 
     function popsarray() {
         if ($rootScope.sArray == undefined) {
-            console.log("rootscope undefined");
+            // console.log("rootscope undefined");
             // Sorry rootScope but sleepy
             $rootScope.sArray = [0, 0, 0, 0];
             $rootScope.origArray = [0, 0, 0, 0];
@@ -484,21 +533,20 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
             y = ((18 * x) / 157) % 360;
 
         }
-              var newSound = {};
-                if(userID != ""){
-                   newSound = {
-                    "angle": y,
-                    "soundFileID": data.soundFile._id,
-                    "userID": userID
-                  };
-                }
-                else {
-                   newSound = {
-                    "angle": y,
-                    "soundFileID": data.soundFile._id,
-                    "userID": ""
-                  };
-                }
+        var newSound = {};
+        if (userID != "") {
+            newSound = {
+                "angle": y,
+                "soundFileID": data.soundFile._id,
+                "userID": userID
+            };
+        } else {
+            newSound = {
+                "angle": y,
+                "soundFileID": data.soundFile._id,
+                "userID": ""
+            };
+        }
 
         $rootScope.currentSoundObjects.push(newSound);
         console.log($rootScope.currentSoundObjects);
@@ -597,64 +645,65 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     });
 
 
-      $scope.getEnvironments = function(){
+    // $scope.getEnvironments = function(){
 
-          Users.getSingleUser(userID).success(function(data) {
-            console.log(data);
-              $scope.soundEnvironments = data.data[0].soundEnvironmentIDArray;
-              SoundEnvironments.getSingleSoundObject().success(function(data){
-              }).error(function(error) {
-                console.log(error);
-              })
-              console.log(data);
-          })
-          .error(function(error){
-            console.log(error);
-          });
-      };
+    //     Users.getSingleUser($scope.userID).success(function(data) {
+    //       console.log(data);
+    //         $scope.soundEnvironments = data.data[0].soundEnvironmentIDArray;
+    //         SoundEnvironments.getSingleSoundObject().success(function(data){
+    //         }).error(function(error) {
+    //           console.log(error);
+    //         })
+    //         console.log(data);
+    //     })
+    //     .error(function(error){
 
-      $scope.getEnvironments();
+    //       console.log("getEnvironments error: " + error);
+    //     });
+    // };
 
-          $scope.playSound = function(path){
-            console.log(path);
-            SoundLogic.playSingleSoundNoAngle(path);
-          }
+    // $scope.getEnvironments();
 
-          $scope.playViewEnvironment = function(envID){
-              var soundFileIDs = [];
-              var soundAngles = [];
-              var sounds = [];
+    $scope.playSound = function(path) {
+        console.log(path);
+        SoundLogic.playSingleSoundNoAngle(path);
+    }
 
-              SoundEnvironments.getSingleSoundEnvironment(envID)
-                  .success(function(data){
-                      var soundObjectIDs = data.data.soundObjectIDArray;
+    $scope.playViewEnvironment = function(envID) {
+        var soundFileIDs = [];
+        var soundAngles = [];
+        var sounds = [];
 
-                      for(var i = 0; i < soundObjectIDs; i++){
-                        SoundObjects.getSingleSoundObject(soundObjectIDs[i])
-                            .success(function(data) {
-                              soundAngles.push(data.data.angle);
-                              soundFileIDs.push(data.data.soundFileID);
-                            });
-                      }
+        SoundEnvironments.getSingleSoundEnvironment(envID)
+            .success(function(data) {
+                var soundObjectIDs = data.data.soundObjectIDArray;
 
-
-                  });
-
-                for(var i=0; i < soundFileIDs; i++){
-                  SoundFiles.getSingleSoundFile(soundFileIDs[i])
-                      .success(function(data){
-                        sounds.push(data.data.soundFileLocation);
-                      })
+                for (var i = 0; i < soundObjectIDs; i++) {
+                    SoundObjects.getSingleSoundObject(soundObjectIDs[i])
+                        .success(function(data) {
+                            soundAngles.push(data.data.angle);
+                            soundFileIDs.push(data.data.soundFileID);
+                        });
                 }
 
 
-                SoundLogic.playEnvironment(sounds, soundAngles);
+            });
 
-            };
+        for (var i = 0; i < soundFileIDs; i++) {
+            SoundFiles.getSingleSoundFile(soundFileIDs[i])
+                .success(function(data) {
+                    sounds.push(data.data.soundFileLocation);
+                })
+        }
+
+
+        SoundLogic.playEnvironment(sounds, soundAngles);
+
+    };
 
 
 
-  }]);
+}]);
 
 
 
@@ -872,7 +921,7 @@ kaleControllers.controller('LoadEnvironmentController', ['$scope', 'Users', '$wi
             $scope.userData = data;
             $scope.userID = $scope.userData._id;
         }).error(function(error) {
-            $scope.status = "soundTest UserAuth userToken error: " + error;
+            $scope.status = "LoadEnvironmentController UserAuth userToken error: " + error;
             console.log($scope.status);
         });
     };
@@ -886,6 +935,7 @@ kaleControllers.controller('LoadEnvironmentController', ['$scope', 'Users', '$wi
                     console.log(data);
                 })
                 .error(function(error) {
+                    console.log("Get environments fail: " + error);
                     console.log(error);
                 });
         }
