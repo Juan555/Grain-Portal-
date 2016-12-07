@@ -306,7 +306,7 @@ kaleControllers.controller('MainPageController', ['$scope', '$window', function(
 }]);
 
 
-kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'SoundFiles', 'SoundObjects', 'SoundEnvironments', '$window', 'UserAuth', function($scope, SoundLogic, SoundFiles, SoundObjects, SoundEnvironments, $window, UserAuth) {
+kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'SoundLogic', 'SoundFiles', 'SoundObjects', 'SoundEnvironments', '$window', 'UserAuth', function($scope, $rootScope, SoundLogic, SoundFiles, SoundObjects, SoundEnvironments, $window, UserAuth) {
 
     $scope.playEnvironment = function() {
 
@@ -393,7 +393,7 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
     });
 
     var userID = "";
-$scope.userData = {};
+
     $scope.accessUserData = function() {
         UserAuth.useToken().success(function(data) {
             $scope.userData = data;
@@ -408,38 +408,35 @@ $scope.userData = {};
 
     $scope.accessUserData();
 
-    var currentSoundObjects = [];
+    $rootScope.currentSoundObjects = [];
     $scope.createSoundObject = function(event, ui, data) {
+            var newSound = {};
+              if(userID != ""){
+                 newSound = {
+                  "angle": 90,
+                  "soundFileID": data.soundFile._id,
+                  "userID": userID
+                };
+              }
+              else {
+                 newSound = {
+                  "angle": 90,
+                  "soundFileID": data.soundFile._id,
+                  "userID": ""
+                };
+              }
 
-        if(userID != ""){
-          var newSoundObject = {
-            "angle": 90,
-            "soundFileID": data.soundFile._id,
-            "userID": userID
-          };
-        }
-        else {
-          var newSoundObject = {
-            "angle": 90,
-            "soundFileID": data.soundFile._id,
-            "userID": ""
-          };
+              $rootScope.currentSoundObjects.push(newSound);
+              console.log($rootScope.currentSoundObjects);
+              SoundObjects.newSoundObject(newSound);
 
-        }
       };
 
-
-
-        currentSoundObjects.push(newSoundObject);
-        SoundObjects.newSoundObject(newSoundObject);
-
-
-
-      console.log(currentSoundObjects);
+      console.log($rootScope.currentSoundObjects);
 
       $scope.saveEnvironment = function() {
         $scope.environment = {};
-        $scope.environment.soundObjectIDArray = currentSoundObjects;
+        $scope.environment.soundObjectIDArray = $rootScope.currentSoundObjects;
         $scope.environment.userID = userID;
         SoundEnvironments.newSoundObject($scope.environment)
           .error(function(error){
