@@ -385,7 +385,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
 
 
 
-    $window.sessionStorage.baseurl = 'http://fa16-cs498rk-081.cs.illinois.edu:4000';
+    $window.sessionStorage.baseurl = 'http://localhost:3000';
 
 
     SoundFiles.get().then(function(data) {
