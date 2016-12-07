@@ -4,8 +4,7 @@
     <h2 class="title">Saved Views</h2>
     <p>Please login or signup if you would like to save and load your sound environments.</p>
       <div ng-repeat="env in soundEnvironments">
-      <a class="button" ng-click="playEnvironment({{env._id}})" href="">{{env._id}}</a>
-      {{env}}hi
+      <div class="button" ng-click="playViewEnvironment(env._id); close()">{{env.name}}</div>
     </div>
   </div>
   </div>
