@@ -468,10 +468,10 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
     $scope.environment = {};
     $scope.saveEnvironment = function() {
 
-      //if user not logged in, tell them to login or signup
-      $scope.environment["soundObjectIDArray"] = $scope.currentSoundObjects;
-      $scope.environment["userID"] = $scope.userData._id;
-      SoundEnvironments.newSoundObject($scope.environment);
+        //if user not logged in, tell them to login or signup
+        $scope.environment["soundObjectIDArray"] = $scope.currentSoundObjects;
+        $scope.environment["userID"] = $scope.userData._id;
+        SoundEnvironments.newSoundObject($scope.environment);
     };
 
     $scope.myFunc = function(myE) {
@@ -486,11 +486,9 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
     }
 
 
-
-
 }]);
 
-kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', function($scope, $window, $location, $modal) {
+kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', '$cookieStore', '$cookies', 'UserAuth' ,function($scope, $window, $location, $modal, $cookieStore, $cookies, UserAuth) {
 
     $scope.currentPath = $location.path;
     $scope.setCurrentLocation = function(path) {
@@ -524,7 +522,6 @@ kaleControllers.controller('NavController', ['$scope', '$window', '$location', '
             }
         };
 
-
         var modalInstance = $modal.open(params);
 
         modalInstance.result.then(function(selectedItem) {
@@ -533,6 +530,16 @@ kaleControllers.controller('NavController', ['$scope', '$window', '$location', '
             //$log.info('Modal dismissed at: ' + new Date());
         });
     };
+
+
+    $scope.logout = function() {
+        console.log("Logout");
+        // $cookieStore.remove("access-token");
+        // $cookies.put('myFavorite', 'oatmeal');
+        // $cookies.remove('access-token');
+        UserAuth.logout();
+
+    }
 
 }]);
 

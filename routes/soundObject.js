@@ -95,24 +95,6 @@ module.exports = function(router) {
             return;
         }
 
-        if (angle.length == 0 && userID.length == 0) {
-            var result = {};
-            result.message = "Error: Angle and userID are required";
-            result.data = [];
-            res.status(400);
-            res.json(result);
-            return;
-        }
-
-        if (soundFileID.length == 0 && userID.length == 0) {
-            var result = {};
-            result.message = "Error: soundFileID and userID are required";
-            result.data = [];
-            res.status(400);
-            res.json(result);
-            return;
-        }
-
         if (angle.length == 0) {
             var result = {};
             result.message = "Error: Angle is required";
