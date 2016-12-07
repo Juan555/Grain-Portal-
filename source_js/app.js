@@ -35,7 +35,7 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'EditViewController'
     }).
     otherwise({
-        redirectTo: '/'
+        redirectTo: '/edit'
     });
 
     // $httpProvider.defaults.withCredentials = true;
