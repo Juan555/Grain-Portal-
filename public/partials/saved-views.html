@@ -1,10 +1,14 @@
-<div ng-controller="LoadEnvironmentController" class="row">
+<div class="row">
   <div class="small-12 columns">
-    
+  <div  ng-controller="EditViewController">
     <h2 class="title">Saved Views</h2>
-      <div ng-show="view.length > 0" ng-repeat="view in views">
-      <a href="">{{view.name}}</a>
+    <p>Please login or sign up if you would like to save and load your sound environments.</p>
+
+      <div ng-repeat="env in soundEnvironments">
+      <div class="button" ng-click="playViewEnvironment(env._id)">{{env.name}}</div>
+
     </div>
+  </div>
   </div>
   <a ng-click="cancel()" class="close-button" aria-label="Close reveal" type="button">
       <span aria-hidden="true">&times;</span>

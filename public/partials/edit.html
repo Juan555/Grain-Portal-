@@ -48,11 +48,13 @@
   </div>
 -->
 
+
+
 <div id="icon-toolbar">
   <div class="row">
     <div class="small-12 large-8 columns">
       <span class="icon-wrapper" ng-repeat="soundFile in soundFiles">
-      <img width="15%" data-drag="true" jqyoui-draggable="{onStop: 'createSoundObject({soundFile})'}" ng-src="{{soundFile.imageLocation}}" ng-click="playSound(soundFile.soundFileLocation)">
+      <img class="soundIcons" width="15%" data-drag="true" jqyoui-draggable="{onStop: 'createSoundObject({soundFile})'}" ng-src="{{soundFile.imageLocation}}" ng-click="playSound(soundFile.soundFileLocation)">
       <!--<i ng-click="closeIcon(soundFile)" class="fa fa-times-circul"-->
       </span>
   </div>

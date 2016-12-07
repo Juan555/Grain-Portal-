@@ -1,26 +1,5 @@
 var kaleServices = angular.module('kaleServices', []);
 
-kaleServices.factory('CommonData', function() {
-    var data = "";
-    return {
-        getData: function() {
-            return data;
-        },
-        setData: function(newData) {
-            data = newData;
-        }
-    }
-});
-
-kaleServices.factory('Llamas', function($http, $window) {
-    return {
-        get: function() {
-            var baseUrl = $window.sessionStorage.baseurl;
-            return $http.get(baseUrl + '/api/llamas');
-        }
-    }
-});
-
 kaleServices.factory('SoundLogic', function($window) {
     return {
 
@@ -29,7 +8,7 @@ kaleServices.factory('SoundLogic', function($window) {
             var bufferLoader;
             var soundPath = sound;
             var volumeNum = typeof volume !== 'undefined' ? volume : 0.5;
-            var time = typeof time !== 'undefined' ? time : 5000;
+            var time = typeof time !== 'undefined' ? time : 1000000;
 
             if ('AudioContext' in window) {
                 var context = new(window.AudioContext || window.webkitAudioContext)();
@@ -70,7 +49,7 @@ kaleServices.factory('SoundLogic', function($window) {
         },
 
         playEnvironment: function(sounds, angles, volumes, offset) {
-
+            console.log("playEnvironment");
             var bufferLoader;
             var soundPathArray = sounds;
             var angleArray = angles;
@@ -154,6 +133,17 @@ kaleServices.factory('SoundLogic', function($window) {
 
                 }
 
+                console.log("above offsetApply");
+
+                $("#testbutton6").click(function(){
+                window.setInterval(function(){
+                    offsetApply();
+                }, 100);
+                    
+                })
+
+
+
 
                 function panoOffsetApply(y) {
                     console.log('offsetApply');
@@ -167,24 +157,30 @@ kaleServices.factory('SoundLogic', function($window) {
                     }
 
                 }
+                var intervalIRight;
                 $('#myPano')
 
-                    .mousedown(function(){
-                        setInterval(function(){
-                                var x=3140 - localStorage.getItem("position_diff");
-                                if (x < 0){
-                                    y = (((3140 + (x%3140) )*18)/157)%360;
-                                    // console.log(y);
-                                }
-                                else{
-                                    y = ((18*x)/157)%360;
-                                    
-                                }
-                                
-                           panoOffsetApply(y);
+
+                .mousedown(function() {
+                        intervalIRight = setInterval(function() {
+                            var x = 3140 - localStorage.getItem("position_diff");
+                            if (x < 0) {
+                                y = (((3140 + (x % 3140)) * 18) / 157) % 360;
+                                // console.log(y);
+                            } else {
+                                y = ((18 * x) / 157) % 360;
+
+                            }
+
+                            panoOffsetApply(y);
+
                         }, 250);
-                        
+
+                    })
+                    .mouseup(function() {
+                        clearInterval(intervalIRight);
                     });
+
 
                 // function testfx2() {
                 //     console.log('testfx2');
@@ -195,32 +191,8 @@ kaleServices.factory('SoundLogic', function($window) {
 
                 // }
 
-                $('#testbutton6').click(function() {
-                    window.setInterval(offsetApply, 200);
-                });
 
 
-                $('#myPano').click(function() {
-                    console.log('pano click')
-                        // var offsetAngle = sessionStorage.getItem('position_diff');
-                        // console.log(offsetAngle);
-
-                    timeout = setInterval(panoOffsetApply, 250);
-                }).mousedown(function() {
-                    console.log('pano mousedown');
-                    // var offsetAngle = sessionStorage.getItem('position_diff');
-
-                    timeout = setInterval(panoOffsetApply, 250);
-                }).mouseup(function() {
-                    console.log('pano mouseup');
-
-                    clearInterval(timeout);
-                    return false;
-                }).mouseout(function() {
-                    console.log('pano mouseout');
-                    clearInterval(timeout);
-                    return false;
-                });
 
 
 
@@ -512,6 +484,15 @@ kaleServices.factory('Users', function($http, $window) {
 
 kaleServices.factory('SoundEnvironments', function($http, $window) {
     return {
+        getUserEnvironments: function(params) {
+            console.log("SoundEnvironments Service Attempt getUserEnvironments");
+
+            var baseUrl = $window.sessionStorage.baseurl;
+            var combinedUrl = baseUrl + '/api/soundenvironments?';
+            combinedUrl += 'where={"userID": "' + params.userID + '"}';
+
+            return $http.get(combinedUrl);
+        },
         get: function() {
             console.log("SoundEnvironments Service Attempt get GET");
             var baseUrl = $window.sessionStorage.baseurl;
@@ -631,6 +612,11 @@ kaleServices.factory('UserAuth', function($http, $window) {
                 method: 'GET',
                 url: baseUrl + '/api/userauth'
             });
+        },
+        logout: function() {
+            console.log("UserAuth Service Attempt logout (JWT) GET");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.get(baseUrl + '/api/userlogout');
         }
     }
 });
@@ -652,7 +638,7 @@ var coordCalc = function(angleInput, offset) {
     if (angle >= 0 && angle <= 45) {
         //angle to rad
         rad = angle * Math.PI / 180;
-        //determine sound position 
+        //determine sound position
         x = Math.asin(rad);
         y = Math.acos(rad);
     } else if (angle > 45 && angle <= 90) {

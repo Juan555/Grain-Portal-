@@ -95,24 +95,6 @@ module.exports = function(router) {
             return;
         }
 
-        if (angle.length == 0 && userID.length == 0) {
-            var result = {};
-            result.message = "Error: Angle and userID are required";
-            result.data = [];
-            res.status(400);
-            res.json(result);
-            return;
-        }
-
-        if (soundFileID.length == 0 && userID.length == 0) {
-            var result = {};
-            result.message = "Error: soundFileID and userID are required";
-            result.data = [];
-            res.status(400);
-            res.json(result);
-            return;
-        }
-
         if (angle.length == 0) {
             var result = {};
             result.message = "Error: Angle is required";
@@ -130,37 +112,6 @@ module.exports = function(router) {
             res.json(result);
             return;
         }
-
-        if (userID.length == 0) {
-            var result = {};
-            result.message = "Error: userID is required";
-            result.data = [];
-            res.status(400);
-            res.json(result);
-            return;
-        }
-
-        SoundObject.findOne({ userID: userID }, function(error, soundObject) {
-
-            if (error) {
-                var result = {};
-                result.message = "Server Error: Error finding soundObject with same userID";
-                result.data = [];
-                res.status(500);
-                res.json(result);
-                return;
-            }
-
-            if (soundObject) {
-
-                var result = {};
-                result.message = "Error: This userID already exists";
-                result.data = [];
-                res.status(400);
-                res.json(result);
-                return;
-
-            }
 
             newSoundObject.save(function(error) {
                 if (error) {
@@ -180,7 +131,7 @@ module.exports = function(router) {
                 return;
 
             });
-        });
+
     });
 
     soundObjectRoute.options(function(req, res) {
@@ -227,7 +178,7 @@ module.exports = function(router) {
         var soundFileID = req.body.soundFileID;
         var userID = req.body.userID;
 
-        if (angle.length == 0 || soundFileID.length == 0 || userID.length == 0) {
+        if (angle.length == 0 || soundFileID.length == 0) {
             var result = {};
             result.message = "Error: Missing data";
             result.data = [];

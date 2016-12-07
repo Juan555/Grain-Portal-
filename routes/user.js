@@ -413,7 +413,7 @@ module.exports = function(router) {
         // var token = getToken(req.headers);
         var token = req.signedCookies['access-token'];
         // token = token.split('=')[1];
-        console.log("access-token: " + token);
+        // console.log("access-token: " + token);
         if (token) {
             var decoded = jwt.decode(token, secrets.secret);
             User.findOne({ username: decoded.username }, function(error, user) {
@@ -457,6 +457,22 @@ module.exports = function(router) {
             return;
         }
     });
+
+    var userLogoutRoute = router.route('/userlogout');
+
+    userLogoutRoute.get(function(req, res) {
+        console.log("Attempt Cookie Clear 1");
+
+        // Not sure exactly how, but these three lines do the trick for cookie deletion
+        res.clearCookie('access-token');
+        var token = jwt.encode(user, secrets.secret, 'HS512');
+        res.cookie('access-token', token, { expires: new Date(0), httpOnly: true, signed: true });
+
+
+        // res.cookie('access-token', "", { expires: new Date(0), httpOnly: true, signed: true });
+        return;
+    });
+
 
     // getToken = function(headers) {
     //     if (headers && headers.authorization) {
