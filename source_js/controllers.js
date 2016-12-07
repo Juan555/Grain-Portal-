@@ -340,7 +340,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     }
 
 
-    $scope.playEnvironment();
+    // $scope.playEnvironment();
 
 
 
@@ -559,6 +559,8 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
         $scope.filesArray.push(data.soundFile.soundFileLocation);
         console.log("here is "+$scope.anglesArray);
 
+        $rootScope.fA = $scope.filesArray;
+        $rootScope.aA = $scope.anglesArray;
         SoundLogic.playEnvironment($scope.filesArray, $scope.anglesArray);
 
         $rootScope.currentSoundObjects.push(newSound);
@@ -578,8 +580,6 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
         SoundObjects.newSoundObject(newSound);
 
     };
-
-
 
 
     $scope.myFunc = function(myE) {
@@ -721,7 +721,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
 
 
 
-kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', 'UserAuth', function($scope, $window, $location, $modal, UserAuth) {
+kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', 'UserAuth', 'SoundLogic', '$rootScope', function($scope, $window, $location, $modal, UserAuth, SoundLogic, $rootScope) {
 
     // $scope.loggedin = sessionStorage.getItem('loggedin');
     $scope.$root.loggedin = false;
@@ -825,6 +825,26 @@ kaleControllers.controller('NavController', ['$scope', '$window', '$location', '
 
     $scope.toViewView = function() {
         $scope.isEditView = false;
+    }
+
+    $scope.downloadEnvironmentAsWAV = function() {
+
+        // required
+        sounds = ['../media/Sounds/dog.wav',
+            '../media/Sounds/birds.wav'
+        ];
+
+        //required
+        angles = [-90, 90];
+
+        //optional, default is 0.5
+        volumes = [0.8, 0.8];
+
+        var offset = 0;
+
+        var length = 30;
+
+        SoundLogic.downloadEnvironmentAsWAV(sounds, angles, volumes, offset, length);
     }
 
 }]);
