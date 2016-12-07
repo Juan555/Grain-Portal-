@@ -131,7 +131,7 @@ module.exports = function(router) {
                 return;
 
             });
-  
+
     });
 
     soundObjectRoute.options(function(req, res) {
@@ -178,7 +178,7 @@ module.exports = function(router) {
         var soundFileID = req.body.soundFileID;
         var userID = req.body.userID;
 
-        if (angle.length == 0 || soundFileID.length == 0 || userID.length == 0) {
+        if (angle.length == 0 || soundFileID.length == 0) {
             var result = {};
             result.message = "Error: Missing data";
             result.data = [];
