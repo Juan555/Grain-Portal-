@@ -42,7 +42,7 @@ app.config(['$routeProvider', function($routeProvider) {
 
 }]);
 
-app.run(function($rootScope) {
+app.run(function($rootScope, $location) {
     $rootScope.$on('$viewContentLoaded', function () {
         $(document).foundation();
     });

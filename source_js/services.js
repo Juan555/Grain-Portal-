@@ -1,26 +1,5 @@
 var kaleServices = angular.module('kaleServices', []);
 
-kaleServices.factory('CommonData', function() {
-    var data = "";
-    return {
-        getData: function() {
-            return data;
-        },
-        setData: function(newData) {
-            data = newData;
-        }
-    }
-});
-
-kaleServices.factory('Llamas', function($http, $window) {
-    return {
-        get: function() {
-            var baseUrl = $window.sessionStorage.baseurl;
-            return $http.get(baseUrl + '/api/llamas');
-        }
-    }
-});
-
 kaleServices.factory('SoundLogic', function($window) {
     return {
 
@@ -170,6 +149,7 @@ kaleServices.factory('SoundLogic', function($window) {
                 var intervalIRight;
                 $('#myPano')
 
+
                 .mousedown(function() {
                         intervalIRight = setInterval(function() {
                             var x = 3140 - localStorage.getItem("position_diff");
@@ -182,6 +162,7 @@ kaleServices.factory('SoundLogic', function($window) {
                             }
 
                             panoOffsetApply(y);
+
                         }, 250);
 
                     })
@@ -637,7 +618,7 @@ var coordCalc = function(angleInput, offset) {
     if (angle >= 0 && angle <= 45) {
         //angle to rad
         rad = angle * Math.PI / 180;
-        //determine sound position 
+        //determine sound position
         x = Math.asin(rad);
         y = Math.acos(rad);
     } else if (angle > 45 && angle <= 90) {

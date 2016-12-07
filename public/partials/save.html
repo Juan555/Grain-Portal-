@@ -1,8 +1,9 @@
-<div class="row" ng-controller="EditViewController">
-  <div class="small-12 columns">
-    <form>
+<div class="row">
+  <div class="small-12 columns" >
+    <form ng-controller="EditViewController">
       <h2 class="title">Save Your Current Environment</h2>
-      <label class="body">Environment name</label><input ng-model="environment.name" required type="text">
+      <p>If you'd like to save your current sound environment, please login or signup!</p>
+      <label class="body">Environment Name</label><input ng-model="environment.name" required type="text">
       <input class="button-submit button"  ng-click="saveEnvironment()" type="submit">
 
     </form>
