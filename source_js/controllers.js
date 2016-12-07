@@ -306,7 +306,7 @@ kaleControllers.controller('MainPageController', ['$scope', '$window', function(
 }]);
 
 
-kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'SoundLogic', 'SoundFiles', 'SoundObjects', 'SoundEnvironments', '$window', 'UserAuth', function($scope, $rootScope, SoundLogic, SoundFiles, SoundObjects, SoundEnvironments, $window, UserAuth) {
+kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'SoundLogic', 'SoundFiles', 'SoundObjects', 'SoundEnvironments', '$window', 'Users', 'UserAuth', function($scope, $rootScope, SoundLogic, SoundFiles, SoundObjects, SoundEnvironments, $window, Users, UserAuth) {
 
     $scope.playEnvironment = function() {
 
@@ -408,8 +408,13 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
 
     $scope.accessUserData();
 
-    $rootScope.currentSoundObjects = [];
 
+    if ($rootScope.currentSoundObjects == undefined) {
+        $rootScope.currentSoundObjects = [];
+    }
+    if ($rootScope.soundIDs == undefined) {
+        $rootScope.soundIDs = [];
+    }
 
     function popsarray_h() {
         // run this code
@@ -440,7 +445,6 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     popsarray_h();
 
 
-
     $scope.createSoundObject = function(event, ui, data) {
         // console.log(data.soundFile._id);
         console.log(event.clientX);
@@ -467,6 +471,12 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
             $rootScope.diffArray[0] = localStorage.getItem('position_diff');
 
         }
+        $rootScope.currentSoundObjects.push(newSound);
+        console.log($rootScope.currentSoundObjects);
+        SoundObjects.newSoundObject(newSound)
+            .success(function(data) {
+                $rootScope.soundIDs.push(data.data._id);
+            });
 
         console.log("sArray: " + $rootScope.sArray);
         console.log("diffArray: " + $rootScope.diffArray);
@@ -494,19 +504,6 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     };
 
 
-    $scope.environment = {};
-
-    $scope.saveEnvironment = function() {
-        console.log($rootScope.currentSoundObjects);
-        $scope.environment.soundObjectIDArray = $rootScope.currentSoundObjects;
-        $scope.environment.userID = userID;
-        SoundEnvironments.newSoundObject($scope.environment)
-            .error(function(error) {
-                console.log(error);
-            });
-    };
-
-
     $scope.myFunc = function(myE) {
         console.log(myE.target.id);
         $scope.x = myE.clientX;
@@ -517,6 +514,29 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
         console.log(path);
         SoundLogic.playSingleSoundNoAngle(path);
     }
+
+    $scope.environment = {};
+
+    $scope.saveEnvironment = function() {
+        console.log($rootScope.soundIDs);
+        for (var i = 0; i < $rootScope.currentSoundObjects.length; i++) {
+
+        }
+        $scope.environment.soundObjectIDArray = $rootScope.soundIDs;
+        $scope.environment.userID = userID;
+        SoundEnvironments.newSoundObject($scope.environment)
+            .success(function(data) {
+                var envID = data.data._id;
+                Users.getSingleUser(userID)
+                    .success(function(updateuserdata) {
+                        updateuserdata.data[0].soundEnvironmentIDArray.push(envID);
+                        Users.updateUser(updateuserdata.data[0]);
+                    });
+            })
+            .error(function(error) {
+                console.log(error);
+            });
+    };
 
 
     var timeout;
@@ -770,29 +790,35 @@ kaleControllers.controller('SignupController', ['$scope', '$window', 'UserAuth',
 }]);
 
 kaleControllers.controller('LoadEnvironmentController', ['$scope', 'Users', '$window', 'SoundLogic', 'SoundEnvironments', 'UserAuth', function($scope, Users, $window, SoundLogic, SoundEnvironments, UserAuth) {
+
+    if ($scope.userID == undefined) {
+        $scope.userID = "";
+    }
     $scope.accessUserData = function() {
         UserAuth.useToken().success(function(data) {
             $scope.userData = data;
+            $scope.userID = $scope.userData._id;
         }).error(function(error) {
             $scope.status = "soundTest UserAuth userToken error: " + error;
             console.log($scope.status);
         });
     };
-
+    console.log($scope.userID);
     $scope.accessUserData();
 
     $scope.getEnvironments = function() {
-        if ($scope.userData.username != null) {
-            console.log($scope.userData);
-            console.log('hi');
-            Users.getSingleUser($scope.userData.userID).success(function(data) {
-                    $scope.soundEnvironments = data.data.soundEnvironmentIDArray;
+        if ($scope.userID != "") {
+            Users.getSingleUser($scope.userID).success(function(data) {
+                    $scope.soundEnvironments = data.data[0].soundEnvironmentIDArray;
+                    console.log(data);
                 })
                 .error(function(error) {
                     console.log(error);
                 });
         }
-    }
+    };
+
+    $scope.getEnvironments();
 
 
 }]);
