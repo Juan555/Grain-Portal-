@@ -135,10 +135,13 @@ kaleServices.factory('SoundLogic', function($window) {
 
                 console.log("above offsetApply");
 
-                // window.setInterval(offsetApply(), 100);
+                $("#testbutton6").click(function(){
                 window.setInterval(function(){
                     offsetApply();
                 }, 100);
+                    
+                })
+
 
 
 

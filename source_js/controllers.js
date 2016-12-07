@@ -340,7 +340,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     }
 
 
-    // $scope.playEnvironment();
+    $scope.playEnvironment();
 
 
 
