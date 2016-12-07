@@ -404,6 +404,38 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
             userID = $scope.userData._id;
             $scope.userID = userID;
 
+            console.log("right here: " + $scope.userID);
+
+
+      $scope.getEnvironments = function(){
+
+          Users.getSingleUser($scope.userID).success(function(data) {
+            console.log(data);
+              $scope.soundEnvironments = data.data[0].soundEnvironmentIDArray;
+              // console.log("env");
+              // console.log($scope.soundEnvironments);
+
+              if($scope.soundEnvironments.length == 0) {
+                console.log("soundEnvironments array length is 0");
+                return;
+              }
+
+              SoundEnvironments.getSingleSoundObject($scope.soundEnvironments[0]).success(function(data){
+              }).error(function(error) {
+                console.log(error);
+              })
+              console.log(data);
+          })
+          .error(function(error){
+
+            console.log("getEnvironments error: " + error);
+          });
+      };
+
+      $scope.getEnvironments();
+
+
+
         }).error(function(error) {
             $scope.status = "EditView UserAuth userToken error: " + error;
             console.log($scope.status);
@@ -428,7 +460,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
 
     function popsarray() {
         if ($rootScope.sArray == undefined) {
-            console.log("rootscope undefined");
+            // console.log("rootscope undefined");
             // Sorry rootScope but sleepy
             $rootScope.sArray = [0, 0, 0, 0];
             $rootScope.origArray = [0, 0, 0, 0];
@@ -597,23 +629,24 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     });
 
 
-      $scope.getEnvironments = function(){
+      // $scope.getEnvironments = function(){
 
-          Users.getSingleUser(userID).success(function(data) {
-            console.log(data);
-              $scope.soundEnvironments = data.data[0].soundEnvironmentIDArray;
-              SoundEnvironments.getSingleSoundObject().success(function(data){
-              }).error(function(error) {
-                console.log(error);
-              })
-              console.log(data);
-          })
-          .error(function(error){
-            console.log(error);
-          });
-      };
+      //     Users.getSingleUser($scope.userID).success(function(data) {
+      //       console.log(data);
+      //         $scope.soundEnvironments = data.data[0].soundEnvironmentIDArray;
+      //         SoundEnvironments.getSingleSoundObject().success(function(data){
+      //         }).error(function(error) {
+      //           console.log(error);
+      //         })
+      //         console.log(data);
+      //     })
+      //     .error(function(error){
 
-      $scope.getEnvironments();
+      //       console.log("getEnvironments error: " + error);
+      //     });
+      // };
+
+      // $scope.getEnvironments();
 
           $scope.playSound = function(path){
             console.log(path);
@@ -872,7 +905,7 @@ kaleControllers.controller('LoadEnvironmentController', ['$scope', 'Users', '$wi
             $scope.userData = data;
             $scope.userID = $scope.userData._id;
         }).error(function(error) {
-            $scope.status = "soundTest UserAuth userToken error: " + error;
+            $scope.status = "LoadEnvironmentController UserAuth userToken error: " + error;
             console.log($scope.status);
         });
     };
@@ -886,6 +919,7 @@ kaleControllers.controller('LoadEnvironmentController', ['$scope', 'Users', '$wi
                     console.log(data);
                 })
                 .error(function(error) {
+                    console.log("Get environments fail: " + error);
                     console.log(error);
                 });
         }
