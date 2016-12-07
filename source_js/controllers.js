@@ -407,7 +407,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     };
 
     $scope.accessUserData();
-
+    
     $rootScope.currentSoundObjects = [];
     $scope.createSoundObject = function(event, ui, data) {
             var newSound = {};
@@ -432,9 +432,10 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
 
       };
 
-      console.log($rootScope.currentSoundObjects);
+
 
       $scope.saveEnvironment = function() {
+        console.log($rootScope.currentSoundObjects);
         $scope.environment = {};
         $scope.environment.soundObjectIDArray = $rootScope.currentSoundObjects;
         $scope.environment.userID = userID;
@@ -634,7 +635,7 @@ kaleControllers.controller('SignupController', ['$scope', '$window', 'UserAuth',
                     console.log("UserAuth login success");
                     console.log("Token: " + $scope.token);
 
-                   
+
                     $scope.$root.loggedin = true;
                     console.log("signup loggedin: " + $scope.$root.loggedin);
                 }).error(function(error) {
