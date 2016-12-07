@@ -131,37 +131,6 @@ module.exports = function(router) {
             return;
         }
 
-        if (userID.length == 0) {
-            var result = {};
-            result.message = "Error: userID is required";
-            result.data = [];
-            res.status(400);
-            res.json(result);
-            return;
-        }
-
-        SoundObject.findOne({ userID: userID }, function(error, soundObject) {
-
-            if (error) {
-                var result = {};
-                result.message = "Server Error: Error finding soundObject with same userID";
-                result.data = [];
-                res.status(500);
-                res.json(result);
-                return;
-            }
-
-            if (soundObject) {
-
-                var result = {};
-                result.message = "Error: This userID already exists";
-                result.data = [];
-                res.status(400);
-                res.json(result);
-                return;
-
-            }
-
             newSoundObject.save(function(error) {
                 if (error) {
                     var result = {};
@@ -180,7 +149,7 @@ module.exports = function(router) {
                 return;
 
             });
-        });
+  
     });
 
     soundObjectRoute.options(function(req, res) {
