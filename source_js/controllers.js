@@ -671,7 +671,6 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     }
 
     $scope.playViewEnvironment = function(envID) {
-      console.log('hi');
         var soundFileIDs = [];
         var soundAngles = [];
         var sounds = [];
