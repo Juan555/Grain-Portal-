@@ -167,10 +167,11 @@ kaleServices.factory('SoundLogic', function($window) {
                     }
 
                 }
+                var intervalIRight;
                 $('#myPano')
 
                     .mousedown(function(){
-                        setInterval(function(){
+                        intervalIRight = setInterval(function(){
                                 var x=3140 - localStorage.getItem("position_diff");
                                 if (x < 0){
                                     y = (((3140 + (x%3140) )*18)/157)%360;
@@ -184,7 +185,11 @@ kaleServices.factory('SoundLogic', function($window) {
                            panoOffsetApply(y);
                         }, 250);
                         
+                    })
+                    .mouseup(function(){
+                        clearInterval(intervalIRight);
                     });
+                    
 
                 // function testfx2() {
                 //     console.log('testfx2');
@@ -195,32 +200,8 @@ kaleServices.factory('SoundLogic', function($window) {
 
                 // }
 
-                $('#testbutton6').click(function() {
-                    window.setInterval(offsetApply, 200);
-                });
 
 
-                $('#myPano').click(function() {
-                    console.log('pano click')
-                        // var offsetAngle = sessionStorage.getItem('position_diff');
-                        // console.log(offsetAngle);
-
-                    timeout = setInterval(panoOffsetApply, 250);
-                }).mousedown(function() {
-                    console.log('pano mousedown');
-                    // var offsetAngle = sessionStorage.getItem('position_diff');
-
-                    timeout = setInterval(panoOffsetApply, 250);
-                }).mouseup(function() {
-                    console.log('pano mouseup');
-
-                    clearInterval(timeout);
-                    return false;
-                }).mouseout(function() {
-                    console.log('pano mouseout');
-                    clearInterval(timeout);
-                    return false;
-                });
 
 
 
