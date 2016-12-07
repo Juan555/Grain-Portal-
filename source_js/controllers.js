@@ -393,12 +393,16 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     });
 
     var userID = "";
+    if($scope.userID == undefined){
+      $scope.userID = "";
+    }
 
     $scope.accessUserData = function() {
         UserAuth.useToken().success(function(data) {
             $scope.userData = data;
 
             userID = $scope.userData._id;
+            $scope.userID = userID;
 
         }).error(function(error) {
             $scope.status = "EditView UserAuth userToken error: " + error;
@@ -446,6 +450,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
 
 
     $scope.createSoundObject = function(event, ui, data) {
+
         // console.log(data.soundFile._id);
         console.log(event.clientX);
         // console.log(event);
@@ -471,6 +476,30 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
             $rootScope.diffArray[0] = localStorage.getItem('position_diff');
 
         }
+        var x = 3140 - localStorage.getItem("position_diff");
+        if (x < 0) {
+            y = (((3140 + (x % 3140)) * 18) / 157) % 360;
+            // console.log(y);
+        } else {
+            y = ((18 * x) / 157) % 360;
+
+        }
+              var newSound = {};
+                if(userID != ""){
+                   newSound = {
+                    "angle": y,
+                    "soundFileID": data.soundFile._id,
+                    "userID": userID
+                  };
+                }
+                else {
+                   newSound = {
+                    "angle": y,
+                    "soundFileID": data.soundFile._id,
+                    "userID": ""
+                  };
+                }
+
         $rootScope.currentSoundObjects.push(newSound);
         console.log($rootScope.currentSoundObjects);
         SoundObjects.newSoundObject(newSound)
@@ -482,26 +511,14 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
         console.log("diffArray: " + $rootScope.diffArray);
 
 
-        var newSound = {};
-        if (userID != "") {
-            newSound = {
-                "angle": 90,
-                "soundFileID": data.soundFile._id,
-                "userID": userID
-            };
-        } else {
-            newSound = {
-                "angle": 90,
-                "soundFileID": data.soundFile._id,
-                "userID": ""
-            };
-        }
 
         $rootScope.currentSoundObjects.push(newSound);
         console.log($rootScope.currentSoundObjects);
         SoundObjects.newSoundObject(newSound);
 
     };
+
+
 
 
     $scope.myFunc = function(myE) {
@@ -580,9 +597,65 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     });
 
 
+      $scope.getEnvironments = function(){
+
+          Users.getSingleUser(userID).success(function(data) {
+            console.log(data);
+              $scope.soundEnvironments = data.data[0].soundEnvironmentIDArray;
+              SoundEnvironments.getSingleSoundObject().success(function(data){
+              }).error(function(error) {
+                console.log(error);
+              })
+              console.log(data);
+          })
+          .error(function(error){
+            console.log(error);
+          });
+      };
+
+      $scope.getEnvironments();
+
+          $scope.playSound = function(path){
+            console.log(path);
+            SoundLogic.playSingleSoundNoAngle(path);
+          }
+
+          $scope.playViewEnvironment = function(envID){
+              var soundFileIDs = [];
+              var soundAngles = [];
+              var sounds = [];
+
+              SoundEnvironments.getSingleSoundEnvironment(envID)
+                  .success(function(data){
+                      var soundObjectIDs = data.data.soundObjectIDArray;
+
+                      for(var i = 0; i < soundObjectIDs; i++){
+                        SoundObjects.getSingleSoundObject(soundObjectIDs[i])
+                            .success(function(data) {
+                              soundAngles.push(data.data.angle);
+                              soundFileIDs.push(data.data.soundFileID);
+                            });
+                      }
 
 
-}]);
+                  });
+
+                for(var i=0; i < soundFileIDs; i++){
+                  SoundFiles.getSingleSoundFile(soundFileIDs[i])
+                      .success(function(data){
+                        sounds.push(data.data.soundFileLocation);
+                      })
+                }
+
+
+                SoundLogic.playEnvironment(sounds, soundAngles);
+
+            };
+
+
+
+  }]);
+
 
 
 kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', 'UserAuth', function($scope, $window, $location, $modal, UserAuth) {
@@ -819,6 +892,5 @@ kaleControllers.controller('LoadEnvironmentController', ['$scope', 'Users', '$wi
     };
 
     $scope.getEnvironments();
-
 
 }]);

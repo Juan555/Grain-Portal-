@@ -4,7 +4,7 @@
       <h2 class="title">Save Your Current Environment</h2>
       <p>If you'd like to save your current sound environment, please login or signup!</p>
       <label class="body">Environment Name</label><input ng-model="environment.name" required type="text">
-      <input class="button-submit button"  ng-click="saveEnvironment()" type="submit">
+      <input class="button-submit button"  ng-click="saveEnvironment(); cancel()" type="submit">
 
     </form>
     <a ng-click="cancel()" class="close-button" aria-label="Close reveal" type="button">
