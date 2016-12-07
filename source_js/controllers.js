@@ -235,6 +235,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     $scope.login = function() {
         // console.log($scope.user.username);
         // console.log($scope.user.password);
+        console.log("Login function called");
         UserAuth.login($scope.user).success(function(data) {
             $scope.token = data.token;
             console.log("UserAuth login success");
@@ -426,8 +427,12 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
     $scope.accessUserData = function() {
         UserAuth.useToken().success(function(data) {
             $scope.userData = data;
+
+            //Set login status
+            // sessionStorage.setItem('loggedin', true);
+
         }).error(function(error) {
-            $scope.status = "soundTest UserAuth userToken error: " + error;
+            $scope.status = "EditView UserAuth userToken error: " + error;
             console.log($scope.status);
         });
     }
@@ -488,7 +493,24 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
 
 }]);
 
-kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', '$cookieStore', '$cookies', 'UserAuth' ,function($scope, $window, $location, $modal, $cookieStore, $cookies, UserAuth) {
+kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', 'UserAuth', function($scope, $window, $location, $modal, UserAuth) {
+
+    // $scope.loggedin = sessionStorage.getItem('loggedin');
+    $scope.$root.loggedin = false;
+
+    $scope.accessUserData = function() {
+        UserAuth.useToken().success(function(data) {
+            $scope.$root.loggedin = true;
+        }).error(function(error) {
+            $scope.status = "soundTest UserAuth userToken error: " + error;
+            console.log($scope.status);
+        });
+    }
+
+    $scope.accessUserData();
+    console.log("scope.loggedin: " + $scope.$root.loggedin);
+
+
 
     $scope.currentPath = $location.path;
     $scope.setCurrentLocation = function(path) {
@@ -507,6 +529,23 @@ kaleControllers.controller('NavController', ['$scope', '$window', '$location', '
             },
             controller: function($scope, $modalInstance) {
 
+
+                function run() {
+                    // run this code
+
+                    setTimeout(afterTwoSeconds, 500);
+                }
+
+                function afterTwoSeconds() {
+                    // run this code two seconds after executing run.
+                    if ($scope.$root.loggedin == true) {
+                        console.log("after2: " + $scope.$root.loggedin);
+                        $scope.cancel();
+                    }
+                }
+
+
+
                 $scope.reposition = function() {
                     $modalInstance.reposition();
                 };
@@ -519,6 +558,14 @@ kaleControllers.controller('NavController', ['$scope', '$window', '$location', '
                     $modalInstance.dismiss('cancel');
                 };
 
+                $scope.finished = function() {
+                    // call run
+                    run();
+
+                    // if ($scope.$root.loggedin == true) {
+                    //     $modalInstance.dismiss('cancel');
+                    // }
+                }
             }
         };
 
@@ -538,8 +585,11 @@ kaleControllers.controller('NavController', ['$scope', '$window', '$location', '
         // $cookies.put('myFavorite', 'oatmeal');
         // $cookies.remove('access-token');
         UserAuth.logout();
-
+        // sessionStorage.setItem('loggedin', false);
+        $scope.$root.loggedin = false;
     }
+
+
 
 }]);
 
@@ -579,7 +629,7 @@ kaleControllers.controller('LoginController', ['$scope', '$window', 'UserAuth', 
     $scope.accessUserData = function() {
         UserAuth.useToken().success(function(data) {
             $scope.userData = data;
-            alert("Welcome " + data.username + " (" + data.email + ")");
+            // alert("Welcome " + data.username + " (" + data.email + ")");
         }).error(function(error) {
             $scope.status = "soundTest UserAuth userToken error: " + error;
             console.log($scope.status);
@@ -596,19 +646,21 @@ kaleControllers.controller('LoginController', ['$scope', '$window', 'UserAuth', 
     $scope.userData = '';
 
     $scope.login = function() {
-        // console.log($scope.user.username);
-        // console.log($scope.user.password);
+        console.log("Login function called");
         UserAuth.login($scope.user).success(function(data) {
             $scope.token = data.token;
             console.log("UserAuth login success");
             console.log("Token: " + $scope.token);
             $scope.accessUserData();
+
+            $scope.$root.closeModal = true;
+            // sessionStorage.setItem('loggedin', true);
+            $scope.$root.loggedin = true;
+            console.log("loggedin: " + $scope.$root.loggedin);
         }).error(function(error) {
             $scope.status = "soundTest UserAuth login error: " + error.message;
             console.log($scope.status);
         });
-
-
     }
 
 }]);
@@ -632,6 +684,32 @@ kaleControllers.controller('SignupController', ['$scope', '$window', 'UserAuth',
         Users.newUser($scope.newuser).success(function(data) {
             console.log("New User created");
             console.log(data);
+
+            $scope.user = {
+                username: $scope.newuser.username,
+                password: $scope.newuser.password
+            };
+
+            $scope.login = function() {
+                console.log("Login function called");
+                UserAuth.login($scope.user).success(function(data) {
+                    $scope.token = data.token;
+                    console.log("UserAuth login success");
+                    console.log("Token: " + $scope.token);
+
+                   
+                    $scope.$root.loggedin = true;
+                    console.log("signup loggedin: " + $scope.$root.loggedin);
+                }).error(function(error) {
+                    $scope.status = "SignUpController UserAuth login error: " + error.message;
+                    console.log($scope.status);
+                });
+            }
+
+            $scope.login();
+
+
+
         }).error(function(error) {
             $scope.status = "soundTest Users Signup error: " + error.message;
             console.log($scope.status);

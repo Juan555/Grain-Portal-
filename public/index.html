@@ -62,9 +62,9 @@
                 <img class="nodrag logo" src="./media/logo.png" alt="Kaleidoscope Logo"></img>
             </div>
             <div class="small-3 medium-4 large-5 columns" style="float:right">
-                <a class="button nodrag" ng-click="open('partials/login.html')">Login</a>
-                <a class="button nodrag" ng-click="logout()">Logout</a>
-                <a class="button nodrag" ng-click="open('partials/sign-up.html')">Sign Up</a>
+                <a ng-hide="loggedin" class="button nodrag" ng-click="open('partials/login.html')">Login</a>
+                <a ng-show="loggedin" class="button nodrag" ng-click="logout()">Logout</a>
+                <a ng-hide="loggedin" class="button nodrag" ng-click="open('partials/sign-up.html')">Sign Up</a>
                 <a class="button nodrag" ng-click="setCurrentLocation('/edit')" ng-href="#/edit">Edit Mode</a>
                 <a class="button nodrag" ng-click="setCurrentLocation('/view')" ng-href="#/view">View Mode</a>
                 <a ng-hide="currentPath != '/edit'" class="button" ng-click="open('partials/save.html')">Save Environment</a>

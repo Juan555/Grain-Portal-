@@ -21,7 +21,6 @@
     "jquery-ui": "^1.12.1",
     "jqueryui-touch-punch": "*",
     "angular-foundation-6": "^0.10.19",
-    "angularjs-slider": "^5.8.7",
-    "angular-cookies": "^1.5.9"
+    "angularjs-slider": "^5.8.7"
   }
 }
