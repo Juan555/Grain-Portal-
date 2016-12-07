@@ -23,7 +23,6 @@
     abf();
     </script> -->
     <script src="./lib/angular/angular.min.js"></script>
-    <script src="./lib/angular-cookies/angular-cookies.min.js"></script>
     <script src="./lib/angular-dragdrop/src/angular-dragdrop.min.js"></script>
     <script src="./lib/jqueryui-touch-punch/jquery.ui.touch-punch.min.js"></script>
     <script src="./lib/angular-route/angular-route.min.js"></script>
@@ -55,7 +54,9 @@
         <a class="button" href="#/secondview">Second View</a>
     </div> -->
     <!--     <img src="media/background.jpg" class="advancedpanorama" width="6000" height="700" usemap="testmap" alt="forest image" /> -->
+
     <div ng-view></div>
+
     <nav id="nav-toolbar" ng-controller="NavController" data-ng-init="open('partials/intro.html')">
         <div class="row">
             <div class="small-4 medium-3 large-2 columns">
@@ -73,12 +74,16 @@
             </div>
         </div>
     </nav>
+
     <div id="myPano" class="pano">
         <div class="controls">
-            <a id="leftpanoclick" class="left">&laquo;</a>
-            <a id="rightpanoclick" class="right">&raquo;</a>
+            <a class="left">&laquo;</a>
+            <a class="right">&raquo;</a>
         </div>
+
+
     </div>
+
     <script>
     $(document).foundation();
     </script>
