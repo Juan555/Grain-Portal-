@@ -302,35 +302,6 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 kaleControllers.controller('MainPageController', ['$scope', '$window', function($scope, $window) {
 
 
-
-
-
-}]);
-
-kaleControllers.controller('FirstController', ['$scope', 'CommonData', function($scope, CommonData) {
-    $window.sessionStorage.baseurl = 'http://localhost:3000';
-
-    $scope.data = "";
-    $scope.displayText = "";
-
-    $scope.setData = function() {
-        CommonData.setData($scope.data);
-        $scope.displayText = "Data set"
-
-    };
-
-}]);
-
-kaleControllers.controller('SecondController', ['$scope', 'CommonData', function($scope, CommonData) {
-    $window.sessionStorage.baseurl = 'http://localhost:3000';
-
-    $scope.data = "";
-
-    $scope.getData = function() {
-        $scope.data = CommonData.getData();
-
-    };
-
 }]);
 
 
@@ -438,6 +409,7 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
 
     $scope.createSoundObject = function(event, ui, data) {
         console.log(data.soundFile._id);
+<<<<<<< Updated upstream
         if ($scope.userData) {
             var newSoundObject = {
                 'angle': 90,
@@ -446,6 +418,21 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
             }
         } else {
             $scope.error = "Please login if you would like to save or view your environment."
+=======
+        if($scope.userData){
+          var newSoundObject = {
+            'angle': 90,
+            'soundFileID': data.soundFile._id,
+            'userID': $scope.userData._id
+          };
+        }
+        else {
+          var newSoundObject = {
+            'angle': 90,
+            'soundFileID': data.soundFile._id,
+            'userID': ""
+          };
+>>>>>>> Stashed changes
         }
 
         var count = 0;
@@ -465,30 +452,34 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
         });
     };
 
-    $scope.environment = {};
-    $scope.saveEnvironment = function() {
 
-      //if user not logged in, tell them to login or signup
-      $scope.environment["soundObjectIDArray"] = $scope.currentSoundObjects;
-      $scope.environment["userID"] = $scope.userData._id;
-      SoundEnvironments.newSoundObject($scope.environment);
-    };
+      $scope.environment = {};
+      $scope.saveEnvironment = function() {
+        //if user not logged in, tell them to login or signup
+        $scope.environment["soundObjectIDArray"] = $scope.currentSoundObjects;
+        $scope.environment["userID"] = $scope.userData._id;
+        SoundEnvironments.newSoundObject($scope.environment)
+          .error(function(error){
+            console.log(error);
+          });
+      };
 
-    $scope.myFunc = function(myE) {
-        console.log(myE.target.id);
-        $scope.x = myE.clientX;
-        $scope.y = myE.clientY;
-    }
+      $scope.myFunc = function(myE) {
+          console.log(myE.target.id);
+              $scope.x = myE.clientX;
+              $scope.y = myE.clientY;
+          }
 
-    $scope.playSound = function(path) {
-        console.log(path);
-        SoundLogic.playSingleSoundNoAngle(path);
-    }
-
-
+          $scope.playSound = function(path){
+            console.log(path);
+            SoundLogic.playSingleSoundNoAngle(path);
+          }
 
 
-}]);
+
+
+
+  }]);
 
 kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', function($scope, $window, $location, $modal) {
 
@@ -537,35 +528,6 @@ kaleControllers.controller('NavController', ['$scope', '$window', '$location', '
 }]);
 
 
-
-kaleControllers.controller('LlamaListController', ['$scope', '$http', 'Users', 'Llamas', '$window', function($scope, $http, Users, Llamas, $window) {
-
-    // Llamas.get().success(function(data) {
-    //     $scope.llamas = data;
-    // });
-
-    $window.sessionStorage.baseurl = 'http://localhost:3000';
-
-    Users.get().success(function(data) {
-        $scope.users = data.data;
-        console.log("Users GET success");
-    }).error(function(error) {
-        $scope.status = "Users GET Error: " + $scope.status;
-        console.log($scope.status);
-    });
-
-}]);
-
-kaleControllers.controller('SettingsController', ['$scope', '$window', function($scope, $window) {
-    $scope.url = $window.sessionStorage.baseurl;
-    $scope.url = 'http://localhost:3000';
-    $scope.setUrl = function() {
-        $window.sessionStorage.baseurl = $scope.url;
-        $scope.displayText = "URL set";
-
-    };
-
-}]);
 
 kaleControllers.controller('LoginController', ['$scope', '$window', 'UserAuth', function($scope, $window, UserAuth) {
 
