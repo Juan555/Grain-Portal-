@@ -407,7 +407,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     };
 
     $scope.accessUserData();
-    
+
     $rootScope.currentSoundObjects = [];
     $scope.createSoundObject = function(event, ui, data) {
             var newSound = {};
@@ -433,10 +433,10 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
       };
 
 
+$scope.environment = {};
 
       $scope.saveEnvironment = function() {
         console.log($rootScope.currentSoundObjects);
-        $scope.environment = {};
         $scope.environment.soundObjectIDArray = $rootScope.currentSoundObjects;
         $scope.environment.userID = userID;
         SoundEnvironments.newSoundObject($scope.environment)
