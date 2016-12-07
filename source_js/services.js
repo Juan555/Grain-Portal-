@@ -8,7 +8,7 @@ kaleServices.factory('SoundLogic', function($window) {
             var bufferLoader;
             var soundPath = sound;
             var volumeNum = typeof volume !== 'undefined' ? volume : 0.5;
-            var time = typeof time !== 'undefined' ? time : 5000;
+            var time = typeof time !== 'undefined' ? time : 1000000;
 
             if ('AudioContext' in window) {
                 var context = new(window.AudioContext || window.webkitAudioContext)();
