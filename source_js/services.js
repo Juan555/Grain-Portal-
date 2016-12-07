@@ -170,26 +170,25 @@ kaleServices.factory('SoundLogic', function($window) {
                 var intervalIRight;
                 $('#myPano')
 
-                    .mousedown(function(){
-                        intervalIRight = setInterval(function(){
-                                var x=3140 - localStorage.getItem("position_diff");
-                                if (x < 0){
-                                    y = (((3140 + (x%3140) )*18)/157)%360;
-                                    // console.log(y);
-                                }
-                                else{
-                                    y = ((18*x)/157)%360;
-                                    
-                                }
-                                
-                           panoOffsetApply(y);
+                .mousedown(function() {
+                        intervalIRight = setInterval(function() {
+                            var x = 3140 - localStorage.getItem("position_diff");
+                            if (x < 0) {
+                                y = (((3140 + (x % 3140)) * 18) / 157) % 360;
+                                // console.log(y);
+                            } else {
+                                y = ((18 * x) / 157) % 360;
+
+                            }
+
+                            panoOffsetApply(y);
                         }, 250);
-                        
+
                     })
-                    .mouseup(function(){
+                    .mouseup(function() {
                         clearInterval(intervalIRight);
                     });
-                    
+
 
                 // function testfx2() {
                 //     console.log('testfx2');
@@ -612,6 +611,11 @@ kaleServices.factory('UserAuth', function($http, $window) {
                 method: 'GET',
                 url: baseUrl + '/api/userauth'
             });
+        },
+        logout: function() {
+            console.log("UserAuth Service Attempt logout (JWT) GET");
+            var baseUrl = $window.sessionStorage.baseurl;
+            return $http.get(baseUrl + '/api/userlogout');
         }
     }
 });

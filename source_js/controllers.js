@@ -409,16 +409,7 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
 
     $scope.createSoundObject = function(event, ui, data) {
         console.log(data.soundFile._id);
-<<<<<<< Updated upstream
-        if ($scope.userData) {
-            var newSoundObject = {
-                'angle': 90,
-                'soundFileID': data.soundFile._id,
-                'userID': $scope.userData._id
-            }
-        } else {
-            $scope.error = "Please login if you would like to save or view your environment."
-=======
+
         if($scope.userData){
           var newSoundObject = {
             'angle': 90,
@@ -432,7 +423,7 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
             'soundFileID': data.soundFile._id,
             'userID': ""
           };
->>>>>>> Stashed changes
+
         }
 
         var count = 0;
@@ -452,7 +443,6 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
         });
     };
 
-
       $scope.environment = {};
       $scope.saveEnvironment = function() {
         //if user not logged in, tell them to login or signup
@@ -463,6 +453,7 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
             console.log(error);
           });
       };
+
 
       $scope.myFunc = function(myE) {
           console.log(myE.target.id);
@@ -475,13 +466,10 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
             SoundLogic.playSingleSoundNoAngle(path);
           }
 
-
-
-
-
   }]);
 
-kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', function($scope, $window, $location, $modal) {
+
+kaleControllers.controller('NavController', ['$scope', '$window', '$location', '$modal', '$cookieStore', '$cookies', 'UserAuth' ,function($scope, $window, $location, $modal, $cookieStore, $cookies, UserAuth) {
 
     $scope.currentPath = $location.path;
     $scope.setCurrentLocation = function(path) {
@@ -515,7 +503,6 @@ kaleControllers.controller('NavController', ['$scope', '$window', '$location', '
             }
         };
 
-
         var modalInstance = $modal.open(params);
 
         modalInstance.result.then(function(selectedItem) {
@@ -524,6 +511,16 @@ kaleControllers.controller('NavController', ['$scope', '$window', '$location', '
             //$log.info('Modal dismissed at: ' + new Date());
         });
     };
+
+
+    $scope.logout = function() {
+        console.log("Logout");
+        // $cookieStore.remove("access-token");
+        // $cookies.put('myFavorite', 'oatmeal');
+        // $cookies.remove('access-token');
+        UserAuth.logout();
+
+    }
 
 }]);
 
