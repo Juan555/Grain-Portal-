@@ -49,7 +49,7 @@ kaleServices.factory('SoundLogic', function($window) {
         },
 
         playEnvironment: function(sounds, angles, volumes, offset) {
-
+            console.log("playEnvironment");
             var bufferLoader;
             var soundPathArray = sounds;
             var angleArray = angles;
@@ -132,6 +132,14 @@ kaleServices.factory('SoundLogic', function($window) {
                     }
 
                 }
+
+                console.log("above offsetApply");
+
+                // window.setInterval(offsetApply(), 100);
+                window.setInterval(function(){
+                    offsetApply();
+                }, 100);
+
 
 
                 function panoOffsetApply(y) {
@@ -478,8 +486,8 @@ kaleServices.factory('SoundEnvironments', function($http, $window) {
 
             var baseUrl = $window.sessionStorage.baseurl;
             var combinedUrl = baseUrl + '/api/soundenvironments?';
-                combinedUrl += 'where={"userID": "' + params.userID + '"}';
-            
+            combinedUrl += 'where={"userID": "' + params.userID + '"}';
+
             return $http.get(combinedUrl);
         },
         get: function() {
