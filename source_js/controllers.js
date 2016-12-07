@@ -82,10 +82,8 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         //optional, default is 0.5
         volumes = [0.5, 0.5];
 
-        //optional, default is 0
         var offset = 0;
 
-        //optional, default is 5
         var length = 10;
 
         SoundLogic.downloadEnvironmentAsWAV(sounds, angles, volumes, offset, length);
@@ -226,7 +224,7 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
     }
 
 
-    // Login (using Foundation Abide Form Validation plugin in next iteration #hope)
+    // Login (using Foundation Abide Form Validation plugin in next iteration)
     $scope.user = {
         username: '',
         password: ''
@@ -261,7 +259,16 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
 
     $scope.accessUserData();
 
-    //Initialize slider in soundtest partial
+    // SoundLogic.savemusic();
+
+
+    // $('#testbutton4').click(function() {
+    //     // console.log($window.doSomething());
+    //     // doSomething.test2();
+    //     // $.getScript('../bundle.js', function() {
+    //     // });
+    // });
+
     $scope.slider = {
         value: 360,
         // maxValue: 360,
@@ -270,13 +277,25 @@ kaleControllers.controller('SoundTestController', ['$scope', 'SoundLogic', 'User
         }
     };
 
-    //Watch slider for changes, and save slider value in sessionStorage
+    // $scope.$watchGroup(['slider.value'],
+    //     function() {
+    //         console.log($scope.slider.value);
+    //     }
+
+    // );
+
+    // function tf1() {
+    //     console.log($scope.slider.value);
+    // }
+
     $scope.$watchGroup(['slider.value'],
         function() {
             sessionStorage.setItem('offsetTestAngle', $scope.slider.value);
             console.log($scope.slider.value);
         }
+
     );
+
 
 }]);
 
@@ -394,12 +413,6 @@ $scope.myVar = -1;
 // });
 
 
-
-
-  console.log("12");
-        $scope.hello = function(){
-             var x=localStorage.getItem("position_diff");
-             console.log(x)};
 
     $window.sessionStorage.baseurl = 'http://localhost:3000';
 
