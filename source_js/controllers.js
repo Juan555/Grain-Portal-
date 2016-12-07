@@ -467,8 +467,11 @@ kaleControllers.controller('EditViewController', ['$scope', 'SoundLogic', 'Sound
 
     $scope.environment = {};
     $scope.saveEnvironment = function() {
-        //if user not logged in, tell them to login or signup
-        SoundEnvironments.newSoundObject($scope.environment);
+
+      //if user not logged in, tell them to login or signup
+      $scope.environment["soundObjectIDArray"] = $scope.currentSoundObjects;
+      $scope.environment["userID"] = $scope.userData._id;
+      SoundEnvironments.newSoundObject($scope.environment);
     };
 
     $scope.myFunc = function(myE) {
