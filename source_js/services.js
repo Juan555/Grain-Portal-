@@ -149,7 +149,7 @@ kaleServices.factory('SoundLogic', function($window) {
                 var intervalIRight;
                 $('#myPano')
 
-<<<<<<< Updated upstream
+
                 .mousedown(function() {
                         intervalIRight = setInterval(function() {
                             var x = 3140 - localStorage.getItem("position_diff");
@@ -162,21 +162,7 @@ kaleServices.factory('SoundLogic', function($window) {
                             }
 
                             panoOffsetApply(y);
-=======
-                    .mousedown(function(){
-                        intervalIRight = setInterval(function(){
-                                var x=3140 - localStorage.getItem("position_diff");
-                                if (x < 0){
-                                    y = (((3140 + (x%3140) )*18)/157)%360;
-                                    // console.log(y);
-                                }
-                                else{
-                                    y = ((18*x)/157)%360;
 
-                                }
-
-                           panoOffsetApply(y);
->>>>>>> Stashed changes
                         }, 250);
 
                     })
