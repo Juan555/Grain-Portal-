@@ -340,7 +340,7 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
     }
 
 
-    $scope.playEnvironment();
+    // $scope.playEnvironment();
 
 
 
@@ -498,12 +498,17 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
 
     popsarray_h();
 
+    $scope.anglesArray = [];
+    $scope.filesArray = [];
 
     $scope.createSoundObject = function(event, ui, data) {
 
         // console.log(data.soundFile._id);
         console.log(event.clientX);
         // console.log(event);
+
+
+
 
         if (data.soundFile._id == "58461523b6b5711b4dae25dd") {
             console.log("BIRD");
@@ -548,6 +553,13 @@ kaleControllers.controller('EditViewController', ['$scope', '$rootScope', 'Sound
                 "userID": ""
             };
         }
+        $scope.anglesArray=[];
+        $scope.filesArray=[];
+        $scope.anglesArray.push(newSound.angle);
+        $scope.filesArray.push(data.soundFile.soundFileLocation);
+        console.log("here is "+$scope.anglesArray);
+
+        SoundLogic.playEnvironment($scope.filesArray, $scope.anglesArray);
 
         $rootScope.currentSoundObjects.push(newSound);
         console.log($rootScope.currentSoundObjects);
